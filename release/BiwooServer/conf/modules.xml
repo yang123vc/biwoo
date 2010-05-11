@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+  <!-- ******** PARSER -->
+  <module>
+  	<name>SotpParser</name>
+  	<file>ParserSotp</file>
+  	<type>PARSER</type>
+  </module>
+  
+  <!-- ******** COMM -->
+  <!-- capacity: 1 - 100, [DEFAULT] 1 -->
+  <module>
+  	<name>CommTcpServer</name>
+  	<file>CommTcpServer</file>
+  	<type>COMM</type>
+  	<commport>8010</commport>
+  	<capacity>3</capacity>
+  </module>
+  <module>
+  	<name>CommUdpServer</name>
+  	<file>CommUdpServer</file>
+  	<type>COMM</type>
+  	<commport>8012</commport>
+  	<capacity>3</capacity>
+  </module>
+  <module>
+  	<name>FileServer</name>
+  	<file>FileServer</file>
+  	<type>COMM</type>
+  	<commport>8014</commport>
+  	<capacity>10</capacity>
+  </module>
+  <module>
+  	<name>CommRtpServer</name>
+  	<file>CommRtpServer</file>
+  	<type>COMM</type>
+  	<commport>8020</commport>
+  	<capacity>3</capacity>
+  </module>
+  <module>
+  	<name>P2PUDPServer</name>
+  	<file>P2PUDPServer</file>
+  	<type>COMM</type>
+  	<commport>8022</commport>
+  	<capacity>3</capacity>
+  </module>
+  
+  <!-- ******** APP -->
+  <!-- 
+  	lockstate: "LS_NONE"(default); "LS_WAIT"; "LS_RETURN"
+  	allowall: 0,1
+  	authaccount: 0,1
+  -->
+  
+  <module>
+  	<name>biwoo</name>
+  	<file>biwoo</file>
+  	<type>APP</type>
+  	<allowall>1</allowall>
+  	<authaccount>0</authaccount>
+  	<lockstate>LS_NONE</lockstate>
+  	<disable>0</disable>
+  </module>
+  
+  <module>
+  	<name>StreamModule</name>
+  	<file>StreamModule</file>
+  	<type>APP</type>
+  	<allowall>1</allowall>
+  	<authaccount>0</authaccount>
+  	<lockstate>LS_WAIT</lockstate>
+  	<disable>0</disable>
+  </module>
+
+</root>

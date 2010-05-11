@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "biwoolib", "biwoolib.vcproj", "{74881E70-8E4D-4AD5-9100-B7CB507BA08D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{61DF8E8F-5A54-4D46-BAC1-FA3B4596E873} = {61DF8E8F-5A54-4D46-BAC1-FA3B4596E873}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "biwooclient", "biwooclient.vcproj", "{D978D7A8-AB56-421B-95AC-BAD0B9DFE50E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{74881E70-8E4D-4AD5-9100-B7CB507BA08D} = {74881E70-8E4D-4AD5-9100-B7CB507BA08D}
+		{61DF8E8F-5A54-4D46-BAC1-FA3B4596E873} = {61DF8E8F-5A54-4D46-BAC1-FA3B4596E873}
+		{B02BBECB-7655-49FE-9D98-7D554E5B308F} = {B02BBECB-7655-49FE-9D98-7D554E5B308F}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libStreamClient", "libStreamClient.vcproj", "{B02BBECB-7655-49FE-9D98-7D554E5B308F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libStreamX", "libStreamX.vcproj", "{61DF8E8F-5A54-4D46-BAC1-FA3B4596E873}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B02BBECB-7655-49FE-9D98-7D554E5B308F} = {B02BBECB-7655-49FE-9D98-7D554E5B308F}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{74881E70-8E4D-4AD5-9100-B7CB507BA08D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{74881E70-8E4D-4AD5-9100-B7CB507BA08D}.Debug|Win32.Build.0 = Debug|Win32
+		{74881E70-8E4D-4AD5-9100-B7CB507BA08D}.Release|Win32.ActiveCfg = Release|Win32
+		{74881E70-8E4D-4AD5-9100-B7CB507BA08D}.Release|Win32.Build.0 = Release|Win32
+		{D978D7A8-AB56-421B-95AC-BAD0B9DFE50E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D978D7A8-AB56-421B-95AC-BAD0B9DFE50E}.Debug|Win32.Build.0 = Debug|Win32
+		{D978D7A8-AB56-421B-95AC-BAD0B9DFE50E}.Release|Win32.ActiveCfg = Release|Win32
+		{D978D7A8-AB56-421B-95AC-BAD0B9DFE50E}.Release|Win32.Build.0 = Release|Win32
+		{B02BBECB-7655-49FE-9D98-7D554E5B308F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B02BBECB-7655-49FE-9D98-7D554E5B308F}.Debug|Win32.Build.0 = Debug|Win32
+		{B02BBECB-7655-49FE-9D98-7D554E5B308F}.Release|Win32.ActiveCfg = Release|Win32
+		{B02BBECB-7655-49FE-9D98-7D554E5B308F}.Release|Win32.Build.0 = Release|Win32
+		{61DF8E8F-5A54-4D46-BAC1-FA3B4596E873}.Debug|Win32.ActiveCfg = Debug|Win32
+		{61DF8E8F-5A54-4D46-BAC1-FA3B4596E873}.Debug|Win32.Build.0 = Debug|Win32
+		{61DF8E8F-5A54-4D46-BAC1-FA3B4596E873}.Release|Win32.ActiveCfg = Release|Win32
+		{61DF8E8F-5A54-4D46-BAC1-FA3B4596E873}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
