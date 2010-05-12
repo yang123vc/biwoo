@@ -314,7 +314,7 @@ void CAVConference::onMemberClosed(CConferenceMember::pointer member, bool confe
 #ifdef WIN32
 		Sleep(100);
 #else
-		usleep(100);
+		usleep(100000);
 #endif
 		m_clearMember.add(member);
 	}

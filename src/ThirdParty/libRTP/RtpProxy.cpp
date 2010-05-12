@@ -80,6 +80,8 @@ int CRtpProxy::InitSession(uint16_t rtpPort)
 
 	sessparams.SetAcceptOwnPackets(true);
 	transparams.SetPortbase(rtpPort);
+	transparams.SetRTPSendBuffer(1024*1024);
+	transparams.SetRTCPSendBuffer(0);
 
 	//m_rtpSession.SetDefaultPayloadType(0);
 	//m_rtpSession.SetDefaultMark(false);
