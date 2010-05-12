@@ -86,7 +86,7 @@
   biwoolib -> mycp & bodb & libCoder
    libCoder -> ffmpeg & x264 & xvidcore
  	libStreamX -> libDS & libStreamClient
- 	 libDS -> DirectShow
+ 	 libDS -> DirectShow & boost & libCoder & libG729a
  	 libStreamClient -> mycp
  
  
