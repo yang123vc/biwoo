@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\libDS\;..\..\libDS\Filters"
+				AdditionalIncludeDirectories="..\..\libDS;..\..\libDS\Filters;&quot;$(DX_ROOT)\Include&quot;;&quot;$(DX_ROOT)\Samples\C++\DirectShow\BaseClasses&quot;;&quot;$(DX_ROOT)\Samples\C++\Common\Include&quot;;&quot;$(BOOST_ROOT)&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOW;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -110,7 +110,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\libDS\;..\..\libDS\Filters"
+				AdditionalIncludeDirectories="..\..\libDS;..\..\libDS\Filters;&quot;$(DX_ROOT)\Include&quot;;&quot;$(DX_ROOT)\Samples\C++\DirectShow\BaseClasses&quot;;&quot;$(DX_ROOT)\Samples\C++\Common\Include&quot;;&quot;$(BOOST_ROOT)&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"

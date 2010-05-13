@@ -32,7 +32,6 @@ const short MAX_PACKET_SIZE	= 1500;
 CBiwooCgcProxy::CBiwooCgcProxy(void)
 : m_handler(NULL)
 , m_bDoAccountUnRegister(false)
-, m_cgcClient(NULL), m_fileClient(NULL)
 , m_currentMID(0)
 , m_LDoDSHandler(NULL), m_RDoDSHandler(NULL)
 
@@ -70,15 +69,19 @@ bool CBiwooCgcProxy::start(const CCgcAddress & serverAddr, const CCgcAddress & f
 	//PRESULTSET resultset = 0;
 	//bodb_exec("SELECT * FROM userinfo_t", &resultset);
 
-	if (m_cgcClient == NULL)
+	if (m_cgcClient.get() == NULL)
+	{
 		m_cgcClient = m_sotpClient.startClient(m_serverAddr);
-	if (m_cgcClient == NULL)
-		return false;
+		if (m_cgcClient.get() == NULL)
+			return false;
+	}
 
-	if (m_fileClient == NULL)
+	if (m_fileClient.get() == NULL)
+	{
 		m_fileClient = m_sotpClient.startClient(m_fileServerAddr);
-	if (m_fileClient == NULL)
-		return false;
+		if (m_fileClient.get() == NULL)
+			return false;
+	}
 
 	// File Server
 	m_fileClient->doStartActiveThread();
@@ -151,13 +154,13 @@ void CBiwooCgcProxy::stop(void)
 #else
 		usleep(200000);
 #endif
-		DoSotpClientHandler * handlertemp = m_cgcClient;
-		m_cgcClient = NULL;
+		DoSotpClientHandler::pointer handlertemp = m_cgcClient;
+		m_cgcClient.reset();
 		handlertemp->doSendCloseSession();
 		m_sotpClient.stopClient(handlertemp);
 
 		handlertemp = m_fileClient;
-		m_fileClient = NULL;
+		m_fileClient.reset();
 		handlertemp->doSendCloseSession();
 		m_sotpClient.stopClient(handlertemp);
 
@@ -671,7 +674,7 @@ bool CBiwooCgcProxy::accountUnRegister(void)
 	//	if (pP2PClient->getLocalP2PStatus() && pP2PClient->getRemoteP2PStatus())
 	//		p2pDisconnect(pP2PClient);
 
-	//	DoSotpClientHandler * pDoHandler = pP2PClient->dohandler();
+	//	DoSotpClientHandler::pointer pDoHandler = pP2PClient->dohandler();
 	//	BOOST_ASSERT(pDoHandler != NULL);
 
 	//	pDoHandler->doSetRemoteAddr(m_sUdpAddr);
@@ -1627,8 +1630,8 @@ void CBiwooCgcProxy::doProcSend(CSendInfo::pointer sendInfo)
 			attach->setAttach((const unsigned char *)buffer, tosendSize);
 			attach->setIndex(sizeSended);
 
-			//DoSotpClientHandler * cgcClient = m_cgcClient;
-			DoSotpClientHandler * cgcClient = m_fileClient;
+			//DoSotpClientHandler::pointer cgcClient = m_cgcClient;
+			DoSotpClientHandler::pointer cgcClient = m_fileClient;
 
 			cgcClient->doBeginCallLock();
 			cgcClient->doAddParameter(cgcParameter::create(_T("AccountId"), m_account->getAccountId()));

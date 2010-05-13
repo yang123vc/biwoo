@@ -43,6 +43,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="&quot;$(MYCP_ROOT)\src&quot;;&quot;$(BODB_ROOT)\src&quot;;&quot;$(BOOST_ROOT)&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -69,6 +70,7 @@
 				AdditionalDependencies="CGCBased.lib"
 				OutputFile="../../build/$(ProjectName)d.dll"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories="&quot;$(MYCP_ROOT)\src\build&quot;;&quot;$(BODB_ROOT)\src\build&quot;;&quot;$(BOOST_ROOT)\stage\lib&quot;"
 				ModuleDefinitionFile=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -127,6 +129,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="&quot;$(MYCP_ROOT)\src&quot;;&quot;$(BODB_ROOT)\src&quot;;&quot;$(BOOST_ROOT)&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -151,6 +154,7 @@
 				AdditionalDependencies="CGCBase.lib"
 				OutputFile="../../build/$(ProjectName).dll"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="&quot;$(MYCP_ROOT)\src\build&quot;;&quot;$(BODB_ROOT)\src\build&quot;;&quot;$(BOOST_ROOT)\stage\lib&quot;"
 				ModuleDefinitionFile=""
 				GenerateDebugInformation="true"
 				SubSystem="2"

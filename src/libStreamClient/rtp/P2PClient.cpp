@@ -18,7 +18,7 @@
 
 #include "P2PClient.h"
 
-P2PClient::P2PClient(DoSotpClientHandler * pDoHandler)
+P2PClient::P2PClient(DoSotpClientHandler::pointer pDoHandler)
 : m_sp2PUser(_T(""))
 , m_nP2PType(0)
 , m_nP2PParam(0)
@@ -29,7 +29,7 @@ P2PClient::P2PClient(DoSotpClientHandler * pDoHandler)
 , m_pP2PHandler(NULL)
 
 {
-	BOOST_ASSERT(m_doHaneler != NULL);
+	BOOST_ASSERT(m_doHaneler.get() != NULL);
 }
 
 P2PClient::~P2PClient(void)

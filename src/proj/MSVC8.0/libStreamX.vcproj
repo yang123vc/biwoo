@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\libStreamX\;..\..\libStreamX\Filters"
+				AdditionalIncludeDirectories="&quot;$(MYCP_ROOT)\src&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -69,7 +69,7 @@
 				Name="VCLinkerTool"
 				OutputFile="../../build/$(ProjectName)d.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="C:\msys\1.0\local\lib"
+				AdditionalLibraryDirectories="..\..\ThirdParty\build;&quot;$(MYCP_ROOT)\src\build&quot;;&quot;$(FFMPEG_ROOT)\bin&quot;;&quot;$(X264_ROOT)\lib&quot;;&quot;$(XVID_ROOT)\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\libStreamX\;..\..\libStreamX\Filters;C:\msys\1.0\local\include"
+				AdditionalIncludeDirectories="&quot;$(MYCP_ROOT)\src&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;__X264__;HAVE_MMX;HAVE_STDINT_H"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -148,6 +148,7 @@
 				Name="VCLinkerTool"
 				OutputFile="../../build/$(ProjectName).dll"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\..\ThirdParty\build;&quot;$(MYCP_ROOT)\src\build&quot;;&quot;$(FFMPEG_ROOT)\bin&quot;;&quot;$(X264_ROOT)\lib&quot;;&quot;$(XVID_ROOT)\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"

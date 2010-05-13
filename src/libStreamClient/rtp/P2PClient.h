@@ -31,14 +31,14 @@ class P2PClient
 	, public CDoP2PClientHandler
 {
 public:
-	static CDoP2PClientHandler::pointer create(DoSotpClientHandler * pDoHandler)
+	static CDoP2PClientHandler::pointer create(DoSotpClientHandler::pointer pDoHandler)
 	{
 		return CDoP2PClientHandler::pointer(new P2PClient(pDoHandler));
 	}
 
 public:
 	void clearP2PHandler(void);
-	bool isStarted(void) const {return m_doHaneler != NULL;}
+	bool isStarted(void) const {return m_doHaneler.get() != NULL;}
 
 private:
 	// CgcClientHandler handler
@@ -64,7 +64,7 @@ private:
 	virtual bool getLocalP2PStatus(void) const {return m_bLocalP2PStatus;}
 	virtual void setRemoteP2PStatus(bool newv) {m_bRemoteP2PStatus = newv;}
 	virtual bool getRemoteP2PStatus(void) const {return m_bRemoteP2PStatus;}
-	virtual DoSotpClientHandler * dohandler(void) const {return m_doHaneler;}
+	virtual DoSotpClientHandler::pointer dohandler(void) const {return m_doHaneler;}
 
 	//virtual void doSetMediaType(unsigned short mediaType) {if (m_doHaneler != NULL) m_doHaneler->doSetMediaType(mediaType);}
 	//virtual size_t doSendP2PData(const unsigned char * data, size_t size, unsigned long timestamp) {return m_doHaneler == NULL ? 0 : m_doHaneler->doSendData(data, size, timestamp);}
@@ -112,7 +112,7 @@ private:
 	virtual size_t doSendData(const unsigned char * data, size_t size, unsigned int timestamp) {return m_doHaneler->doSendData(data, size, timestamp);}	// for RTP
 
 public:
-	P2PClient(DoSotpClientHandler * pDoHandler);
+	P2PClient(DoSotpClientHandler::pointer pDoHandler);
 	virtual ~P2PClient(void);
 
 private:
@@ -123,7 +123,7 @@ private:
 	bool	m_bLocalP2PStatus;	// 本地是否已经打通P2P
 	bool	m_bRemoteP2PStatus;	// 远端是否已经打通P2P
 
-	DoSotpClientHandler * m_doHaneler;
+	DoSotpClientHandler::pointer m_doHaneler;
 	CP2PHandler * m_pP2PHandler;
 };
 
