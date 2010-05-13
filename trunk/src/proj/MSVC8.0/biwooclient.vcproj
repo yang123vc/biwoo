@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="D:\tools\wxWidgets-2.8.10\lib\vc_lib\mswd"
+				AdditionalIncludeDirectories="&quot;$(MYCP_ROOT)\src&quot;;&quot;$(BODB_ROOT)\src&quot;;&quot;$(WXWIDGETS_ROOT)\include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;__WXMSW__;__WXDEBUG__"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 				AdditionalDependencies="wxmsw28d_richtext.lib wxmsw28d_adv.lib wxmsw28d_html.lib wxmsw28d_core.lib wxbase28d.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib wxregexd.lib wxexpatd.lib comctl32.lib rpcrt4.lib winmm.lib uuid.lib"
 				OutputFile="../../build/$(ProjectName)d.exe"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="D:\tools\wxWidgets-2.8.10\lib\vc_lib"
+				AdditionalLibraryDirectories="..\..\ThirdParty\build;&quot;$(MYCP_ROOT)\src\build&quot;;&quot;$(BODB_ROOT)\src\build&quot;;&quot;$(WXWIDGETS_ROOT)\lib\vc_lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -119,7 +119,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;D:\tools\wxWidgets-2.8.10\lib\vc_lib\msw&quot;"
+				AdditionalIncludeDirectories="&quot;$(MYCP_ROOT)\src&quot;;&quot;$(BODB_ROOT)\src&quot;;&quot;$(WXWIDGETS_ROOT)\include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -141,6 +141,7 @@
 				AdditionalDependencies="wxmsw28_richtext.lib wxmsw28_adv.lib wxmsw28_html.lib wxmsw28_core.lib wxbase28.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib wxregex.lib wxexpat.lib comctl32.lib rpcrt4.lib winmm.lib uuid.lib wsock32.lib"
 				OutputFile="../../build/$(ProjectName).exe"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\..\ThirdParty\build;&quot;$(MYCP_ROOT)\src\build&quot;;&quot;$(BODB_ROOT)\src\build&quot;;&quot;$(WXWIDGETS_ROOT)\lib\vc_lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"

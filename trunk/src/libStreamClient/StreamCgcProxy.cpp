@@ -23,7 +23,6 @@
 CStreamCgcProxy::CStreamCgcProxy(void)
 : m_handler(NULL)
 , m_bDoAccountUnRegister(false)
-, m_cgcClient(NULL)
 
 {
 }
@@ -39,11 +38,13 @@ bool CStreamCgcProxy::avsStart(const CCgcAddress & serverAddr, const CCgcAddress
 	m_rtpAddr = rtpAddr;
 	m_udpAddr = udpAddr;
 
-	if (m_cgcClient == NULL)
+	if (m_cgcClient.get() == NULL)
+	{
 		m_cgcClient = m_sotpClient.startClient(m_serverAddr);
 
-	if (m_cgcClient == NULL)
-		return false;
+		if (m_cgcClient.get() == NULL)
+			return false;
+	}
 
 	m_cgcClient->doStartActiveThread();
 	m_cgcClient->doSetResponseHandler(this);
@@ -69,7 +70,7 @@ bool CStreamCgcProxy::avsStart(const CCgcAddress & serverAddr, const CCgcAddress
 
 void CStreamCgcProxy::avsStop(void)
 {
-	if (m_cgcClient != NULL)
+	if (m_cgcClient.get() != NULL)
 	{
 		avsAccountUnRegister();
 #ifdef WIN32
@@ -77,8 +78,8 @@ void CStreamCgcProxy::avsStop(void)
 #else
 		usleep(200000);
 #endif
-		DoSotpClientHandler * handlertemp = m_cgcClient;
-		m_cgcClient = NULL;
+		DoSotpClientHandler::pointer handlertemp = m_cgcClient;
+		m_cgcClient.reset();
 
 		handlertemp->doSendCloseSession();
 		m_sotpClient.stopClient(handlertemp);
@@ -126,8 +127,8 @@ bool CStreamCgcProxy::avsAccountUnRegister(void)
 		if (pP2PClient->getLocalP2PStatus() && pP2PClient->getRemoteP2PStatus())
 			avsDisconnectP2PUser(pP2PClient);
 
-		DoSotpClientHandler * pDoHandler = pP2PClient->dohandler();
-		BOOST_ASSERT(pDoHandler != NULL);
+		DoSotpClientHandler::pointer pDoHandler = pP2PClient->dohandler();
+		BOOST_ASSERT(pDoHandler.get() != NULL);
 
 		pDoHandler->doSetRemoteAddr(pP2PClient->getP2PType() == CDoP2PClientHandler::P2P_AUDIO
 			|| pP2PClient->getP2PType() == CDoP2PClientHandler::P2P_VIDEO ? m_rtpAddr.address() : m_udpAddr.address());
@@ -238,8 +239,8 @@ int CStreamCgcProxy::avsRequestP2PUser(const tstring & sRequestUser, long nP2PTy
 	CDoP2PClientHandler::pointer pP2PClient;
 	if (!m_p2pProxy.find(sP2PKey, pP2PClient, false))
 	{
-		DoSotpClientHandler * pDoHandler = m_sotpClient.startClient(nP2PType == CDoP2PClientHandler::P2P_AUDIO || nP2PType == CDoP2PClientHandler::P2P_VIDEO ? m_rtpAddr : m_udpAddr);
-		if (pDoHandler == NULL) return -1;
+		DoSotpClientHandler::pointer pDoHandler = m_sotpClient.startClient(nP2PType == CDoP2PClientHandler::P2P_AUDIO || nP2PType == CDoP2PClientHandler::P2P_VIDEO ? m_rtpAddr : m_udpAddr);
+		if (pDoHandler.get() == NULL) return -1;
 		pDoHandler->doSetAppName(const_Avs_AppName);
 
 		pP2PClient = P2PClient::create(pDoHandler);
@@ -252,8 +253,8 @@ int CStreamCgcProxy::avsRequestP2PUser(const tstring & sRequestUser, long nP2PTy
 	pP2PClient->setP2PInfo(sRequestUser, nP2PType);
 	pP2PClient->clearP2PStatus();
 
-	DoSotpClientHandler * pDoHandler = pP2PClient->dohandler();
-	BOOST_ASSERT(pDoHandler != NULL);
+	DoSotpClientHandler::pointer pDoHandler = pP2PClient->dohandler();
+	BOOST_ASSERT(pDoHandler.get() != NULL);
 
 	pDoHandler->doSetResponseHandler(this);
 	pDoHandler->doSetRemoteAddr(nP2PType == CDoP2PClientHandler::P2P_AUDIO || nP2PType == CDoP2PClientHandler::P2P_VIDEO
@@ -292,8 +293,8 @@ bool CStreamCgcProxy::avsResponseP2PUser(const tstring & sResponseUser, long nP2
 	CDoP2PClientHandler::pointer pP2PClient;
 	if (!m_p2pProxy.find(sP2PKey, pP2PClient, false))
 	{
-		DoSotpClientHandler * pDoHandler = m_sotpClient.startClient(nP2PType == CDoP2PClientHandler::P2P_AUDIO || nP2PType == CDoP2PClientHandler::P2P_VIDEO ? m_rtpAddr : m_udpAddr);
-		if (pDoHandler == NULL) return false;
+		DoSotpClientHandler::pointer pDoHandler = m_sotpClient.startClient(nP2PType == CDoP2PClientHandler::P2P_AUDIO || nP2PType == CDoP2PClientHandler::P2P_VIDEO ? m_rtpAddr : m_udpAddr);
+		if (pDoHandler.get() == NULL) return false;
 		pDoHandler->doSetAppName(const_Avs_AppName);
 
 		pP2PClient = P2PClient::create(pDoHandler);
@@ -303,8 +304,8 @@ bool CStreamCgcProxy::avsResponseP2PUser(const tstring & sResponseUser, long nP2
 	pP2PClient->clearP2PStatus();
 
 
-	DoSotpClientHandler * pDoHandler = pP2PClient->dohandler();
-	BOOST_ASSERT(pDoHandler != NULL);
+	DoSotpClientHandler::pointer pDoHandler = pP2PClient->dohandler();
+	BOOST_ASSERT(pDoHandler.get() != NULL);
 
 	pDoHandler->doSetResponseHandler(this);
 	pDoHandler->doSetRemoteAddr(nP2PType == CDoP2PClientHandler::P2P_AUDIO || nP2PType == CDoP2PClientHandler::P2P_VIDEO 
@@ -393,8 +394,8 @@ bool CStreamCgcProxy::sendP2PAck(CDoP2PClientHandler::pointer pP2PClient, long n
 	if (m_sCurrentUser.empty()) return false;
 	if (pP2PClient == NULL) return false;
 
-	DoSotpClientHandler * pDoHandler = pP2PClient->dohandler();
-	BOOST_ASSERT(pDoHandler != NULL);
+	DoSotpClientHandler::pointer pDoHandler = pP2PClient->dohandler();
+	BOOST_ASSERT(pDoHandler.get() != NULL);
 
 	pDoHandler->doBeginCallLock();
 	if (bAckAck)
@@ -594,9 +595,9 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 			CDoP2PClientHandler::pointer pP2PClient;
 			if (!m_p2pProxy.find(sP2PKey, pP2PClient, false))
 			{
-				DoSotpClientHandler * pDoHandler = m_sotpClient.startClient(nP2PType == CDoP2PClientHandler::P2P_AUDIO || nP2PType == CDoP2PClientHandler::P2P_VIDEO
+				DoSotpClientHandler::pointer pDoHandler = m_sotpClient.startClient(nP2PType == CDoP2PClientHandler::P2P_AUDIO || nP2PType == CDoP2PClientHandler::P2P_VIDEO
 					? m_rtpAddr : m_udpAddr);
-				if (pDoHandler == NULL) break;
+				if (pDoHandler.get() == NULL) break;
 				pDoHandler->doSetAppName(const_Avs_AppName);
 
 				pP2PClient = P2PClient::create(pDoHandler);
@@ -631,8 +632,8 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 			pP2PClient->setP2PParam(nP2PParam);
 
 			// 1003: P2P ACK
-			DoSotpClientHandler * pDoHandler = pP2PClient->dohandler();
-			BOOST_ASSERT(pDoHandler != NULL);
+			DoSotpClientHandler::pointer pDoHandler = pP2PClient->dohandler();
+			BOOST_ASSERT(pDoHandler.get() != NULL);
 
 			pDoHandler->doSetRemoteAddr(sRemoteAddr);
 			for (int i=0; i<=2; i++)
@@ -685,8 +686,8 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 			if (!m_p2pProxy.find(sP2PKey, pP2PClient, false))
 				break;
 
-			DoSotpClientHandler * pDoHandler = pP2PClient->dohandler();
-			BOOST_ASSERT(pDoHandler != NULL);
+			DoSotpClientHandler::pointer pDoHandler = pP2PClient->dohandler();
+			BOOST_ASSERT(pDoHandler.get() != NULL);
 
 			pDoHandler->doSetRemoteAddr(pP2PClient->getP2PAddress());
 	
@@ -741,8 +742,8 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 				pP2PClient->clearP2PStatus();
 				m_handler->onP2PUserDisconnect(pP2PClient);
 
-				DoSotpClientHandler * pDoHandler = pP2PClient->dohandler();
-				BOOST_ASSERT(pDoHandler != NULL);
+				DoSotpClientHandler::pointer pDoHandler = pP2PClient->dohandler();
+				BOOST_ASSERT(pDoHandler.get() != NULL);
 				pDoHandler->doSetRemoteAddr(nP2PType == CDoP2PClientHandler::P2P_AUDIO || nP2PType == CDoP2PClientHandler::P2P_VIDEO ? m_rtpAddr.address() : m_udpAddr.address());
 				m_sotpClient.stopClient(pDoHandler);
 			}
@@ -764,8 +765,8 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 				CDoP2PClientHandler::pointer pP2PClient;
 				if (m_p2pProxy.find(sP2PKey, pP2PClient, true))
 				{
-					DoSotpClientHandler * pDoHandler = pP2PClient->dohandler();
-					BOOST_ASSERT(pDoHandler != NULL);
+					DoSotpClientHandler::pointer pDoHandler = pP2PClient->dohandler();
+					BOOST_ASSERT(pDoHandler.get() != NULL);
 					pDoHandler->doSetRemoteAddr(nP2PType == CDoP2PClientHandler::P2P_AUDIO || nP2PType == CDoP2PClientHandler::P2P_VIDEO
 						? m_rtpAddr.address() : m_udpAddr.address());
 					m_sotpClient.stopClient(pDoHandler);
@@ -1085,8 +1086,8 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 				pP2PClient->clearP2PStatus();
 				m_handler->onP2PUserDisconnect(pP2PClient);
 
-				DoSotpClientHandler * pDoHandler = pP2PClient->dohandler();
-				BOOST_ASSERT(pDoHandler != NULL);
+				DoSotpClientHandler::pointer pDoHandler = pP2PClient->dohandler();
+				BOOST_ASSERT(pDoHandler.get() != NULL);
 				pDoHandler->doSetRemoteAddr(nP2PType == CDoP2PClientHandler::P2P_AUDIO || nP2PType == CDoP2PClientHandler::P2P_VIDEO
 					? m_rtpAddr.address() : m_udpAddr.address());
 				m_sotpClient.stopClient(pDoHandler);
@@ -1115,8 +1116,8 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 			{
 				if (pP2PClient->getLocalP2PStatus())
 				{
-					DoSotpClientHandler * pDoHandler = pP2PClient->dohandler();
-					BOOST_ASSERT(pDoHandler != NULL);
+					DoSotpClientHandler::pointer pDoHandler = pP2PClient->dohandler();
+					BOOST_ASSERT(pDoHandler.get() != NULL);
 
 					//pDoHandler->doSetRemoteAddr(destIp, destPort);
 					//pDoHandler->doSetRemoteAddr(pP2PClient->getP2PAddress());

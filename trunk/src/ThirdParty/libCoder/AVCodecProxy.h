@@ -1,4 +1,3 @@
-#pragma once
 #ifndef _CAVCodecProxy_h_FILE_INCLUDED__
 #define _CAVCodecProxy_h_FILE_INCLUDED__
 
@@ -6,7 +5,6 @@
 
 extern "C"
 {
-//#include "C:/Documents and Settings/Administrator/×ÀÃæ/CLient/drffmpeg/export/drffmpeg/avcodec.h"
 #include "libavformat/avformat.h"
 #include "libavdevice/avdevice.h"
 #include "libavcodec/avcodec.h"

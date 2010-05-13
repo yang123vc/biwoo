@@ -105,7 +105,7 @@ class CStreamCgcProxy
 private:
 	CStreamHandler * m_handler;
 	CSotpClient m_sotpClient;
-	DoSotpClientHandler * m_cgcClient;
+	DoSotpClientHandler::pointer m_cgcClient;
 
 	bool m_bDoAccountUnRegister;
 	tstring m_sCurrentUser;

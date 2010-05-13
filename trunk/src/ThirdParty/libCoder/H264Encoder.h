@@ -1,4 +1,3 @@
-#pragma once
 #ifndef __H264Encoder_h__
 #define __H264Encoder_h__
 

@@ -133,8 +133,8 @@ class CBiwooCgcProxy
 private:
 	CbiwooHandler * m_handler;
 	CSotpClient m_sotpClient;
-	DoSotpClientHandler * m_cgcClient;
-	DoSotpClientHandler * m_fileClient;
+	DoSotpClientHandler::pointer m_cgcClient;
+	DoSotpClientHandler::pointer m_fileClient;
 
 	bool m_bDoAccountUnRegister;
 	CAccountInfo::pointer m_account;

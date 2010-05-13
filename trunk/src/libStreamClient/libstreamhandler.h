@@ -59,7 +59,7 @@ public:
 	virtual bool getLocalP2PStatus(void) const = 0;
 	virtual void setRemoteP2PStatus(bool newv) = 0;
 	virtual bool getRemoteP2PStatus(void) const = 0;
-	virtual DoSotpClientHandler * dohandler(void) const = 0;
+	virtual DoSotpClientHandler::pointer dohandler(void) const = 0;
 
 };
 
