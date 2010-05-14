@@ -21,6 +21,8 @@
 #include "AVData.h"
 #include "AVParameter.h"
 #include "globaldefs.h"
+#include "AVCodecProxy.h"
+#include "XvidProxy.h"
 
 #include <list>
 

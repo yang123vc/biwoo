@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="gb2312"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="libDS"
 	ProjectGUID="{EC416A78-AE52-4624-A631-FEB88B047420}"
 	RootNamespace="libDS"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -41,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\libDS;..\..\libDS\Filters;&quot;$(DX_ROOT)\Include&quot;;&quot;$(DX_ROOT)\Samples\C++\DirectShow\BaseClasses&quot;;&quot;$(DX_ROOT)\Samples\C++\Common\Include&quot;;&quot;$(BOOST_ROOT)&quot;"
+				AdditionalIncludeDirectories=".\;&quot;$(DXSDK_ROOT)\include&quot;;&quot;$(DXSDK_ROOT)\Samples\C++\DirectShow\BaseClasses&quot;;&quot;$(BOOST_ROOT)/include/$(BOOST_VERSION)&quot;;&quot;$(BIWOO_3rd_ROOT)&quot;;&quot;$(BIWOO_3rd_ROOT)/libDS&quot;;&quot;$(BIWOO_3rd_ROOT)/libDS/Filters&quot;;&quot;$(BIWOO_3rd_ROOT)/libCoder&quot;;&quot;$(OLD_X264)&quot;;&quot;$(FFMPEG_ROOT)/include&quot;;&quot;$(XVID_ROOT)/src&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOW;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -110,7 +111,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\libDS;..\..\libDS\Filters;&quot;$(DX_ROOT)\Include&quot;;&quot;$(DX_ROOT)\Samples\C++\DirectShow\BaseClasses&quot;;&quot;$(DX_ROOT)\Samples\C++\Common\Include&quot;;&quot;$(BOOST_ROOT)&quot;"
+				AdditionalIncludeDirectories=".\;&quot;$(DXSDK_ROOT)\include&quot;;&quot;$(DXSDK_ROOT)\Samples\C++\DirectShow\BaseClasses&quot;;&quot;$(BOOST_ROOT)/include/$(BOOST_VERSION)&quot;;&quot;$(BIWOO_3rd_ROOT)&quot;;&quot;$(BIWOO_3rd_ROOT)/libDS&quot;;&quot;$(BIWOO_3rd_ROOT)/libDS/Filters&quot;;&quot;$(BIWOO_3rd_ROOT)/libCoder&quot;;&quot;$(OLD_X264)&quot;;&quot;$(FFMPEG_ROOT)/include&quot;;&quot;$(XVID_ROOT)/src&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"

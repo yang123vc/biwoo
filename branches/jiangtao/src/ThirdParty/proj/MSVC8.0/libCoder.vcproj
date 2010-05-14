@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="gb2312"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="libCoder"
 	ProjectGUID="{CBF7E902-CB35-412F-B6B6-7249BF861D91}"
 	RootNamespace="libCoder"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -40,8 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(FFMPEG_ROOT)&quot;;&quot;$(XVID_ROOT)\src&quot;;&quot;$(X264_ROOT)&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
+				AdditionalIncludeDirectories="&quot;$(FFMPEG_ROOT)/include&quot;;&quot;$(BIWOO_3rd_ROOT)&quot;;&quot;$(XVID_ROOT)/src&quot;;&quot;$(OLD_X264)&quot;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_LIB;__STDC_CONSTANT_MACROS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -105,8 +106,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(FFMPEG_ROOT)&quot;;&quot;$(XVID_ROOT)\src&quot;;&quot;$(X264_ROOT)&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				AdditionalIncludeDirectories="&quot;$(FFMPEG_ROOT)/include&quot;;&quot;$(BIWOO_3rd_ROOT)&quot;;&quot;$(XVID_ROOT)/src&quot;;&quot;$(OLD_X264)&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;__STDC_CONSTANT_MACROS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
