@@ -1,4 +1,5 @@
 #include "H264Encoder.h"
+
 //#include "common/common.h"
 #include <memory>
 #ifdef WIN32

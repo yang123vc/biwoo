@@ -1,12 +1,11 @@
 #ifndef __H264Encoder_h__
 #define __H264Encoder_h__
 
-extern "C"
-{
+ 
 	#include "stdint.h"
+#include "inttypes.h"
 	#include "x264.h"
-}
-
+ 
 #define TBCOLORSPACE_YV12 0
 #define TBCOLORSPACE_I420 1
 #define TBCOLORSPACE_YUY2 2
