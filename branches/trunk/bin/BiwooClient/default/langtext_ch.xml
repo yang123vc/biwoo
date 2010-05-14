@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="GB2312"?>
+
+<root>
+	<menu>
+		<file>文件(&F)</file>
+		<help>帮助(&H)</help>
+
+		<changeaccount>
+			<text>更换用户&C</text>
+			<help>更换用户重新登录</help>
+			<question>你是否确定要注销当前用户，重新登录？</question>
+		</changeaccount>
+
+		<exit>
+			<text>退出(&x)	Alt-X</text>
+			<help>退出程序</help>
+			<question>你是否确定要退出当前程序？</question>
+		</exit>
+
+		<about>
+			<text>关于(&A)...	F1</text>
+			<help>显示关于对话框</help>
+		</about>
+		<hide>隐藏(&H)<help>隐藏主窗口</help></hide>
+		<restore>恢复(&R)<help>恢复主窗口</help></restore>
+
+	</menu>
+	<dialog>
+		<login>
+			<title>Biwoo 用户登录</title>
+			<account>帐号:<help>请输入你的Biwoo 帐号</help></account>
+			<password>密码:<help>请输入你的Biwoo 密码</help></password>
+		</login>
+		<adduser>
+			<title>添加用户到群组</title>
+			<stachoosefrom>选择用户(&F)</stachoosefrom>
+			<stachooseto>添加成员(&T)</stachooseto>
+		</adduser>
+	</dialog>
+	<button>
+		<login>登录(&L)<help>登录到 Biwoo</help></login>
+		<cancel>取消(&C)<help>取消</help></cancel>
+		<sendmsg>发送(&S)<help>发送消息</help></sendmsg>
+		<sendfile>发送文件(&F)<help>发送文件</help></sendfile>
+		<videocall>视频呼叫(&C)<help>视频呼叫</help></videocall>
+		<adduser>添加用户(&A)<help>添加用户</help></adduser>
+		<quitdialog>退出组(&Q)<help>退出当前组</help></quitdialog>
+		<releasecall>挂断呼叫(&R)<help>挂断当前呼叫</help></releasecall>
+		<acceptcall>接受呼叫(&A)<help>接受当前呼叫</help></acceptcall>
+		
+		<acceptfile>接收文件</acceptfile>
+		<savefileas>另存文件到</savefileas>
+		<rejectfile>拒绝文件</rejectfile>
+		<cancelfile>取消文件</cancelfile>
+		<openfile>打开文件</openfile>
+		<openfolder>打开文件所在目录</openfolder>
+
+		<mycompany>我的公司</mycompany>
+		<mydepartment>我的部门</mydepartment>
+	</button>
+	<check>
+		<savepassword>保存密码</savepassword>
+		<autologin>自动登录</autologin>
+	</check>
+	<text>
+		<welcome>欢迎使用 BiwooClient!</welcome>
+		<allcontacts>所有联系人</allcontacts>
+		<conversations>最近联系人</conversations>
+
+		<searchtip>通过帐号、昵称、电话或者邮箱查找联系人。</searchtip>
+		<logintimeout>登录超过错误！</logintimeout>
+		<accorpwderror>帐号或者密码错误！</accorpwderror>
+		<connecterror>连接服务器失败！</connecterror>
+		<systemerror>系统错误！</systemerror>
+		
+		<selectusertip>请先选择用户。</selectusertip>
+		<offlinesendfiletip>不能发送文件给离线用户。</offlinesendfiletip>
+		<offlinevideocalltip>不能发送视频呼叫给离线用户。</offlinevideocalltip>
+		<loginanotherplacetip>你已经在其他地方登录，点击 OK 退出程序。</loginanotherplacetip>
+		<serverquittip>服务器已经退出，点击 OK 退出程序。</serverquittip>
+		
+		<sendfileto>发送文件给 </sendfileto>
+		<savefileto>保存文件到 </savefileto>
+		<allfiles>所有文件 </allfiles>
+		<filecanceled>文件已经取消</filecanceled>
+		<filerejected>文件被拒绝</filerejected>
+		<waitforreceive>等待用户接收文件...</waitforreceive>
+		<acceptfile>接收文件</acceptfile>
+		<filearrived>文件接收完成</filearrived>
+		<filesent>文件发送完成</filesent>
+		
+		<onlinestate>在线</onlinestate>
+		<offlinestate>离线</offlinestate>
+		<awaystate>离开</awaystate>
+		<companytype>公司</companytype>
+		<cogrouptype>部门</cogrouptype>
+		<grouptype>项目组</grouptype>
+	</text>
+
+</root>

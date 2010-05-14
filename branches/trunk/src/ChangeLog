@@ -1,0 +1,26 @@
+		
+					ChangeLog:
+					==========
+					
+
+	VERSION: 1.0.2+
+	===============
+	
+1 Add display cogroup & company info, and online user count.
+2 reset thirdparty libraty include path environment variables
+ 
+ 
+ VERSION: 1.0.2 2010-05-4
+ 1 Add all contacts list and searching contacts function.
+ 2 Add group chat function.
+
+
+ VERSION: 1.0.1 2010-04-20
+ 1. Fix when send file can not display the message time error.
+ 2. StreamModule and biwoo modules have support linux compile.
+
+
+ VERSION: 1.0.0 2010-04-08
+ 1. Multilevel complex departments setting.
+ 2. Text, image and P2P audio & video chat, and send file support.
+ 3. Support offline message.

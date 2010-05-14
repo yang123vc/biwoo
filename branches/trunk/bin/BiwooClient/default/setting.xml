@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+	<server>
+		<address>192.168.19.89:8012</address>
+		<fileserver>192.168.19.89:8014</fileserver>
+		<p2p_rtp>192.168.19.89:8020</p2p_rtp>
+		<p2p_udp>192.168.19.89:8022</p2p_udp>
+	</server>
+	<locale>chs</locale>
+	<langtext>langtext_en.xml</langtext>
+
+</root>
