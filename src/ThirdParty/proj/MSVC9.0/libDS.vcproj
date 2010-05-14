@@ -111,8 +111,8 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories=".\;&quot;$(DXSDK_ROOT)\include&quot;;&quot;$(DXSDK_ROOT)\Samples\C++\DirectShow\BaseClasses&quot;;&quot;$(BOOST_ROOT)/include/$(BOOST_VERSION)&quot;;&quot;$(BIWOO_3rd_ROOT)&quot;;&quot;$(BIWOO_3rd_ROOT)/libDS&quot;;&quot;$(BIWOO_3rd_ROOT)/libDS/Filters&quot;;&quot;$(BIWOO_3rd_ROOT)/libCoder&quot;;&quot;$(OLD_X264)&quot;;&quot;$(FFMPEG_ROOT)/include&quot;;&quot;$(XVID_ROOT)/src&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				AdditionalIncludeDirectories=".\;&quot;$(DXSDK_ROOT)\include&quot;;&quot;$(BIWOO_3rd_ROOT)&quot;;&quot;$(DXSDK_ROOT)\Samples\C++\DirectShow\BaseClasses&quot;;&quot;$(BIWOO_3rd_ROOT)/libDS&quot;;&quot;$(BIWOO_3rd_ROOT)/libDS/Filters&quot;;&quot;$(BIWOO_3rd_ROOT)/libCoder&quot;;&quot;$(BOOST_ROOT)/include/$(BOOST_VERSION)&quot;;&quot;$(OLD_X264)&quot;;&quot;$(FFMPEG_ROOT)/include&quot;;&quot;$(XVID_ROOT)/src&quot;"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;__STDC_CONSTANT_MACROS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				ObjectFile="$(ProjectName)\$(IntDir)\"
