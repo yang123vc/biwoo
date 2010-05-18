@@ -49,6 +49,7 @@ BEGIN_EVENT_TABLE(MyFrame, wxFrame)
     EVT_RIGHT_UP(MyFrame::OnRightUp)
 #endif
     EVT_TEXT_URL(wxID_ANY, MyFrame::OnURL)
+	EVT_TIMER(wxID_ANY, MyFrame::OnTimer)
 
 END_EVENT_TABLE()
 
@@ -76,6 +77,8 @@ bool MyApp::OnInit()
 	wxString sAppName = this->GetAppName();
 	size_t nFind = sFullModleName.rfind(sAppName);
 	gAppPath = sFullModleName.substr(0, nFind-1).c_str();
+
+	setAutorun("Biwoo", sFullModleName.c_str());
 
 	wxString xmlFile(gAppPath);
 	xmlFile.Append(wxT("/default/setting.xml"));
@@ -153,6 +156,44 @@ int MyApp::OnExit()
 	gAppHandler = NULL;
 	m_biwoo.stop();
 	return wxApp::OnExit();
+}
+
+int MyApp::setAutorun(const char * programName, const char * filename) const
+{
+	// Set auto run
+#ifdef WIN32
+	char     *     strRegName[5]     ={"SOFTWARE","Microsoft","Windows","CurrentVersion","Run"};    
+	HKEY                 hKey     =     HKEY_LOCAL_MACHINE;    
+	HKEY                 hSubKey;    
+	int                   indx     =     0;    
+	long                 lRC;    
+	char                 svBuffer[256];    
+	DWORD               dwSize     =     256;    
+	BOOL                 bReg     =     FALSE;    
+	do    
+	{    
+		lRC     =     RegOpenKeyEx(hKey,     strRegName[indx],     0,    
+			KEY_READ     |     KEY_WRITE,     &hSubKey)     ;    
+		if(lRC     !=     ERROR_SUCCESS)    
+		{    
+			RegCloseKey(hKey);    
+			return     -1;    
+		}    
+		hKey     =     hSubKey;    
+	} while (++indx < 5);
+	lRC     =     RegQueryValueEx(hKey,    programName,     NULL,     NULL,    
+		(BYTE     *)svBuffer,     &dwSize);    
+	if     (lRC     !=     ERROR_SUCCESS)    
+	{    
+		lRC     =     RegSetValueEx     (hKey,     programName,     0,     REG_SZ,    
+			(BYTE     *)filename,strlen(filename));    
+		bReg     =     FALSE;    
+	}    
+	else    
+		bReg     =     TRUE;     
+#endif
+
+	return 0;
 }
 
 void MyApp::onRegConfirm(void)
@@ -249,6 +290,7 @@ void MyApp::onUserLogouted(CCoGroupInfo::pointer cogroupInfo, CUserInfo::pointer
 MyFrame::MyFrame(const wxString& title, const wxSize& size)
        : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, size)
 	   , m_splitter(NULL)
+	   , m_showMsgIcon(false)
 	   , m_taskBarIcon(NULL)
 {
 	wxString sTemp(gAppPath);
@@ -298,6 +340,8 @@ MyFrame::MyFrame(const wxString& title, const wxSize& size)
 
 	//m_richTextCtrl = new wxRichTextCtrl(m_splitter, ID_RICHTEXT_CTRL, wxEmptyString, wxDefaultPosition, wxSize(200, 200), wxVSCROLL|wxHSCROLL|wxNO_BORDER|wxWANTS_CHARS);
 	//m_splitter->SplitVertically(m_left, m_richTextCtrl, 200);
+	m_timer.SetOwner(this);
+	//m_timer.Start(1000);
 
     m_splitter->UpdateSize();
 	theFrame = this;
@@ -305,6 +349,7 @@ MyFrame::MyFrame(const wxString& title, const wxSize& size)
 
 MyFrame::~MyFrame(void)
 {
+	m_timer.Stop();
 	theFrame = NULL;
 	delete m_splitter;
 
@@ -317,19 +362,77 @@ void MyFrame::OnURL(wxTextUrlEvent& event)
     wxMessageBox(event.GetString());
 }
 
+
+void MyFrame::OnTimer(wxTimerEvent & event)
+{
+	if (m_taskBarIcon != NULL)
+	{
+		//if (m_biwoo.hasUnread())
+		//{
+		//	if (m_showMsgIcon) return;
+
+		//	wxString sTemp(gAppPath.c_str());
+		//	sTemp.Append(wxT("/res/unread.ico"));
+
+		//	wxIcon icon(sTemp, wxBITMAP_TYPE_ICO);
+		//	m_taskBarIcon->SetIcon(icon, m_taskBarTooltip);
+		//}else
+		//{
+		//	if (!m_showMsgIcon) return;
+
+		//	m_taskBarIcon->SetIcon(m_iconTaskBar, m_taskBarTooltip);
+		//}
+		//m_showMsgIcon = !m_showMsgIcon;
+
+//		// Set another icon.
+//		if (m_taskBarIcon->IsIconInstalled())
+//		{
+//			m_taskBarIcon->RemoveIcon();
+//#ifdef WIN32
+//			Sleep(100);
+//#else
+//			usleep(100000);
+//#endif
+//		}
+
+		//m_taskBarIcon->SetIcon(m_iconTaskBar, m_taskBarTooltip);
+	}
+}
+
+void MyFrame::changeTaskBarIcon(const wxString & iconfilename, const wxString & tooltip)
+{
+	if (m_taskBarIcon != NULL)
+	{
+		wxString sTooltip = tooltip.empty() ? m_taskBarTooltip : tooltip;
+
+		wxString sTemp(gAppPath.c_str());
+		sTemp.Append(wxT("/res/"));
+		sTemp.Append(iconfilename);
+
+		wxIcon iconTaskBar(sTemp, wxBITMAP_TYPE_ICO);
+
+		if (!m_taskBarIcon->SetIcon(iconTaskBar, sTooltip))
+		{
+			wxMessageBox(wxT("Could not set icon."));
+		}
+	}
+}
+
 void MyFrame::setTaskBarIcon(const wxString & iconfilename, const wxString & tooltip)
 {
+	wxString sTemp(gAppPath.c_str());
+	sTemp.Append(wxT("/res/"));
+	sTemp.Append(iconfilename);
+
+	wxIcon iconTaskBar(sTemp, wxBITMAP_TYPE_ICO);
+	m_taskBarTooltip = tooltip;
+
 	if (m_taskBarIcon == NULL)
 	{
 		m_taskBarIcon = new MyTaskBarIcon(this);
 	}
 
-	wxString sTemp(gAppPath.c_str());
-	sTemp.Append(wxT("/res/"));
-	sTemp.Append(iconfilename);
-	wxIcon icon(sTemp, wxBITMAP_TYPE_ICO);
-
-	if (!m_taskBarIcon->SetIcon(icon, tooltip))
+	if (!m_taskBarIcon->SetIcon(iconTaskBar, m_taskBarTooltip))
 	{
 		wxMessageBox(wxT("Could not set icon."));
 	}

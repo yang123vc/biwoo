@@ -78,6 +78,7 @@
 		<offlinevideocalltip>Can not VideoCall to the offline user.</offlinevideocalltip>
 		<loginanotherplacetip>You had already login another place. Click OK to exit this application.</loginanotherplacetip>
 		<serverquittip>Server quit. Clock OK to exit this application.</serverquittip>
+		<unreadmsgtip>You had unread messages.</unreadmsgtip>
 		
 		<sendfileto>Send file to </sendfileto>
 		<savefileto>Save file to </savefileto>

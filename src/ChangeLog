@@ -6,8 +6,11 @@
 	VERSION: 1.0.2+
 	===============
 	
-1 Add display cogroup & company info, and online user count.
-2 reset thirdparty libraty include path environment variables
+ADD: add display cogroup & company info, and online user count
+ADD: add auto-run function in win32 OS
+ADD: add display unread messages icon and tip
+UPD: reset thirdparty libraty include path environment variables
+UPD: update to support mycp 1.0.2+ version.
  
  
  VERSION: 1.0.2 2010-05-4

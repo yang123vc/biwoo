@@ -78,6 +78,7 @@
 		<offlinevideocalltip>不能发送视频呼叫给离线用户。</offlinevideocalltip>
 		<loginanotherplacetip>你已经在其他地方登录，点击 OK 退出程序。</loginanotherplacetip>
 		<serverquittip>服务器已经退出，点击 OK 退出程序。</serverquittip>
+		<unreadmsgtip>你有未读信息。</unreadmsgtip>
 		
 		<sendfileto>发送文件给 </sendfileto>
 		<savefileto>保存文件到 </savefileto>

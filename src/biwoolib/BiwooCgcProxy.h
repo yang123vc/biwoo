@@ -175,6 +175,7 @@ public:
 	CAccountConversation::pointer getAccountConversations(CFromInfo::pointer userInfo);
 	CDialogInfo::pointer getDialogInfo(long dialogid);
 	CConversationInfo::pointer getUnreadConversation(void);
+	bool hasUnread(void) const;
 	void deleteUserConversation(CFromInfo::pointer fromInfo);
 
 	CUserInfo::pointer getUserInfo(const std::string & userAccount) const;

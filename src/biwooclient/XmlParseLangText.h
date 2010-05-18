@@ -51,6 +51,7 @@ public:
 		, m_textSearchTip("")
 		, m_textLoginTimeout(""), m_textAccOrPwdError(""), m_textConnectError(""), m_textSystemError("")
 		, m_textSelectUserTip(""), m_textOfflineSendfileTip(""), m_textOfflineVideoCallTip(""), m_textLoginAnotherPlaceTip(""), m_textServerQuitTip("")
+		, m_textHadUnreadMsgTip("")
 		, m_textSendFileto(""), m_textSaveFileto(""), m_textAllFiles("")
 		, m_textFileCanceled(""), m_textFileRejected(""), m_textWaitForReceive(""), m_textAcceptFile(""), m_textFileArrived(""), m_textFileSent("")
 		, m_textOnlineState(""), m_textOfflineState(""), m_textAwayState("")
@@ -148,6 +149,7 @@ public:
 		m_textOfflineVideoCallTip = pt.get("root.text.offlinevideocalltip", _T("offline VideoCall tip"));
 		m_textLoginAnotherPlaceTip = pt.get("root.text.loginanotherplacetip", _T("login another place tip"));
 		m_textServerQuitTip = pt.get("root.text.serverquittip", _T("server quit tip"));
+		m_textHadUnreadMsgTip = pt.get("root.text.unreadmsgtip", _T("rnuead msg tip"));
 
 		m_textSendFileto = pt.get("root.text.sendfileto", _T("sendfileto"));
 		m_textSaveFileto = pt.get("root.text.savefileto", _T("savefileto"));
@@ -243,6 +245,7 @@ public:
 	const std::string & textOfflineVideoCallTip(void) const {return m_textOfflineVideoCallTip;}
 	const std::string & textLoginAnotherPlaceTip(void) const {return m_textLoginAnotherPlaceTip;}
 	const std::string & textServerQuitTip(void) const {return m_textServerQuitTip;}
+	const std::string & textHadUnreadMsgTip(void) const {return m_textHadUnreadMsgTip;}
 
 	const std::string & textSendFileto(void) const {return m_textSendFileto;}
 	const std::string & textSaveFileto(void) const {return m_textSaveFileto;}
@@ -341,6 +344,7 @@ private:
 	std::string		m_textOfflineVideoCallTip;
 	std::string		m_textLoginAnotherPlaceTip;
 	std::string		m_textServerQuitTip;
+	std::string		m_textHadUnreadMsgTip;
 
 	std::string		m_textSendFileto;
 	std::string		m_textSaveFileto;
