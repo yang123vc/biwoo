@@ -75,6 +75,11 @@ CConversationInfo::pointer CBiwooClient::getUnreadConversation(void)
 {
 	return gBiwooProxy.getUnreadConversation();
 }
+bool CBiwooClient::hasUnread(void) const
+{
+	return gBiwooProxy.hasUnread();
+}
+
 void CBiwooClient::deleteUserConversation(CFromInfo::pointer fromInfo)
 {
 	gBiwooProxy.deleteUserConversation(fromInfo);

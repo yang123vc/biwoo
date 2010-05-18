@@ -65,6 +65,8 @@ public:
     virtual int OnExit();
 
 protected:
+	int setAutorun(const char * programName, const char * filename) const;
+
 	// CbiwooHandler handler
 	virtual void onRegConfirm(void);
 	virtual void onUserLogouted(CAccountInfo::pointer accountInfo, CbiwooHandler::LogoutType logoutType);
@@ -85,16 +87,22 @@ class MyFrame : public wxFrame
 {
 private:
 	wxSplitterWindow * m_splitter;
+	bool m_showMsgIcon;
+	//wxIcon m_iconTaskBar;
+	wxString m_taskBarTooltip;
+
 	//LeftWindow * m_left;
 	//RightWindow * m_right;
 
 	MyTaskBarIcon * m_taskBarIcon;
+	wxTimer m_timer;
 
 public:
     // ctor(s)
     MyFrame(const wxString& title, const wxSize& size);
 	~MyFrame(void);
 
+	void changeTaskBarIcon(const wxString & iconfilename, const wxString & tooltip = "");
 	void setTaskBarIcon(const wxString & iconfilename, const wxString & tooltip);
 
 protected:
@@ -109,6 +117,7 @@ protected:
     void OnAbout(wxCommandEvent& event);
 
 	void OnURL(wxTextUrlEvent& event);
+	void OnTimer(wxTimerEvent & event);
 
 private:
     // any class wishing to process wxWidgets events must use this macro

@@ -22,6 +22,7 @@
 #include "LeftWindow.h"
 #include "RightWindow.h"
 #include "RSDataPanel.h"
+#include "App.h"
 
 
 int EditLableType = 0;	// 1: add, 2: Edit
@@ -169,6 +170,7 @@ void RelationshipPanel::DoSearchUsers(const wxString & searchString)
 
 void RelationshipPanel::OnTimer(wxTimerEvent & event)
 {
+	BOOST_ASSERT (theFrame != NULL);
 	BOOST_ASSERT (gMyCoGroup == (CbiwooHandler*)this);
 	BOOST_ASSERT (m_conversationsItem.IsOk());
 
@@ -274,6 +276,7 @@ void RelationshipPanel::OnTimer(wxTimerEvent & event)
 		}else
 		{
 			m_treeCtrl->SetItemBold(itemNewConversation);
+			theFrame->changeTaskBarIcon("unread.ico", gLangText.textHadUnreadMsgTip());
 		}
 	}
 }
@@ -353,6 +356,10 @@ void RelationshipPanel::OnSelChanged(wxTreeEvent& event)
 	if (m_treeCtrl->IsBold(itemId))
 	{
 		m_treeCtrl->SetItemBold(itemId, false);
+		if (!m_biwoo.hasUnread())
+		{
+			theFrame->changeTaskBarIcon("mainframe.ico");
+		}
 	}
 	switch (itemData->type())
 	{
@@ -610,6 +617,7 @@ wxString RelationshipPanel::getDialogInfoAccount(CDialogInfo::pointer dialogInfo
 void RelationshipPanel::onDialogInvited(CDialogInfo::pointer dialogInfo, CUserInfo::pointer inviteUserInfo)
 {
 	BOOST_ASSERT (gRightWindow != NULL);
+	BOOST_ASSERT (theFrame != NULL);
 
 	wxString sDialogAccountString = getDialogInfoAccount(dialogInfo);
 	wxTreeItemId itemNewConversation;
@@ -636,6 +644,7 @@ void RelationshipPanel::onDialogInvited(CDialogInfo::pointer dialogInfo, CUserIn
 	}else
 	{
 		m_treeCtrl->SetItemBold(itemNewConversation);
+		theFrame->changeTaskBarIcon("unread.ico", gLangText.textHadUnreadMsgTip());
 	}
 
 }

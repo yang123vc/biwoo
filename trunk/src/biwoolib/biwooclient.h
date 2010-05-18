@@ -37,6 +37,7 @@ public:
 	const CLockList<CFromInfo::pointer>	& getRecents(void) const;
 	CAccountConversation::pointer getAccountConversations(CFromInfo::pointer fromInfo);
 	CConversationInfo::pointer getUnreadConversation(void);
+	bool hasUnread(void) const;
 	void deleteUserConversation(CFromInfo::pointer fromInfo);
 
 	CUserInfo::pointer getUserInfo(const std::string & userAccount) const;

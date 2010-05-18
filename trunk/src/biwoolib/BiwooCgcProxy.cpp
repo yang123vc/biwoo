@@ -476,6 +476,11 @@ CConversationInfo::pointer CBiwooCgcProxy::getUnreadConversation(void)
 	return result;
 }
 
+bool CBiwooCgcProxy::hasUnread(void) const
+{
+	return !m_unreads.empty();
+}
+
 void CBiwooCgcProxy::deleteUserConversation(CFromInfo::pointer fromInfo)
 {
 	BOOST_ASSERT (fromInfo.get() != NULL);
