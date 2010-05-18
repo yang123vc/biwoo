@@ -2,11 +2,13 @@
 
 //#include "common/common.h"
 #include <memory>
+#if 0
 #ifdef WIN32
 #ifdef _DEBUG
 #pragma comment(lib, "libx264d.lib") 
 #else
 #pragma comment(lib, "libx264.lib") 
+#endif
 #endif
 #endif
 

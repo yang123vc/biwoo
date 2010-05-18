@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="gb2312"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="biwoolib"
 	ProjectGUID="{74881E70-8E4D-4AD5-9100-B7CB507BA08D}"
 	RootNamespace="AVS"
 	Keyword="MFCDLLProj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -43,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\ThirdParty;&quot;$(MYCP_ROOT)\src&quot;;&quot;$(BODB_ROOT)\src&quot;"
+				AdditionalIncludeDirectories="&quot;$(BOOST_ROOT)/include/$(BOOST_VERSION)&quot;;&quot;$(BIWOO_3rd_ROOT)&quot;;&quot;$(MYCP_ROOT)/src&quot;;&quot;$(BODB_ROOT)&quot;;&quot;$(XVID_ROOT)/src&quot;;&quot;$(FFMPEG_ROOT)/include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -113,7 +114,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\ThirdParty;&quot;$(MYCP_ROOT)\src&quot;;&quot;$(BODB_ROOT)\src&quot;"
+				AdditionalIncludeDirectories="&quot;$(BOOST_ROOT)/include/$(BOOST_VERSION)&quot;;&quot;$(BIWOO_3rd_ROOT)&quot;;&quot;$(MYCP_ROOT)/src&quot;;&quot;$(BODB_ROOT)&quot;;&quot;$(XVID_ROOT)/src&quot;;&quot;$(FFMPEG_ROOT)/include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"

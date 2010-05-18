@@ -31,7 +31,7 @@ CbiwooHandler * gMyCoGroup = NULL;
 CbiwooHandler * gMsgHandler = NULL;
 //CbiwooHandler * gMyFriend = NULL;
 //CbiwooHandler * gMyFamily = NULL;
-
+#if 0
 #ifdef WIN32
 #ifdef _DEBUG
 #pragma comment(lib, "libCoderd.lib")
@@ -41,3 +41,4 @@ CbiwooHandler * gMsgHandler = NULL;
 #pragma comment(linker,"/NODEFAULTLIB:libcmt.lib") 
 #endif // _DEBUG
 #endif // WIN32
+#endif

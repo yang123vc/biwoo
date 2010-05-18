@@ -5,7 +5,7 @@
 #include "Sip.h"
 
 #ifdef WIN32
-#pragma comment(lib, "Dnsapi.lib")
+#pragma comment(lib, "Dnsapi.lib") //WINSDKÖÐµÄlib
 #pragma comment(lib, "Iphlpapi.lib")
 
 #ifdef _DEBUG

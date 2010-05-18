@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="gb2312"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="biwoo"
 	ProjectGUID="{D21C52F1-11A7-4BBA-8A76-A8B5D27485F6}"
 	RootNamespace="biwoo"
 	Keyword="MFCDLLProj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -43,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(MYCP_ROOT)\src&quot;;&quot;$(BODB_ROOT)\src&quot;;&quot;$(BOOST_ROOT)&quot;"
+				AdditionalIncludeDirectories="&quot;$(MYCP_ROOT)\src&quot;;&quot;$(BOOST_ROOT)/include/$(BOOST_VERSION)&quot;;&quot;$(BIWOO_3rd_ROOT)&quot;;&quot;$(XVID_ROOT)/src&quot;;&quot;$(FFMPEG_ROOT)/include&quot;;&quot;$(BODB_ROOT)&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -70,10 +71,12 @@
 				AdditionalDependencies="CGCBased.lib"
 				OutputFile="../../build/$(ProjectName)d.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="&quot;$(MYCP_ROOT)\src\build&quot;;&quot;$(BODB_ROOT)\src\build&quot;;&quot;$(BOOST_ROOT)\stage\lib&quot;"
+				AdditionalLibraryDirectories="C:\msys\1.0\local\lib;&quot;$(BOOST_ROOT)/lib&quot;;&quot;$(BIWOO_ROOT)/src/build&quot;;&quot;$(BIWOO_3rd_ROOT)/build&quot;;&quot;$(JTHREAD_ROOT)/bin&quot;;&quot;$(JRTPLIB_ROOT)/lib&quot;;&quot;$(MYCP_ROOT)/src/build&quot;;&quot;$(DXSDK_ROOT)/lib&quot;;&quot;$(FFMPEG_ROOT)/bin&quot;;&quot;$(XVID_ROOT)\build\win32\bin&quot;;&quot;$(OLD_X264)\build\win32\bin&quot;;&quot;$(BODB_ROOT)\build&quot;"
 				ModuleDefinitionFile=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -93,9 +96,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -129,7 +129,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(MYCP_ROOT)\src&quot;;&quot;$(BODB_ROOT)\src&quot;;&quot;$(BOOST_ROOT)&quot;"
+				AdditionalIncludeDirectories="&quot;$(MYCP_ROOT)\src&quot;;&quot;$(BOOST_ROOT)/include/$(BOOST_VERSION)&quot;;&quot;$(BIWOO_3rd_ROOT)&quot;;&quot;$(XVID_ROOT)/src&quot;;&quot;$(FFMPEG_ROOT)/include&quot;;&quot;$(BODB_ROOT)&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -154,12 +154,14 @@
 				AdditionalDependencies="CGCBase.lib"
 				OutputFile="../../build/$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;$(MYCP_ROOT)\src\build&quot;;&quot;$(BODB_ROOT)\src\build&quot;;&quot;$(BOOST_ROOT)\stage\lib&quot;"
+				AdditionalLibraryDirectories="C:\msys\1.0\local\lib;&quot;$(BOOST_ROOT)/lib&quot;;&quot;$(BIWOO_ROOT)/src/build&quot;;&quot;$(BIWOO_3rd_ROOT)/build&quot;;&quot;$(JTHREAD_ROOT)/bin&quot;;&quot;$(JRTPLIB_ROOT)/lib&quot;;&quot;$(MYCP_ROOT)/src/build&quot;;&quot;$(DXSDK_ROOT)/lib&quot;;&quot;$(FFMPEG_ROOT)/bin&quot;;&quot;$(XVID_ROOT)\build\win32\bin&quot;;&quot;$(OLD_X264)\build\win32\bin&quot;;&quot;$(BODB_ROOT)\build&quot;"
 				ModuleDefinitionFile=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -179,9 +181,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
