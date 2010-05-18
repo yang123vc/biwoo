@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="gb2312"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8.00"
+	Version="9.00"
 	Name="StreamModule"
 	ProjectGUID="{4A207B36-5559-4188-9D35-A47D4DD42ABD}"
 	RootNamespace="StreamModule"
 	Keyword="MFCDLLProj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -43,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(MYCP_ROOT)\src&quot;;&quot;$(BOOST_ROOT)&quot;"
+				AdditionalIncludeDirectories="&quot;$(MYCP_ROOT)\src&quot;;&quot;$(BOOST_ROOT)/include/$(BOOST_VERSION)&quot;;&quot;$(BIWOO_3rd_ROOT)&quot;;&quot;$(XVID_ROOT)/src&quot;;&quot;$(FFMPEG_ROOT)/include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -69,10 +70,12 @@
 				Name="VCLinkerTool"
 				OutputFile="../../build/$(ProjectName)d.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\ThirdParty\build;&quot;$(MYCP_ROOT)\src\build&quot;;&quot;$(BOOST_ROOT)\stage\lib&quot;"
+				AdditionalLibraryDirectories="C:\msys\1.0\local\lib;&quot;$(BOOST_ROOT)/lib&quot;;&quot;$(BIWOO_ROOT)/src/build&quot;;&quot;$(BIWOO_3rd_ROOT)/build&quot;;&quot;$(JTHREAD_ROOT)/bin&quot;;&quot;$(JRTPLIB_ROOT)/lib&quot;;&quot;$(MYCP_ROOT)/src/build&quot;;&quot;$(DXSDK_ROOT)/lib&quot;;&quot;$(FFMPEG_ROOT)/bin&quot;;&quot;$(XVID_ROOT)\build\win32\bin&quot;;&quot;$(OLD_X264)\build\win32\bin&quot;;&quot;$(OSIP2_ROOT)/platform/build&quot;;&quot;$(EXOSIP2_ROOT)/platform/build&quot;"
 				ModuleDefinitionFile=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -92,9 +95,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -128,7 +128,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(MYCP_ROOT)\src&quot;;&quot;$(BOOST_ROOT)&quot;"
+				AdditionalIncludeDirectories="&quot;$(MYCP_ROOT)\src&quot;;&quot;$(BOOST_ROOT)/include/$(BOOST_VERSION)&quot;;&quot;$(BIWOO_3rd_ROOT)&quot;;&quot;$(XVID_ROOT)/src&quot;;&quot;$(FFMPEG_ROOT)/include&quot;"
 				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;_USRDLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -152,12 +152,14 @@
 				Name="VCLinkerTool"
 				OutputFile="../../build/$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\ThirdParty\build;&quot;$(MYCP_ROOT)\src\build&quot;;&quot;$(BOOST_ROOT)\stage\lib&quot;"
+				AdditionalLibraryDirectories="C:\msys\1.0\local\lib;&quot;$(BOOST_ROOT)/lib&quot;;&quot;$(BIWOO_ROOT)/src/build&quot;;&quot;$(BIWOO_3rd_ROOT)/build&quot;;&quot;$(JTHREAD_ROOT)/bin&quot;;&quot;$(JRTPLIB_ROOT)/lib&quot;;&quot;$(MYCP_ROOT)/src/build&quot;;&quot;$(DXSDK_ROOT)/lib&quot;;&quot;$(FFMPEG_ROOT)/bin&quot;;&quot;$(XVID_ROOT)\build\win32\bin&quot;;&quot;$(OLD_X264)\build\win32\bin&quot;;&quot;$(OSIP2_ROOT)/platform/build&quot;;&quot;$(EXOSIP2_ROOT)/platform/build&quot;"
 				ModuleDefinitionFile=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -177,9 +179,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"

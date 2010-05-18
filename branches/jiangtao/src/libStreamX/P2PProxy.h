@@ -33,7 +33,9 @@ const CCgcAddress defaultCgcAddress;
 class LIBP2PAV_CLASS CP2PProxy
 {
 public:
-	bool connectStreamServer(const CCgcAddress & ServerAddr, const CCgcAddress & RtpAddr, const CCgcAddress & UdpAddr = defaultCgcAddress);
+	bool connectStreamServer(const CCgcAddress & ServerAddr, 
+    const CCgcAddress & RtpAddr, 
+    const CCgcAddress & UdpAddr = defaultCgcAddress);
 	void disconnectStreamServer(void);
 	bool isConnectedStreamServer(void);
 
@@ -42,11 +44,15 @@ public:
 	void AccountLogout(void);
 	bool IsAccountLogined(void);
 
-	bool AVP2PConnect(const tstring & sFriendID, P2PAVConnectType p2pConnectType = P2PAVConnect::CT_Both);
-	void AVP2PDisconnect(const tstring & sFriendID, P2PAVConnectType p2pConnectType = P2PAVConnect::CT_Both);
+	bool AVP2PConnect(const tstring & sFriendID, 
+    P2PAVConnectType p2pConnectType = P2PAVConnect::CT_Both);
+	void AVP2PDisconnect(const tstring & sFriendID, 
+    P2PAVConnectType p2pConnectType = P2PAVConnect::CT_Both);
 
-	long SendFile(const tstring & sFriendID, const tstring & filepath, const tstring & filename);
-	bool AcceptFile(long fid, const tstring & savetofilepath, const tstring & filename);
+	long SendFile(const tstring & sFriendID, 
+    const tstring & filepath, const tstring & filename);
+	bool AcceptFile(long fid, const tstring & savetofilepath, 
+    const tstring & filename);
 	bool RejectFile(long fid);
 	bool CancelFile(long fid);
 

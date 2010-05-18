@@ -1,6 +1,7 @@
 #include "XvidProxy.h"
 #include <memory.h>
 #include <stdlib.h>
+#if 0
 
 #ifdef WIN32
 #ifdef _DEBUG
@@ -8,6 +9,8 @@
 #else
 #pragma comment(lib, "libxvidcore.lib") 
 #endif
+#endif
+
 #endif
 
 #ifndef NULL

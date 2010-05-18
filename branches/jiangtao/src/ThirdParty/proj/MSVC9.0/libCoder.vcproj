@@ -63,7 +63,9 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="libx264d.lib libxvidcored.lib"
 				OutputFile="..\..\build\$(ProjectName)d.lib"
+				AdditionalLibraryDirectories="&quot;$(OLD_X264)\build\win32\bin&quot;;&quot;$(XVID_ROOT)\build\win32\bin&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -86,7 +88,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			CharacterSet="1"
+			CharacterSet="2"
 			WholeProgramOptimization="1"
 			>
 			<Tool
@@ -125,7 +127,9 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="libx264.lib libxvidcore.lib"
 				OutputFile="..\..\build\$(ProjectName).lib"
+				AdditionalLibraryDirectories="&quot;$(OLD_X264)\build\win32\bin&quot;;&quot;$(XVID_ROOT)\build\win32\bin&quot;"
 			/>
 			<Tool
 				Name="VCALinkTool"

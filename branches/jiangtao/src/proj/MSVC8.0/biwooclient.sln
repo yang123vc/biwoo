@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "biwoolib", "biwoolib.vcproj", "{74881E70-8E4D-4AD5-9100-B7CB507BA08D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{61DF8E8F-5A54-4D46-BAC1-FA3B4596E873} = {61DF8E8F-5A54-4D46-BAC1-FA3B4596E873}
@@ -16,9 +16,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libStreamClient", "libStreamClient.vcproj", "{B02BBECB-7655-49FE-9D98-7D554E5B308F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libStreamX", "libStreamX.vcproj", "{61DF8E8F-5A54-4D46-BAC1-FA3B4596E873}"
-	ProjectSection(ProjectDependencies) = postProject
-		{B02BBECB-7655-49FE-9D98-7D554E5B308F} = {B02BBECB-7655-49FE-9D98-7D554E5B308F}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

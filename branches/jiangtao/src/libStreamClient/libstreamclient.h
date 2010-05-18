@@ -22,6 +22,7 @@
 
 #include "StreamClient.h"
 
+#if 0
 #ifdef WIN32
 #ifdef _DEBUG
 #pragma comment(lib, "libStreamClientd.lib")
@@ -29,5 +30,6 @@
 #pragma comment(lib, "libStreamClient.lib")
 #endif // _DEBUG
 #endif // WIN32
+#endif
 
 #endif // __libStreamClient_h__
