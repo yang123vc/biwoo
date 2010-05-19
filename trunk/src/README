@@ -1,8 +1,8 @@
 					
-		------------------------------------------ 2010-05-11
+	------------------------------------------ 2010-05-19
 
-		Description:
-		===========
+	Description:
+	============
 					
  Biwoo is a based MyCP and wxWidgets, open-source, cross-platform enterprise communication software.
  Biwoo support enterprise multi-level departments, project group organization structure.
@@ -13,10 +13,10 @@
  SVN page		: http://code.google.com/p/biwoo/source/browse/
  
 
- 		ThirdParty:
- 		==========
+ 	ThirdParty:
+ 	===========
  
- MyCP_1_0_2:
+ MyCP_1_0_3:
   MyCP(CGCP: C++ General Communication Platform) is a Boost based, open-source,
   cross-platform network communications development kit.
   http://sourceforge.net/projects/mycp/
