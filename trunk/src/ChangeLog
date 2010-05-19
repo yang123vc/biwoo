@@ -9,7 +9,8 @@
 ADD: add display cogroup & company info, and online user count
 ADD: add auto-run function in win32 OS
 ADD: add display unread messages icon and tip
-ADD: add reversl remote video function
+ADD: add reversal remote video function
+ADD: add linux/BiwooServer
 UPD: reset thirdparty libraty include path environment variables
 UPD: update to support mycp 1.0.3 version.
 UDP: other
