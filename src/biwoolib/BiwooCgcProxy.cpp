@@ -820,7 +820,7 @@ bool CBiwooCgcProxy::videoCall(CUserInfo::pointer calltoUser, HWND hWndPreview)
 		parameter.audio(2, 24000);
 		parameter.video(true);
 		parameter.reversal(true);
-		parameter.videoCoding(AVCoding::CT_XVID);
+    parameter.videoCoding(AVCoding::CT_XVID);
 		parameter.video(0, 320, 240);
 
 		m_RDoDSHandler = m_p2pav.OpenRemoteAV(parameter);
@@ -862,7 +862,7 @@ bool CBiwooCgcProxy::acceptVideoCall(CUserInfo::pointer responsetoUser, HWND hWn
 		parameter.audio(2, 24000);
 		parameter.video(true);
 		parameter.reversal(true);
-		parameter.videoCoding(AVCoding::CT_XVID);
+    parameter.videoCoding(AVCoding::CT_XVID);
 		parameter.video(0, 320, 240);
 
 		m_RDoDSHandler = m_p2pav.OpenRemoteAV(parameter);

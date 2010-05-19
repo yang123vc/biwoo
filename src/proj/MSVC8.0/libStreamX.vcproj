@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="D:\home\jiangtao\opensource\biwoo\branches\jiangtao\bin\BiwooClient"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfATL="0"
@@ -69,7 +69,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="libStreamClientd.lib libDSd.lib libx264d.lib"
-				OutputFile="../../build/$(ProjectName)d.dll"
+				OutputFile="$(OutDir)\$(ProjectName)d.exe"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories="C:\msys\1.0\local\lib;&quot;$(BOOST_ROOT)/lib&quot;;&quot;$(BIWOO_ROOT)/src/build&quot;;&quot;$(BIWOO_3rd_ROOT)/build&quot;;&quot;$(JTHREAD_ROOT)/bin&quot;;&quot;$(JRTPLIB_ROOT)/lib&quot;;&quot;$(MYCP_ROOT)/src/build&quot;;&quot;$(DXSDK_ROOT)/lib&quot;;&quot;$(FFMPEG_ROOT)/bin&quot;;&quot;$(XVID_ROOT)\build\win32\bin&quot;;&quot;$(OLD_X264)\build\win32\bin&quot;"
 				GenerateDebugInformation="true"
