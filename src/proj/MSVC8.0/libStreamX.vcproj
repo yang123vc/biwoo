@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(MYCP_ROOT)\src&quot;"
+				AdditionalIncludeDirectories="..\..\ThirdParty;&quot;$(MYCP_ROOT)\src&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="&quot;$(MYCP_ROOT)\src&quot;"
+				AdditionalIncludeDirectories="..\..\ThirdParty;&quot;$(MYCP_ROOT)\src&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;__X264__;HAVE_MMX;HAVE_STDINT_H"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"

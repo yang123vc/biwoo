@@ -2,20 +2,16 @@
 #ifndef __librtphandler_h__
 #define __librtphandler_h__
 
+#include <boost/shared_ptr.hpp>
 #include "dlldefine.h"
 #include "RTPData.h"
 
-class DoRtpHandler;
-class LIBRTP_CLASS OnRtpHandler
-{
-public:
-	virtual void onReceiveEvent(CRTPData::pointer receiveData, const DoRtpHandler * pDoRtpHandler, void * rtpParam) = 0;
-	virtual void onRtpKilledEvent(const DoRtpHandler * pDoRtpHandler, void * rtpParam){}
-};
-
+class OnRtpHandler;
 class LIBRTP_CLASS DoRtpHandler
 {
 public:
+	typedef boost::shared_ptr<DoRtpHandler> pointer;
+
 	virtual void doSetRtpHandler(OnRtpHandler * handler, void * param=0) = 0;
 	virtual const OnRtpHandler *  doGetRtpHandler(void) const = 0;
 	virtual void doClearDest(void) = 0;
@@ -28,5 +24,11 @@ public:
 
 };
 
+class LIBRTP_CLASS OnRtpHandler
+{
+public:
+	virtual void onReceiveEvent(CRTPData::pointer receiveData, DoRtpHandler::pointer pDoRtpHandler, void * rtpParam) = 0;
+	virtual void onRtpKilledEvent(DoRtpHandler::pointer pDoRtpHandler, void * rtpParam){}
+};
 
 #endif // __librtphandler_h__

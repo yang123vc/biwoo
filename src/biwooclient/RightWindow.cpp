@@ -173,10 +173,13 @@ void RightWindow::createMsgPanel(wxWindow * parent)
 		wxBoxSizer * sizerButtons = new wxBoxSizer(wxHORIZONTAL);
 		m_btnSendFile = new wxButton(m_panelMsg, Btn_SendFile, gLangText.btnSendFileText());
 		m_btnSendFile->SetToolTip(gLangText.btnSendFileHelp());
+		m_btnSendFile->Enable(false);
 		m_btnVideoCall = new wxButton(m_panelMsg, Btn_VideoCall, gLangText.btnVideoCallText());
 		m_btnVideoCall->SetToolTip(gLangText.btnVideoCallHelp());
+		m_btnVideoCall->Enable(false);
 		m_btnAddUser = new wxButton(m_panelMsg, Btn_AddUser, gLangText.btnAddUserText());
 		m_btnAddUser->SetToolTip(gLangText.btnAddUserHelp());
+		m_btnAddUser->Enable(false);
 		//m_btnQuitDialog = new wxButton(m_panelMsg, Btn_QuitDialog, gLangText.btnQuitDialogText());
 		//m_btnQuitDialog->SetToolTip(gLangText.btnQuitDialogHelp());
 		sizerButtons->Add(m_btnSendFile, 0, wxALL|wxALIGN_LEFT, 3);
@@ -216,6 +219,7 @@ void RightWindow::createChatPanel(wxWindow * parent)
 
 		m_btnSendMsg = new wxButton(m_panelChat, Btn_SendMsg, gLangText.btnSendMsgText());
 		m_btnSendMsg->SetToolTip(gLangText.btnSendMsgHelp());
+		m_btnSendMsg->Enable(false);
 		sizerInput->Add(m_richTextCtrl, 1, wxALL|wxEXPAND|wxALIGN_CENTER, 3);
 		sizerInput->Add(m_btnSendMsg, 0, wxALL|wxALIGN_RIGHT, 3);
 
@@ -426,6 +430,24 @@ void RightWindow::reset(void)
 //
 //}
 
+void RightWindow::onUserLogined(CCoGroupInfo::pointer cogroupInfo, CUserInfo::pointer userInfo)
+{
+	if (isCurrentSelect(CFromInfo::create(userInfo)))
+	{
+		m_btnSendFile->Enable(true);
+		m_btnVideoCall->Enable(true);
+	}
+}
+
+void RightWindow::onUserLogouted(CCoGroupInfo::pointer cogroupInfo, CUserInfo::pointer userInfo)
+{
+	if (isCurrentSelect(CFromInfo::create(userInfo)))
+	{
+		m_btnSendFile->Enable(false);
+		m_btnVideoCall->Enable(false);
+	}
+}
+
 void RightWindow::setCurrentSelect(CFromInfo::pointer fromInfo)
 {
 	assert (fromInfo.get() != NULL);
@@ -473,8 +495,8 @@ void RightWindow::setCurrentSelect(CFromInfo::pointer fromInfo)
 	case CFromInfo::FromUserInfo:
 		{
 			CUserInfo::pointer curUserInfo = m_curFromInfo->fromUser();
-			m_btnSendFile->Enable(true);
-			m_btnVideoCall->Enable(true);
+			m_btnSendFile->Enable(!curUserInfo->isOfflineState());
+			m_btnVideoCall->Enable(!curUserInfo->isOfflineState());
 			m_btnSendMsg->Enable(true);
 			m_btnAddUser->Enable(true);
 

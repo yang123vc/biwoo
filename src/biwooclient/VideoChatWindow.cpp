@@ -31,6 +31,7 @@ EVT_SIZE    (           VideoChatWindow::OnSize)
 	EVT_TIMER(wxID_ANY, VideoChatWindow::OnTimer)
 	EVT_BUTTON(Btn_ReleaseCall, VideoChatWindow::OnReleaseCall)
 	EVT_BUTTON(Btn_AcceptVideoCall, VideoChatWindow::OnAcceptVideoCall)
+	EVT_BUTTON(Btn_ReversalRemoteVideo, VideoChatWindow::OnReversalRemoteVideo)
 
 END_EVENT_TABLE()
 
@@ -47,9 +48,12 @@ VideoChatWindow::VideoChatWindow(wxWindow * parent)
 	m_btnReleaseCall->SetToolTip(gLangText.btnReleaseCallHelp());
 	m_btnAcceptVideoCall = new wxButton(this, Btn_AcceptVideoCall, gLangText.btnAcceptCallText());
 	m_btnAcceptVideoCall->SetToolTip(gLangText.btnAcceptCallHelp());
+	m_btnReversalRVideo = new wxButton(this, Btn_ReversalRemoteVideo, gLangText.btnReversalRVideoText());
+	m_btnReversalRVideo->SetToolTip(gLangText.btnReversalRVideoHelp());
 
 	m_btnReleaseCall->Show(false);
 	m_btnAcceptVideoCall->Show(false);
+	m_btnReversalRVideo->Show(false);
 
 	m_staLocal = new wxStaticBitmap(this, wxID_ANY, m_bitmapUI);
 	m_staRemote = new wxStaticBitmap(this, wxID_ANY, m_bitmapUI);
@@ -61,6 +65,7 @@ VideoChatWindow::~VideoChatWindow(void)
 {
 	delete m_btnReleaseCall;
 	delete m_btnAcceptVideoCall;
+	delete m_btnReversalRVideo;
 	delete m_staLocal;
 	delete m_staRemote;
 }
@@ -85,7 +90,6 @@ void VideoChatWindow::videoCall(CUserInfo::pointer userInfo)
 
 	HWND hWndPreview = GetRemoteHwnd();
 	m_biwoo.videoCall(m_userInfo, hWndPreview);
-
 }
 
 void VideoChatWindow::SetVideoCall(bool ownerMsg, CUserInfo::pointer userInfo, long callid)
@@ -95,6 +99,7 @@ void VideoChatWindow::SetVideoCall(bool ownerMsg, CUserInfo::pointer userInfo, l
 	m_callid = callid;
 
 	m_btnReleaseCall->Show(true);
+	m_btnReversalRVideo->Show(true);
 	if (!ownerMsg)
 	{
 		m_btnAcceptVideoCall->Show(true);
@@ -112,36 +117,27 @@ void VideoChatWindow::OnSize(wxSizeEvent& event)
 	wxPoint rpt((size.GetWidth()-rvideowidth)/2, 0);
 	wxSize rvideosize(rvideowidth, size.GetHeight());
 
-	if (m_btnReleaseCall != NULL)
-	{
-		m_btnReleaseCall->Move(0, 0);
-	}
-	if (m_btnAcceptVideoCall != NULL)
-	{
-		m_btnAcceptVideoCall->Move(0, 30);
-	}
+	m_btnReleaseCall->Move(0, 0);
+	m_btnAcceptVideoCall->Move(0, 30);
 
-	if (m_staRemote != NULL)
-	{
-		m_staRemote->SetSize(wxRect(rpt, rvideosize));
-		m_staRemote->Refresh();
-	}
+	m_staRemote->SetSize(wxRect(rpt, rvideosize));
+	m_staRemote->Refresh();
 
-	if (m_staLocal != NULL)
-	{
-		wxPoint lpt;
-		wxSize lvideosize(lWidth, lHeight);
-		if (rpt.x > lWidth)
-		{
-			lpt = wxPoint(rpt.x-lWidth, size.GetHeight()-lHeight);
-		}else
-		{
-			lpt = wxPoint(0, size.GetHeight()-lHeight);
-		}
+	m_btnReversalRVideo->Move(rpt.x+rvideosize.GetWidth(), 0);
 
-		m_staLocal->SetSize(wxRect(lpt, lvideosize));
-		m_staLocal->Refresh();
+	// m_staLocal
+	wxPoint lpt;
+	wxSize lvideosize(lWidth, lHeight);
+	if (rpt.x > lWidth)
+	{
+		lpt = wxPoint(rpt.x-lWidth, size.GetHeight()-lHeight);
+	}else
+	{
+		lpt = wxPoint(0, size.GetHeight()-lHeight);
 	}
+	m_staLocal->SetSize(wxRect(lpt, lvideosize));
+	m_staLocal->Refresh();
+
 
 	m_timer.Start(100, true);
 }
@@ -172,4 +168,10 @@ void VideoChatWindow::OnAcceptVideoCall(wxCommandEvent& event)
 	m_biwoo.acceptVideoCall(m_userInfo, hRWndPreview, m_callid);
 
 	m_btnAcceptVideoCall->Show(false);
+	m_btnReversalRVideo->Show(true);
+}
+
+void VideoChatWindow::OnReversalRemoteVideo(wxCommandEvent& event)
+{
+	m_biwoo.reversalRemoteVideo();
 }

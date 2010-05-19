@@ -52,6 +52,7 @@ enum
 	, Btn_VideoCall
 	, Btn_ReleaseCall
 	, Btn_AcceptVideoCall
+	, Btn_ReversalRemoteVideo
 	, Btn_AddUser
 	, Btn_QuitDialog
 

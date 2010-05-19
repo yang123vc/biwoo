@@ -50,12 +50,12 @@ public:
 	bool RejectFile(long fid);
 	bool CancelFile(long fid);
 
-	DoDSHandler * OpenLocalAV(const CAVParameter & avp);
+	DoDSHandler::pointer OpenLocalAV(const CAVParameter & avp);
 	void CloseLocalAV(void);
 
-	DoDSHandler * OpenRemoteAV(const CAVParameter & avp);
+	DoDSHandler::pointer OpenRemoteAV(const CAVParameter & avp);
 	void RemoteVideoReversal(void);
-	void CloseRemoteAV(DoDSHandler * pDoDSHandler);
+	void CloseRemoteAV(DoDSHandler::pointer pDoDSHandler);
 
 public:
 	CP2PProxy(void);

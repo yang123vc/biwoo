@@ -183,26 +183,26 @@ void CAVConference::onSipEvent(SipEventInfo::pointer eventInfo)
 				return;
 			}
 
-			DoRtpHandler * audioRtpHandler = NULL;
+			DoRtpHandler::pointer audioRtpHandler;
 			int i=0;
 			while(i++ != 20)
 			{
 				m_currentRtpPort += i*2;
 				audioRtpHandler = m_rtp.startRtp(m_currentRtpPort);
-				if (audioRtpHandler != NULL)
+				if (audioRtpHandler.get() != NULL)
 					break;
 			}
-			DoRtpHandler * videoRtpHandler = NULL;
+			DoRtpHandler::pointer videoRtpHandler;
 			i=0;
 			while(i++ != 20)
 			{
 				m_currentRtpPort += i*2;
 				videoRtpHandler = m_rtp.startRtp(m_currentRtpPort);
-				if (videoRtpHandler != NULL)
+				if (videoRtpHandler.get() != NULL)
 					break;
 			}
 
-			if (audioRtpHandler && videoRtpHandler)
+			if (audioRtpHandler.get() && videoRtpHandler.get())
 			{
 				CConferenceMember::pointer conferenceMember = CConferenceMember::create(audioRtpHandler, videoRtpHandler);
 				audioRtpHandler->doSetMediaType(0);		// PCMU

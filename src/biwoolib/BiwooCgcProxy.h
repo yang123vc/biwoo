@@ -145,8 +145,8 @@ private:
 	std::string m_sModulePath;
 
 	CP2PProxy		m_p2pav;
-	DoDSHandler *	m_LDoDSHandler;
-	DoDSHandler *	m_RDoDSHandler;
+	DoDSHandler::pointer	m_LDoDSHandler;
+	DoDSHandler::pointer	m_RDoDSHandler;
 
 	CLockMap<long, CDialogInfo::pointer> m_dialogs;
 	CLockMap<tstring, CAccountConversation::pointer> m_avs;	// account conversations
@@ -218,6 +218,7 @@ public:
 	void closeLocalAV(void);
 	void closeRemoteAV(void);
 	void moveRemoteWindow(void);
+	void reversalRemoteVideo(void);
 
 	bool videoCall(CUserInfo::pointer calltoUser, HWND hWndPreview);
 	bool acceptVideoCall(CUserInfo::pointer responsetoUser, HWND hWndPreview, long mid);

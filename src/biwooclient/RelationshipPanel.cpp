@@ -925,6 +925,8 @@ void RelationshipPanel::onUserLogined(CCoGroupInfo::pointer cogroupInfo, CUserIn
 	{
 		m_treeCtrl->SetItemImage(finditemUser->GetId(), cOnlineImage);
 	}
+
+	gRightWindow->onUserLogined(cogroupInfo, userInfo);
 }
 
 void RelationshipPanel::onUserLogouted(CCoGroupInfo::pointer cogroupInfo, CUserInfo::pointer userInfo)
@@ -965,6 +967,8 @@ void RelationshipPanel::onUserLogouted(CCoGroupInfo::pointer cogroupInfo, CUserI
 	{
 		m_treeCtrl->SetItemImage(finditemUser->GetId(), cOfflineImage);
 	}
+
+	gRightWindow->onUserLogouted(cogroupInfo, userInfo);
 }
 
 //void RelationshipPanel::onSendMessage(CCoGroupInfo::pointer cogroupInfo, CConversationInfo::pointer conversationInfo)

@@ -47,6 +47,7 @@
 		<quitdialog>&Quit Dialog<help>Quit this dialog</help></quitdialog>
 		<releasecall>&Release Call<help>Release the call</help></releasecall>
 		<acceptcall>&Accept Call<help>Accept the incoming call</help></acceptcall>
+		<reversalrvideo>Reversal Video<help>Reversal remote video</help></reversalrvideo>
 		
 		<acceptfile>Accept File</acceptfile>
 		<savefileas>Save File As</savefileas>

@@ -41,7 +41,7 @@ public:
 		, m_btnMyCompanyText("")//, m_btnMyCompanyHelp("")
 		, m_btnMyDepartmentText("")//, m_btnMyDepartmentHelp("")
 		, m_btnSendMsgText(""), m_btnSendMsgHelp(""), m_btnSendFileText(""), m_btnSendFileHelp(""), m_btnVideoCallText(""), m_btnVideoCallHelp("")
-		, m_btnReleaseCallText(""), m_btnReleaseCallHelp(""), m_btnAcceptCallText(""), m_btnAcceptCallHelp("")
+		, m_btnReleaseCallText(""), m_btnReleaseCallHelp(""), m_btnAcceptCallText(""), m_btnAcceptCallHelp(""), m_btnReversalRVideoText(""), m_btnReversalRVideoHelp("")
 		, m_btnAcceptFile(""), m_btnSaveFileAs(""), m_btnRejectFile(""), m_btnCancelFile(""), m_btnOpenFile(""), m_btnOpenFolder("")
 		, m_btnAddUserText(""), m_btnAddUserHelp("")
 		, m_btnQuitDialogText(""), m_btnQuitDialogHelp("")
@@ -119,6 +119,9 @@ public:
 		m_btnReleaseCallHelp = pt.get("root.button.releasecall.help", _T("release call"));
 		m_btnAcceptCallText = pt.get("root.button.acceptcall", _T("accept call"));
 		m_btnAcceptCallHelp = pt.get("root.button.acceptcall.help", _T("accept call"));
+		m_btnReversalRVideoText = pt.get("root.button.reversalrvideo", _T("reversal"));
+		m_btnReversalRVideoHelp = pt.get("root.button.reversalrvideo.help", _T("reversal"));
+
 		m_btnAddUserText = pt.get("root.button.adduser", _T("add user"));
 		m_btnAddUserHelp = pt.get("root.button.adduser.help", _T("add user"));
 		m_btnQuitDialogText = pt.get("root.button.quitdialog", _T("quit dialog"));
@@ -215,6 +218,9 @@ public:
 	const std::string & btnReleaseCallHelp(void) const {return m_btnReleaseCallHelp;}
 	const std::string & btnAcceptCallText(void) const {return m_btnAcceptCallText;}
 	const std::string & btnAcceptCallHelp(void) const {return m_btnAcceptCallHelp;}
+	const std::string & btnReversalRVideoText(void) const {return m_btnReversalRVideoText;}
+	const std::string & btnReversalRVideoHelp(void) const {return m_btnReversalRVideoHelp;}
+
 	const std::string & btnAddUserText(void) const {return m_btnAddUserText;}
 	const std::string & btnAddUserHelp(void) const {return m_btnAddUserHelp;}
 	const std::string & btnQuitDialogText(void) const {return m_btnQuitDialogText;}
@@ -312,6 +318,8 @@ private:
 	std::string		m_btnReleaseCallHelp;
 	std::string		m_btnAcceptCallText;
 	std::string		m_btnAcceptCallHelp;
+	std::string		m_btnReversalRVideoText;
+	std::string		m_btnReversalRVideoHelp;
 	std::string		m_btnAddUserText;
 	std::string		m_btnAddUserHelp;
 	std::string		m_btnQuitDialogText;

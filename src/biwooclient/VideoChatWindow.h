@@ -42,6 +42,7 @@ private:
 	wxBitmap m_bitmapUI;
 	wxButton * m_btnReleaseCall;
 	wxButton * m_btnAcceptVideoCall;
+	wxButton * m_btnReversalRVideo;
 	wxStaticBitmap * m_staLocal;
 	wxStaticBitmap * m_staRemote;
 	wxTimer m_timer;
@@ -51,6 +52,7 @@ private:
 
 	void OnReleaseCall(wxCommandEvent& event);
 	void OnAcceptVideoCall(wxCommandEvent& event);
+	void OnReversalRemoteVideo(wxCommandEvent& event);
 
 	void OnSize(wxSizeEvent& event);
 	void OnTimer(wxTimerEvent & event);

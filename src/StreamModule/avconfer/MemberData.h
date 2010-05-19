@@ -27,22 +27,22 @@ class CMemberData
 {
 public:
 	typedef boost::shared_ptr<CMemberData> pointer;
-	static CMemberData::pointer create(CRTPData::pointer receiveData, const DoRtpHandler * pDoRtpHandler, const void * rtpParam);
-	static CMemberData::pointer create(CRTPData::pointer receiveData, const DoRtpHandler * pDoRtpHandler, const void * rtpParam, bool silence);
+	static CMemberData::pointer create(CRTPData::pointer receiveData, DoRtpHandler::pointer pDoRtpHandler, const void * rtpParam);
+	static CMemberData::pointer create(CRTPData::pointer receiveData, DoRtpHandler::pointer pDoRtpHandler, const void * rtpParam, bool silence);
 
 	CRTPData::pointer getRtpData(void) const {return m_receiveData;}
-	const DoRtpHandler * getDoRtpHandler(void) const {return m_pDoRtpHandler;}
+	DoRtpHandler::pointer getDoRtpHandler(void) const {return m_pDoRtpHandler;}
 	const void * getRtpParam(void) const {return m_rtpParam;}
 	bool isSilence(void) const {return m_silence;}
 
 	//unsigned int addCounter(void) {return ++m_counter;}
 
 public:
-	CMemberData(CRTPData::pointer receiveData, const DoRtpHandler * pDoRtpHandler, const void * rtpParam, bool silence);
+	CMemberData(CRTPData::pointer receiveData, DoRtpHandler::pointer pDoRtpHandler, const void * rtpParam, bool silence);
 
 private:
 	CRTPData::pointer		m_receiveData;
-	const DoRtpHandler *	m_pDoRtpHandler;
+	DoRtpHandler::pointer	m_pDoRtpHandler;
 	const void *			m_rtpParam;
 	//unsigned int			m_counter;
 	bool					m_silence;

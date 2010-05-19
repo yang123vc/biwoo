@@ -47,6 +47,7 @@
 		<quitdialog>退出组(&Q)<help>退出当前组</help></quitdialog>
 		<releasecall>挂断呼叫(&R)<help>挂断当前呼叫</help></releasecall>
 		<acceptcall>接受呼叫(&A)<help>接受当前呼叫</help></acceptcall>
+		<reversalrvideo>翻转视频<help>翻转远端视频</help></reversalrvideo>
 		
 		<acceptfile>接收文件</acceptfile>
 		<savefileas>另存文件到</savefileas>
