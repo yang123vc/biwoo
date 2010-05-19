@@ -17,12 +17,12 @@
  	===========
  
  MyCP_1_0_3:
-  MyCP(CGCP: C++ General Communication Platform) is a Boost based, open-source,
-  cross-platform network communications development kit.
+  MyCP is a Boost based, open-source, cross-platform enterprise application
+  communication service development solutions.
   http://sourceforge.net/projects/mycp/
 
  bodb_0_1_2:
-  Bodb is a software library that implements a simple SQL database engine.
+  Bodb is a boost based software library that implements a simple SQL database engine.
   http://sourceforge.net/projects/bodb/
  
  wxWidgets-2.8.10:
