@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<root>  
+	<!-- 
+	name: client invoke name
+	method: function name
+	-->
+	<!-- Account Manager -->
+	<allow><name>1001</name><method>AccCreate</method></allow>
+	<allow><name>1002</name><method>AccDestroy</method></allow>
+	<allow><name>1011</name><method>AccRegister</method></allow>
+	<allow><name>1012</name><method>AccRegConfirm</method></allow>
+	<allow><name>1013</name><method>AccUnRegister</method></allow>
+	<allow><name>1014</name><method>AccLoad</method></allow>
+	<allow><name>1021</name><method>AccSetPwd</method></allow>
+	<allow><name>1022</name><method>AccSetNick</method></allow>
+	<allow><name>1023</name><method>AccSetInfo</method></allow>
+
+	<!-- Friend Manager -->
+	<allow><name>2001</name><method>FriRequest</method></allow>
+	<allow><name>2002</name><method>FriResponse</method></allow>
+	<allow><name>2003</name><method>FriDelete</method></allow>
+	<allow><name>2004</name><method>FriNote</method></allow>
+	<allow><name>2005</name><method>FriSetTo</method></allow>
+	<allow><name>2006</name><method>FriLoad</method></allow>
+	<allow><name>2011</name><method>FriGrpCreate</method></allow>
+	<allow><name>2012</name><method>FriGrpDestroy</method></allow>
+	<allow><name>2013</name><method>FriGrpSetName</method></allow>
+	<allow><name>2014</name><method>FriGrpLoad</method></allow>
+
+	<!-- Company Manager -->
+	<allow><name>3001</name><method>CoLoad</method></allow>
+	<allow><name>3002</name><method>CoLoadGroup</method></allow>
+	<allow><name>3003</name><method>CoLoadGroupUser</method></allow>
+	
+	<!-- P2P Manager -->
+	<allow><name>6001</name><method>P2pReqeust</method></allow>
+	<allow><name>6002</name><method>P2pResponse</method></allow>
+	<allow><name>6003</name><method>P2pAck P2P</method></allow>
+	<allow><name>6004</name><method>P2pDisconnect</method></allow>
+
+	<!-- Message Manager -->
+	<allow><name>6101</name><method>MsgSend</method></allow>
+	<allow><name>6111</name><method>MsgRequest</method></allow>
+	<allow><name>6112</name><method>MsgResponse</method></allow>
+	<allow><name>6113</name><method>MsgSenddata</method></allow>
+	
+	<!-- Dialog Manager -->
+	<allow><name>7001</name><method>DiaInvite</method></allow>
+	<allow><name>7002</name><method>DiaMember</method></allow>
+	<allow><name>7003</name><method>DiaQuit</method></allow>
+	
+</root>
