@@ -4,7 +4,7 @@
   <!-- ******** PARSER -->
   <module>
   	<name>SotpParser</name>
-  	<file>ParserSotp</file>
+  	<file>ParserSotpd</file>
   	<type>PARSER</type>
   </module>
   
@@ -12,35 +12,35 @@
   <!-- capacity: 1 - 100, [DEFAULT] 1 -->
   <module>
   	<name>CommTcpServer</name>
-  	<file>CommTcpServer</file>
+  	<file>CommTcpServerd</file>
   	<type>COMM</type>
   	<commport>8010</commport>
   	<capacity>3</capacity>
   </module>
   <module>
   	<name>CommUdpServer</name>
-  	<file>CommUdpServer</file>
+  	<file>CommUdpServerd</file>
   	<type>COMM</type>
   	<commport>8012</commport>
   	<capacity>3</capacity>
   </module>
   <module>
   	<name>FileServer</name>
-  	<file>FileServer</file>
+  	<file>FileServerd</file>
   	<type>COMM</type>
   	<commport>8014</commport>
   	<capacity>10</capacity>
   </module>
   <module>
   	<name>CommRtpServer</name>
-  	<file>CommRtpServer</file>
+  	<file>CommRtpServerd</file>
   	<type>COMM</type>
   	<commport>8020</commport>
   	<capacity>3</capacity>
   </module>
   <module>
   	<name>P2PUDPServer</name>
-  	<file>P2PUDPServer</file>
+  	<file>P2PUDPServerd</file>
   	<type>COMM</type>
   	<commport>8022</commport>
   	<capacity>3</capacity>
@@ -55,7 +55,7 @@
   
   <module>
   	<name>biwoo</name>
-  	<file>biwoo</file>
+  	<file>biwood</file>
   	<type>APP</type>
   	<allowall>1</allowall>
   	<authaccount>0</authaccount>
@@ -65,7 +65,7 @@
   
   <module>
   	<name>StreamModule</name>
-  	<file>StreamModule</file>
+  	<file>StreamModuled</file>
   	<type>APP</type>
   	<allowall>1</allowall>
   	<authaccount>0</authaccount>

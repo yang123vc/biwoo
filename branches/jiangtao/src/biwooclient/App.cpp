@@ -36,12 +36,12 @@ MyFrame * theFrame = NULL;
 // handlers) which process them. It can be also done at run-time, but for the
 // simple menu events like this the static method is much simpler.
 BEGIN_EVENT_TABLE(MyFrame, wxFrame)
-    EVT_MENU(wxID_EXIT,  MyFrame::OnQuit)
-    EVT_MENU(ID_Menu_ChangeAccount,  MyFrame::OnChangeAccount)
-    EVT_MENU(wxID_ABOUT, MyFrame::OnAbout)
-	EVT_CLOSE(MyFrame::OnCloseWindow) 
-	EVT_ICONIZE(OnIconize)
-	//EVT_SIZE(MyFrame::OnSize) 
+EVT_MENU(wxID_EXIT,  MyFrame::OnQuit)
+EVT_MENU(ID_Menu_ChangeAccount,  MyFrame::OnChangeAccount)
+EVT_MENU(wxID_ABOUT, MyFrame::OnAbout)
+EVT_CLOSE(MyFrame::OnCloseWindow) 
+EVT_ICONIZE(OnIconize)
+//EVT_SIZE(MyFrame::OnSize) 
 
 #if USE_CONTEXT_MENU
     EVT_CONTEXT_MENU(MyFrame::OnContextMenu)

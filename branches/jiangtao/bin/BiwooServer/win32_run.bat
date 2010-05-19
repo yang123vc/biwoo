@@ -1,1 +1,1 @@
-CGCP.exe -run
+CGCPd.exe -run
