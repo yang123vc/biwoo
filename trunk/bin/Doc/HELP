@@ -1,5 +1,5 @@
 
-				------------------------------------------------------ 2010-05-04
+				------------------------------------------------------ 2010-05-19
 				Installation:
 				============
  
@@ -10,23 +10,25 @@
  
  		1 [option]Database Installation:
  		================================
+ 		[liunx,win32]
  		
  	a Edit enterprise organization structure and employees information:
- 		See database file: [biwoo_path]/Database/biwoo.sql.
- 		Edit [biwoo_path]/Database/biwoo_sample.sql data.
+ 		See database file: [biwoo_path]/[liunx,win32]/Database/biwoo.sql.
+ 		Edit [biwoo_path]/[liunx,win32]Database/biwoo_sample.sql data.
  		
  	b Run bodbclient, and execute following command:
  			BODB:EXEC biwoo.sql;
  			BODB:EXEC biwoo_sample.sql;
  			
- 	c Replace [CURRENT_PATH]/biwoo/biwoo.bdf to [biwoo_path]/BiwooServer/conf/biwoo/db/biwoo/biwoo.bdf
+ 	c Replace [CURRENT_PATH]/biwoo/biwoo.bdf to [biwoo_path]/[liunx,win32]/BiwooServer/conf/biwoo/db/biwoo/biwoo.bdf
  	
  	
  		2 [option]BiwooServer Installation:
  		===================================
+ 		[liunx,win32]
  
  a Open the setting file:
- 			[biwoo_path]\BiwooServer\conf\modules.xml
+ 			[biwoo_path]\[liunx,win32]\BiwooServer\conf\modules.xml
  	 Change the following network setting.
  	 		TCP PORT: 8010
  	 		UDP PORT: 8012 8014 8020 8022
@@ -34,25 +36,32 @@
  b Run BiwooServer.
  
    Windows: 
-   Run [biwoo_path]\BiwooServer\win32_run.bat to start the BiwooServer.
+   Run [biwoo_path]\win32\BiwooServer\win32_run.bat to start the BiwooServer.
    
    Linux:
-   # cd BiwooServer
+   # cd linux/BiwooServer
    # ./CGCP
  
  
  		3 BiwooClient Installation:
  		===========================
+ 		[win32 only]
  
  a Open the setting file:
- 			[biwoo_path]\BiwooClient\default\setting.xml
- 	 Change the below network setting.
+ 			[biwoo_path]\win32\BiwooClient\default\setting.xml
+ 			
+ 	 network setting:
  	 		<address>
  	 		<fileserver>
  	 		<p2p_rtp>
  	 		<p2p_udp>
  	 		
- b Run [biwoo_path]\BiwooClient\biwooclient.exe to start the BiwooClient.
+ 	 language setting:
+ 	 		<locale>
+ 	 		<langtext> -> langtext_en.xml, langtext_ch.xml
+ 	 
+ 	 		
+ b Run [biwoo_path]\win32\BiwooClient\biwooclient.exe to start the BiwooClient.
  
  		
  =============================================================
