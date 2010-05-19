@@ -165,6 +165,11 @@ void CBiwooClient::moveRemoteWindow(void)
 	gBiwooProxy.moveRemoteWindow();
 }
 
+void CBiwooClient::reversalRemoteVideo(void)
+{
+	gBiwooProxy.reversalRemoteVideo();
+}
+
 bool CBiwooClient::videoCall(CUserInfo::pointer calltoUser, HWND hWndPreview)
 {
 	return gBiwooProxy.videoCall(calltoUser, hWndPreview);

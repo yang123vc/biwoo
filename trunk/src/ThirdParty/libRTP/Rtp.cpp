@@ -21,26 +21,24 @@ CRtp::~CRtp(void)
 	//m_rtpProxy.clear();
 }
 
-DoRtpHandler * CRtp::startRtp(unsigned short rtpPort)
+DoRtpHandler::pointer CRtp::startRtp(unsigned short rtpPort)
 {
+	DoRtpHandler::pointer nullResult;
 	CRtpProxy::pointer rtpProxy = CRtpProxy::create();
 	CRtpProxy::InitComm();
 	if (rtpProxy->InitSession(rtpPort) != 0)
-		return NULL;
+		return nullResult;
 
-	//rtpProxy->AddDest(sIp.c_str(), nPort);
-	//rtpProxy->SetHandle(this);
-
-	//rtpProxy->
 	DoRtpHandler * handler = (DoRtpHandler*)rtpProxy.get();
 	m_rtpProxy.insert(handler, rtpProxy);
-	return handler;
+	return rtpProxy;
+	//return handler;
 }
 
-void CRtp::stopRtp(DoRtpHandler * handler)
+void CRtp::stopRtp(DoRtpHandler::pointer handler)
 {
 	CRtpProxy::pointer rtpProxy;
-	if (m_rtpProxy.find(handler, rtpProxy, true))
+	if (m_rtpProxy.find(handler.get(), rtpProxy, true))
 	{
 		//handler->doSetRtpHandler(0);
 		rtpProxy->DestroySession();

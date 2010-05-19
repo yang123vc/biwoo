@@ -254,10 +254,10 @@ bool CConferenceInfo::isLimitMaxNumbers(void)
 	return m_conferInfo->maxNumbers() > 0 && m_members.size() >= m_conferInfo->maxNumbers();
 }
 
-void CConferenceInfo::onReceiveEvent(CRTPData::pointer receiveData, const DoRtpHandler * pDoRtpHandler, void * rtpParam)
+void CConferenceInfo::onReceiveEvent(CRTPData::pointer receiveData, DoRtpHandler::pointer pDoRtpHandler, void * rtpParam)
 {
 	BOOST_ASSERT (receiveData.get() != NULL);
-	BOOST_ASSERT (pDoRtpHandler != NULL);
+	BOOST_ASSERT (pDoRtpHandler.get() != NULL);
 	BOOST_ASSERT (rtpParam != NULL);
 
 	CConferenceMember * pDataConferenceMember = (CConferenceMember*)rtpParam;
@@ -266,11 +266,11 @@ void CConferenceInfo::onReceiveEvent(CRTPData::pointer receiveData, const DoRtpH
 
 	if (receiveData->size() == 4)
 	{
-		if (pDataConferenceMember->getAudioHandler() == pDoRtpHandler)
+		if (pDataConferenceMember->getAudioHandler().get() == pDoRtpHandler.get())
 		{
 			pDataConferenceMember->getAudioHandler()->doClearDest();
 			pDataConferenceMember->getAudioHandler()->doAddDest(receiveData->destip(), receiveData->destport());
-		}else if (pDataConferenceMember->getVideoHandler() == pDoRtpHandler)
+		}else if (pDataConferenceMember->getVideoHandler().get() == pDoRtpHandler.get())
 		{
 			pDataConferenceMember->getVideoHandler()->doClearDest();
 			pDataConferenceMember->getVideoHandler()->doAddDest(receiveData->destip(), receiveData->destport());
@@ -483,7 +483,7 @@ void CConferenceInfo::sendAudioFrame(const CLockMap<CConferenceMember*, CMemberD
 		int timestamp = 0;
 		if (mix_member_frame(iter->second, audios, timestamp))
 		{
-			DoRtpHandler * pDoRtpHandler = iter->second->getAudioHandler();
+			DoRtpHandler::pointer pDoRtpHandler = iter->second->getAudioHandler();
 
 			long sendSize = 0;
 			unsigned char * tempBuffer = 0;
@@ -505,7 +505,7 @@ void CConferenceInfo::sendVideoFrame(CMemberData::pointer memberData)
 	CConferenceMember * pDataConferenceMember = (CConferenceMember*)memberData->getRtpParam();
 	if (pDataConferenceMember->getClosed()) return;
 
-	BOOST_ASSERT (pDataConferenceMember->getVideoHandler() == memberData->getDoRtpHandler());
+	BOOST_ASSERT (pDataConferenceMember->getVideoHandler().get() == memberData->getDoRtpHandler().get());
 	CLockMap<void*, CConferenceMember::pointer>::iterator iter;
 	for (iter=m_members.begin(); iter!= m_members.end(); iter++)
 	{
@@ -525,7 +525,7 @@ void CConferenceInfo::sendVideoFrame(CMemberData::pointer memberData)
 
 		int timestamp = memberData->getRtpData()->timestamp();
 		//int timestamp = 0;
-		DoRtpHandler * pDoRtpHandler = iter->second->getVideoHandler();
+		DoRtpHandler::pointer pDoRtpHandler = iter->second->getVideoHandler();
 		pDoRtpHandler->doSendData(memberData->getRtpData()->data(), memberData->getRtpData()->size(), timestamp);
 	}
 }
@@ -571,7 +571,7 @@ void CConferenceInfo::doAudioProc(void)
 			continue;
 		}
 
-		BOOST_ASSERT (pDataConferenceMember->getAudioHandler() == memberData->getDoRtpHandler());
+		BOOST_ASSERT (pDataConferenceMember->getAudioHandler().get() == memberData->getDoRtpHandler().get());
 
 		if (toSendMembers.exist(pDataConferenceMember))
 		{
@@ -613,7 +613,7 @@ void CConferenceInfo::doVideoProc(void)
 			continue;
 		}
 
-		BOOST_ASSERT (pDataConferenceMember->getVideoHandler() == memberData->getDoRtpHandler());
+		BOOST_ASSERT (pDataConferenceMember->getVideoHandler().get() == memberData->getDoRtpHandler().get());
 
 		sendVideoFrame(memberData);
 	}

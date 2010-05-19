@@ -12,6 +12,7 @@
 #include "RecvRtpSession.h"
 // boost
 #include "boost/shared_ptr.hpp"
+#include "boost/enable_shared_from_this.hpp"
 // owner
 #include "librtphandler.h"
 
@@ -36,6 +37,7 @@
 
 class CRtpProxy
 	: public DoRtpHandler
+	, public boost::enable_shared_from_this<CRtpProxy>
 {
 public:
 	typedef boost::shared_ptr<CRtpProxy> pointer;
@@ -50,7 +52,7 @@ public:
 	void DestroySession();
 
 protected:
-	void SetRtpHandler(OnRtpHandler * handler, void * param) {m_rtpSession.SetRtpHandler(handler, this, param);}
+	void SetRtpHandler(OnRtpHandler * handler, void * param) {m_rtpSession.SetRtpHandler(handler, shared_from_this(), param);}
 
 	bool IsActive() const {return m_bActive;}
 
@@ -65,7 +67,7 @@ protected:
 
 protected:
 	// DoRtpHandler
-	virtual void doSetRtpHandler(OnRtpHandler * handler, void * param) {m_rtpSession.SetRtpHandler(handler, this, param);}
+	virtual void doSetRtpHandler(OnRtpHandler * handler, void * param) {m_rtpSession.SetRtpHandler(handler, shared_from_this(), param);}
 	virtual const OnRtpHandler *  doGetRtpHandler(void) const {return m_rtpSession.GetRtpHandler();}
 	virtual void doClearDest(void) {ClearDest();}
 	virtual int doAddDest(const char * destip, unsigned int destport) {return AddDest(destip, destport);}

@@ -31,11 +31,11 @@ class CConferenceMember
 {
 public:
 	typedef boost::shared_ptr<CConferenceMember> pointer;
-	static CConferenceMember::pointer create(DoRtpHandler * audio, DoRtpHandler * video);
+	static CConferenceMember::pointer create(DoRtpHandler::pointer audio, DoRtpHandler::pointer video);
 
-	DoRtpHandler * getAudioHandler(void) const {return m_audioHandler;}
-	DoRtpHandler * getVideoHandler(void) const {return m_videoHandler;}
-	void clearAVHandler(void) {m_audioHandler = 0; m_videoHandler = 0;}
+	DoRtpHandler::pointer getAudioHandler(void) const {return m_audioHandler;}
+	DoRtpHandler::pointer getVideoHandler(void) const {return m_videoHandler;}
+	void clearAVHandler(void) {m_audioHandler.reset(); m_videoHandler.reset();}
 
 	void setIp(const tstring & newv) {m_ip = newv;}
 	const tstring & getIp(void) const {return m_ip;}
@@ -68,11 +68,11 @@ public:
 	CBuffer::pointer audioBuffer(void) const {return m_audioBuffer;}
 
 public:
-	CConferenceMember(DoRtpHandler * audio, DoRtpHandler * video);
+	CConferenceMember(DoRtpHandler::pointer audio, DoRtpHandler::pointer video);
 
 private:
-	DoRtpHandler * m_audioHandler;
-	DoRtpHandler * m_videoHandler;
+	DoRtpHandler::pointer m_audioHandler;
+	DoRtpHandler::pointer m_videoHandler;
 	tstring m_ip;
 	int m_audioPort;
 	int m_videoPort;

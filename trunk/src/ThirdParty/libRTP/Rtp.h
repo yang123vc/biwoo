@@ -8,8 +8,8 @@
 class LIBRTP_CLASS CRtp
 {
 public:
-	DoRtpHandler * startRtp(unsigned short rtpPort);
-	void stopRtp(DoRtpHandler * handler);
+	DoRtpHandler::pointer startRtp(unsigned short rtpPort);
+	void stopRtp(DoRtpHandler::pointer handler);
 
 public:
 	CRtp(void);

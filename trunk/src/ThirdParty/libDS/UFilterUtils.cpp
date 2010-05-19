@@ -2,11 +2,6 @@
 // UFilterUtils.cpp
 //
 
-/*-----------------------------------------------------*\
-			HQ Tech, Make Technology Easy!       
- More information, please go to http://hqtech.nease.net.
-/*-----------------------------------------------------*/
-
 #include <streams.h>
 #include "UFilterUtils.h"
 

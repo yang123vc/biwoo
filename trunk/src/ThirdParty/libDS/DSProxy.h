@@ -11,9 +11,9 @@ class LIBDS_CLASS CDSProxy
 public:
 	// Server
 	bool isServerStarted(void) const;
-	DoDSHandler * startServer(const CAVParameter & parameter, OnDSHandler * pDSHandler = 0);
-	DoDSHandler * startClient(const CAVParameter & parameter);
-	void stopDSHandler(DoDSHandler * pDoHandler);
+	DoDSHandler::pointer startServer(const CAVParameter & parameter, OnDSHandler * pDSHandler = 0);
+	DoDSHandler::pointer startClient(const CAVParameter & parameter);
+	void stopDSHandler(DoDSHandler::pointer pDoHandler);
 	void stopAllClient(bool bBothStopServer = true);
 
 public:

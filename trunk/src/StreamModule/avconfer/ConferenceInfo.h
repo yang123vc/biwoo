@@ -66,12 +66,11 @@ public:
 
 	void enableVideoRecvIndex(int memberIndex, int allowMemberIndex); ///add by xap
 
-
 	bool isLimitMaxNumbers(void);
 
 private:
 	// OnRtpHandler handler
-	virtual void onReceiveEvent(CRTPData::pointer receiveData, const DoRtpHandler * pDoRtpHandler, void * param);
+	virtual void onReceiveEvent(CRTPData::pointer receiveData, DoRtpHandler::pointer pDoRtpHandler, void * param);
 
 	void sendAudioFrame(const CLockMap<CConferenceMember*, CMemberData::pointer> & audios);
 	void sendVideoFrame(CMemberData::pointer memberData);

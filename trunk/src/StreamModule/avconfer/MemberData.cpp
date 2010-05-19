@@ -18,17 +18,17 @@
 
 #include "MemberData.h"
 
-CMemberData::pointer CMemberData::create(CRTPData::pointer receiveData, const DoRtpHandler * pDoRtpHandler, const void * rtpParam)
+CMemberData::pointer CMemberData::create(CRTPData::pointer receiveData, DoRtpHandler::pointer pDoRtpHandler, const void * rtpParam)
 {
 	return CMemberData::pointer(new CMemberData(receiveData, pDoRtpHandler, rtpParam, false));
 }
 
-CMemberData::pointer CMemberData::create(CRTPData::pointer receiveData, const DoRtpHandler * pDoRtpHandler, const void * rtpParam, bool silence)
+CMemberData::pointer CMemberData::create(CRTPData::pointer receiveData, DoRtpHandler::pointer pDoRtpHandler, const void * rtpParam, bool silence)
 {
 	return CMemberData::pointer(new CMemberData(receiveData, pDoRtpHandler, rtpParam, silence));
 }
 
-CMemberData::CMemberData(CRTPData::pointer receiveData, const DoRtpHandler * pDoRtpHandler, const void * rtpParam, bool silence)
+CMemberData::CMemberData(CRTPData::pointer receiveData, DoRtpHandler::pointer pDoRtpHandler, const void * rtpParam, bool silence)
 : m_receiveData(receiveData)
 , m_pDoRtpHandler(pDoRtpHandler)
 , m_rtpParam(rtpParam)

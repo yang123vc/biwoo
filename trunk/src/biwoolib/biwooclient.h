@@ -68,6 +68,7 @@ public:
 	bool openLocalAV(HWND hWndPreview);
 	void closeLocalAV(void);
 	void moveRemoteWindow(void);
+	void reversalRemoteVideo(void);
 
 	bool videoCall(CUserInfo::pointer calltoUser, HWND hWndPreview);
 	bool acceptVideoCall(CUserInfo::pointer responsetoUser, HWND hWndPreview, long mid);

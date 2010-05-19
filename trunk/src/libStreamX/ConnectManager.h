@@ -167,11 +167,11 @@ public:
 	void Logout(void);
 	bool IsLogined(void);
 
-	DoDSHandler * startServer(const CAVParameter & avp);
+	DoDSHandler::pointer startServer(const CAVParameter & avp);
 	void stopServer(void);
-	DoDSHandler * startClient(const CAVParameter & avp);
+	DoDSHandler::pointer startClient(const CAVParameter & avp);
 	void clientVideoReversal(void);
-	void stopClient(DoDSHandler * pDoDSHandler);
+	void stopClient(DoDSHandler::pointer pDoDSHandler);
 	void stopClient(void);
 
 	bool requestAVP2P(const tstring & sFriendName, P2PAVConnectType p2pConnectType);  
@@ -222,8 +222,8 @@ private:
 	CLockMap<void*, CP2PFiles::pointer> m_p2pfiles;						// CDoP2PClientHandler* ->
 
 	CDSProxy m_dsproxy;
-	DoDSHandler * m_serverHandler;
-	DoDSHandler * m_clientHandler;
+	DoDSHandler::pointer m_serverHandler;
+	DoDSHandler::pointer m_clientHandler;
 	CAVParameter m_avpClient;
 
 	bool m_VideoFlag;  ////视频通道打开标志

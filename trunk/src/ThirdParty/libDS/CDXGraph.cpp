@@ -2,11 +2,6 @@
 // CDXGraph.cpp
 //
 
-/*-----------------------------------------------------*\
-			HQ Tech, Make Technology Easy!       
- More information, please go to http://hqtech.nease.net.
-/*-----------------------------------------------------*/
-
 #include "CDXGraph.h"
 #include "GlobalDefs.h"
 

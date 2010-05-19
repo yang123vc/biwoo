@@ -33,7 +33,6 @@ CBiwooCgcProxy::CBiwooCgcProxy(void)
 : m_handler(NULL)
 , m_bDoAccountUnRegister(false)
 , m_currentMID(0)
-, m_LDoDSHandler(NULL), m_RDoDSHandler(NULL)
 
 {
 #ifdef WIN32
@@ -767,7 +766,7 @@ bool CBiwooCgcProxy::enableVideoRecv(const tstring & conferenceName, int memberI
 
 bool CBiwooCgcProxy::openLocalAV(HWND hWndPreview)
 {
-	if (m_LDoDSHandler == NULL)
+	if (m_LDoDSHandler.get() == NULL)
 	{
 		CAVParameter parameter;
 		parameter.preview(hWndPreview);
@@ -781,32 +780,40 @@ bool CBiwooCgcProxy::openLocalAV(HWND hWndPreview)
 		m_LDoDSHandler = m_p2pav.OpenLocalAV(parameter);
 	}
 
-	return m_LDoDSHandler != NULL;
+	return m_LDoDSHandler.get() != NULL;
 }
 
 void CBiwooCgcProxy::closeLocalAV(void)
 {
-	if (m_LDoDSHandler != NULL)
+	if (m_LDoDSHandler.get() != NULL)
 	{
 		m_p2pav.CloseLocalAV();
-		m_LDoDSHandler = NULL;
+		m_LDoDSHandler.reset();
 	}
 }
 
 void CBiwooCgcProxy::closeRemoteAV(void)
 {
-	if (m_RDoDSHandler != NULL)
+	if (m_RDoDSHandler.get() != NULL)
 	{
 		m_p2pav.CloseRemoteAV(m_RDoDSHandler);
-		m_RDoDSHandler = NULL;
+		m_RDoDSHandler.reset();
 	}
 }
 
 void CBiwooCgcProxy::moveRemoteWindow(void)
 {
-	if (m_RDoDSHandler != NULL)
+	if (m_RDoDSHandler.get() != NULL)
 	{
 		m_RDoDSHandler->MoveWindow();
+	}
+}
+
+void CBiwooCgcProxy::reversalRemoteVideo(void)
+{
+	if (m_RDoDSHandler.get() != NULL)
+	{
+		m_RDoDSHandler->RemoteVideoReversal();
 	}
 }
 
@@ -816,7 +823,7 @@ bool CBiwooCgcProxy::videoCall(CUserInfo::pointer calltoUser, HWND hWndPreview)
 	if (!isOpenSession()) return false;
 	if (m_account.get() == NULL) return false;
 
-	if (m_RDoDSHandler == NULL)
+	if (m_RDoDSHandler.get() == NULL)
 	{
 		CAVParameter parameter;
 		parameter.preview(hWndPreview);
@@ -858,7 +865,7 @@ bool CBiwooCgcProxy::acceptVideoCall(CUserInfo::pointer responsetoUser, HWND hWn
 		return false;
 	}
 
-	if (m_RDoDSHandler == NULL)
+	if (m_RDoDSHandler.get() == NULL)
 	{
 		CAVParameter parameter;
 		parameter.preview(hWndPreview);

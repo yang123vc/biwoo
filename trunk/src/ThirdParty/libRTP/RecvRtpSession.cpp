@@ -8,7 +8,7 @@
 CRecvRtpSession::CRecvRtpSession(void)
 : m_handlerReceiver(NULL)
 , m_lasttimestamp(0)
-, m_pDoRtpHandler(0), m_paramhandler(0)
+, m_paramhandler(0)
 , m_killed(false), m_proc_poll(0), m_proc_data(0)
 
 {

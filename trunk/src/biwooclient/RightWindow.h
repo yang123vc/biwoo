@@ -167,6 +167,9 @@ public:
 
 	wxString getParentCoGroup(CFromInfo::pointer fromInfo) const;
 
+	void onUserLogined(CCoGroupInfo::pointer cogroupInfo, CUserInfo::pointer userInfo);
+	void onUserLogouted(CCoGroupInfo::pointer cogroupInfo, CUserInfo::pointer userInfo);
+
 protected:
 	void addMsgDate(time_t msgtime);
 	void DoAsyncExec(const wxString & cmd);

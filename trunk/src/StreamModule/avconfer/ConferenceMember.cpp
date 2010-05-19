@@ -18,12 +18,12 @@
 
 #include "ConferenceMember.h"
 
-CConferenceMember::pointer CConferenceMember::create(DoRtpHandler * audio, DoRtpHandler * video)
+CConferenceMember::pointer CConferenceMember::create(DoRtpHandler::pointer audio, DoRtpHandler::pointer video)
 {
 	return CConferenceMember::pointer(new CConferenceMember(audio, video));
 }
 
-CConferenceMember::CConferenceMember(DoRtpHandler * audio, DoRtpHandler * video)
+CConferenceMember::CConferenceMember(DoRtpHandler::pointer audio, DoRtpHandler::pointer video)
 : m_audioHandler(audio), m_videoHandler(video)
 , m_ip(_T("")), m_audioPort(0), m_videoPort(0)
 , m_audioSend(true), m_audioRecv(true), m_videoSend(false), m_videoRecv(false)

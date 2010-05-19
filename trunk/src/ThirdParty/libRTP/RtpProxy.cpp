@@ -121,6 +121,7 @@ int CRtpProxy::SendData(const unsigned char * pData, int nLen, unsigned int time
 	{
 	case 98:
 		{
+			// H.264 Ö§³Ö NAL 1-23  FU-A 28
 			int RawDataLen = RTP_SPLIT_PACKSIZE -2;
 			BYTE NALHead;
 			BYTE FUAHead;
@@ -136,9 +137,9 @@ int CRtpProxy::SendData(const unsigned char * pData, int nLen, unsigned int time
 				datalen -= RawDataLen;
 				pos += RawDataLen;
 #ifdef WIN32
-				Sleep(2);
+				Sleep(3);
 #else
-				usleep(2000);
+				usleep(3000);
 #endif
 				while (m_bActive && datalen> RawDataLen)
 				{
@@ -172,13 +173,10 @@ int CRtpProxy::SendData(const unsigned char * pData, int nLen, unsigned int time
 				TempSendBuf[0] = NALHead;
 				memcpy(TempSendBuf+1,dataSend+pos,datalen);
 				m_rtpSession.SendPacket(TempSendBuf,datalen+1,98,true,timestamp);
-			}
+			}	
 		}break;
 	default:
 		{
-			//case 1:
-			//case 8:
-			//case 99:
 			if (datalen>RTP_SPLIT_PACKSIZE)
 			{
 
@@ -224,6 +222,5 @@ int CRtpProxy::SendData(const unsigned char * pData, int nLen, unsigned int time
 	}
 
 	return 1;
-
 }
 

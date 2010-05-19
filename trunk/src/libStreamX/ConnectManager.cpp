@@ -32,8 +32,6 @@ ConnectManager::ConnectManager(void)
 //:m_avsCgcProxy(this)
 : m_VideoFlag(false)
 , m_AudioFlag(false)
-, m_serverHandler(NULL)
-, m_clientHandler(NULL)
 , m_handler(NULL)
 , m_currentId(0)
 
@@ -101,9 +99,9 @@ bool ConnectManager::IsLogined(void)
 	return m_avsCgcProxy.getCurrentUser().size() > 0;
 }
 
-DoDSHandler * ConnectManager::startServer(const CAVParameter & avp)
+DoDSHandler::pointer ConnectManager::startServer(const CAVParameter & avp)
 {
-	if (m_serverHandler != NULL) return m_serverHandler;
+	if (m_serverHandler.get() != NULL) return m_serverHandler;
 
 	if (m_VideoFlag || m_AudioFlag)
 		m_serverHandler = m_dsproxy.startServer(avp, (OnDSHandler*)this);
@@ -114,17 +112,17 @@ DoDSHandler * ConnectManager::startServer(const CAVParameter & avp)
 
 void ConnectManager::stopServer(void)
 {
-	if (m_serverHandler != NULL)
+	if (m_serverHandler.get() != NULL)
 	{
-		DoDSHandler * handler = m_serverHandler;
-		m_serverHandler = NULL;
+		DoDSHandler::pointer handler = m_serverHandler;
+		m_serverHandler.reset();
 		m_dsproxy.stopDSHandler(handler);
 	}
 }
 
-DoDSHandler * ConnectManager::startClient(const CAVParameter & avp)
+DoDSHandler::pointer ConnectManager::startClient(const CAVParameter & avp)
 {
-	if (m_clientHandler != NULL) return m_clientHandler;
+	if (m_clientHandler.get() != NULL) return m_clientHandler;
 
 	m_avpClient = avp;
 	m_clientHandler = m_dsproxy.startClient(avp);
@@ -133,17 +131,17 @@ DoDSHandler * ConnectManager::startClient(const CAVParameter & avp)
 
 void ConnectManager::clientVideoReversal(void)
 {
-	if (m_clientHandler != NULL)
+	if (m_clientHandler.get() != NULL)
 		m_clientHandler->RemoteVideoReversal();
 }
 
-void ConnectManager::stopClient(DoDSHandler * pDoDSHandler)
+void ConnectManager::stopClient(DoDSHandler::pointer pDoDSHandler)
 {
 	// ??
-	if (pDoDSHandler == m_clientHandler && m_clientHandler != NULL)
+	if (pDoDSHandler.get() == m_clientHandler.get() && m_clientHandler.get() != NULL)
 	{
-		DoDSHandler * handler = m_clientHandler;
-		m_clientHandler = NULL;
+		DoDSHandler::pointer handler = m_clientHandler;
+		m_clientHandler.reset();
 		m_dsproxy.stopDSHandler(handler);
 	}
 }
@@ -151,10 +149,10 @@ void ConnectManager::stopClient(DoDSHandler * pDoDSHandler)
 void ConnectManager::stopClient(void)
 {
 	// ??
-	if (m_clientHandler != NULL)
+	if (m_clientHandler.get() != NULL)
 	{
-		DoDSHandler * handler = m_clientHandler;
-		m_clientHandler = NULL;
+		DoDSHandler::pointer handler = m_clientHandler;
+		m_clientHandler.reset();
 		m_dsproxy.stopDSHandler(handler);
 	}
 }
@@ -245,7 +243,7 @@ CP2PHandler * ConnectManager::onP2PUserAck(CDoP2PClientHandler::pointer p2pClien
 		return NULL;
 	}
 
-	if (m_serverHandler)
+	if (m_serverHandler.get() != NULL)
 		m_serverHandler->SetOnDSHandler(this);
 
 	m_FriendName = p2pClient->getP2PUser();
@@ -286,7 +284,7 @@ void ConnectManager::onP2PUserDisconnect(CDoP2PClientHandler::pointer p2pClient)
 	{
 	}*/
 
-	if (m_serverHandler)
+	if (m_serverHandler.get() != NULL)
 		m_serverHandler->ClearOnDSHandler();
 
 	char buffer[20];
@@ -642,7 +640,7 @@ void ConnectManager::onP2PEvent(CDoP2PClientHandler::pointer p2pClient, CCgcData
 	BOOST_ASSERT (p2pClient.get() != NULL);
 	BOOST_ASSERT (receiveData.get() != NULL);
 
-	if (m_clientHandler == NULL) return;
+	if (m_clientHandler.get() == NULL) return;
 
 	if (p2pClient->getP2PType() == CDoP2PClientHandler::P2P_VIDEO)
 	{

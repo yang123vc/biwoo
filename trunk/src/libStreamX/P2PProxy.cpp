@@ -108,7 +108,7 @@ bool CP2PProxy::CancelFile(long fid)
 	return m_ConnManager.CancelFile(fid);
 }
 
-DoDSHandler * CP2PProxy::OpenLocalAV(const CAVParameter & avp)
+DoDSHandler::pointer CP2PProxy::OpenLocalAV(const CAVParameter & avp)
 {
 	return m_ConnManager.startServer(avp);
 }
@@ -118,7 +118,7 @@ void CP2PProxy::CloseLocalAV(void)
 	m_ConnManager.stopServer();
 }
 
-DoDSHandler * CP2PProxy::OpenRemoteAV(const CAVParameter & avp)
+DoDSHandler::pointer CP2PProxy::OpenRemoteAV(const CAVParameter & avp)
 {
 	return m_ConnManager.startClient(avp);
 }
@@ -128,7 +128,7 @@ void CP2PProxy::RemoteVideoReversal(void)
 	m_ConnManager.clientVideoReversal();
 }
 
-void CP2PProxy::CloseRemoteAV(DoDSHandler * pDoDSHandler)
+void CP2PProxy::CloseRemoteAV(DoDSHandler::pointer pDoDSHandler)
 {
 	m_ConnManager.stopClient(pDoDSHandler);
 }

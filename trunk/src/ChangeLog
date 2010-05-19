@@ -3,14 +3,16 @@
 					==========
 					
 
-	VERSION: 1.0.2+
+	VERSION: 1.0.3
 	===============
 	
 ADD: add display cogroup & company info, and online user count
 ADD: add auto-run function in win32 OS
 ADD: add display unread messages icon and tip
+ADD: add reversl remote video function
 UPD: reset thirdparty libraty include path environment variables
-UPD: update to support mycp 1.0.2+ version.
+UPD: update to support mycp 1.0.3 version.
+UDP: other
  
  
  VERSION: 1.0.2 2010-05-4

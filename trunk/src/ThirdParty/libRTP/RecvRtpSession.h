@@ -19,7 +19,7 @@ class CRecvRtpSession
 public:
 	CRecvRtpSession(void);
 	~CRecvRtpSession(void);
-	void SetRtpHandler(OnRtpHandler * handle, const DoRtpHandler * doHandler, void * param) {m_handlerReceiver = handle; m_pDoRtpHandler = doHandler, m_paramhandler = param;}
+	void SetRtpHandler(OnRtpHandler * handle, DoRtpHandler::pointer doHandler, void * param) {m_handlerReceiver = handle; m_pDoRtpHandler = doHandler, m_paramhandler = param;}
 	const OnRtpHandler * GetRtpHandler(void) const {return m_handlerReceiver;}
 	//void SetRtpType(uint8_t type) {m_rtpType = type;}
 	//void ReleaseBuffer(void) {m_FrameFamily.releaseBuffer();}
@@ -41,7 +41,7 @@ private:
 	unsigned int m_lasttimestamp;
 	BYTE * m_tempBuffer;
 
-	const DoRtpHandler * m_pDoRtpHandler;
+	DoRtpHandler::pointer m_pDoRtpHandler;
 	void * m_paramhandler;
 	bool m_killed;
 	boost::thread * m_proc_poll;

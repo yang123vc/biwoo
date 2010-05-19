@@ -2,6 +2,7 @@
 #ifndef __libdshandler_h__
 #define __libdshandler_h__
 
+#include <boost/shared_ptr.hpp>
 #include "AVData.h"
 
 class OnDSHandler
@@ -14,6 +15,8 @@ public:
 class DoDSHandler
 {
 public:
+	typedef boost::shared_ptr<DoDSHandler> pointer;
+
 	////////////////////////////////
 	// handler
 	virtual void SetOnDSHandler(OnDSHandler * handler) = 0;

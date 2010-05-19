@@ -56,11 +56,13 @@ bool CDSProxy::isServerStarted(void) const
 	return (m_serverAdmin.get() != NULL);
 }
 
-DoDSHandler * CDSProxy::startServer(const CAVParameter & parameter, OnDSHandler * pDSHandler)
+DoDSHandler::pointer CDSProxy::startServer(const CAVParameter & parameter, OnDSHandler * pDSHandler)
 {
 	if (m_serverAdmin.get() != NULL)
-		return (DoDSHandler*)m_serverAdmin.get();
-
+	{
+		return m_serverAdmin;
+		//return (DoDSHandler*)m_serverAdmin.get();
+	}
 	CoInitialize(NULL);
 	m_serverAdmin = CDSAdmin::create();
 
@@ -119,14 +121,16 @@ DoDSHandler * CDSProxy::startServer(const CAVParameter & parameter, OnDSHandler 
 	{
 		m_serverAdmin->Disconnect();
 		m_serverAdmin.reset();
-		return NULL;
+		return m_serverAdmin;
+		//return NULL;
 	}
 
-	DoDSHandler * pDoHandler = (DoDSHandler*)m_serverAdmin.get();
-	return pDoHandler;
+	return m_serverAdmin;
+	//DoDSHandler * pDoHandler = (DoDSHandler*)m_serverAdmin.get();
+	//return pDoHandler;
 }
 
-DoDSHandler * CDSProxy::startClient(const CAVParameter & parameter)
+DoDSHandler::pointer CDSProxy::startClient(const CAVParameter & parameter)
 {
 	CoInitialize(NULL);
 	CDSAdmin::pointer clientAdmin = CDSAdmin::create();
@@ -171,7 +175,9 @@ DoDSHandler * CDSProxy::startClient(const CAVParameter & parameter)
 
 	if (!clientAdmin->Activate())
 	{
-		return NULL;
+		clientAdmin.reset();
+		return clientAdmin;
+		//return NULL;
 	}
 
 	if (parameter.audio())
@@ -211,12 +217,13 @@ DoDSHandler * CDSProxy::startClient(const CAVParameter & parameter)
 
 	DoDSHandler * clientHandler = (DoDSHandler*)clientAdmin.get();
 	m_mapClientAdmin.insert(clientHandler, clientAdmin);
-	return clientHandler;
+	return clientAdmin;
+	//return clientHandler;
 }
 
-void CDSProxy::stopDSHandler(DoDSHandler * pDoHandler)
+void CDSProxy::stopDSHandler(DoDSHandler::pointer pDoHandler)
 {
-	if (pDoHandler != NULL && pDoHandler == (DoDSHandler*)m_serverAdmin.get())
+	if (pDoHandler.get() != NULL && pDoHandler.get() == m_serverAdmin.get())
 	{
 		m_serverAdmin->Disconnect();
 		pDoHandler->ClearOnDSHandler();
@@ -225,7 +232,7 @@ void CDSProxy::stopDSHandler(DoDSHandler * pDoHandler)
 	}
 
 	CDSAdmin::pointer clientAdmin;
-	if (m_mapClientAdmin.find(pDoHandler, clientAdmin, true))
+	if (m_mapClientAdmin.find(pDoHandler.get(), clientAdmin, true))
 	{
 		clientAdmin->Disconnect();
 		pDoHandler->ClearOnDSHandler();
@@ -242,7 +249,7 @@ void CDSProxy::stopAllClient(bool bBothStopServer)
 
 	boost::mutex::scoped_lock lock(m_mapClientAdmin.mutex());
 	//for_each(m_mapClientAdmin.begin(), m_mapClientAdmin.end(),
-	//	boost::bind(&CRoleAdmin::Disconnect, boost::bind(&std::map<unsigned long, CDSAdmin::pointer>::value_type::second,_1)));
+		//boost::bind(&CRoleAdmin::Disconnect, boost::bind(&std::map<unsigned long, CDSAdmin::pointer>::value_type::second,_1)));
 	std::map<DoDSHandler*, CDSAdmin::pointer>::iterator iter;
 	for (iter=m_mapClientAdmin.begin(); iter!=m_mapClientAdmin.end(); iter++)
 	{
