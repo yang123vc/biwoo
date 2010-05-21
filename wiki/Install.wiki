@@ -1,13 +1,10 @@
 #summary BiwooServer and BiwooClient installation.
 #labels BiwooServer,BiwooClient,Installation
 
-= 1 Database Installation =
-*See [Database]*
+= 1 BiwooServer Installation =
+*`[liunx,win32]`*
 
-= 2 BiwooServer Installation =
-*[liunx,win32]*
-
-== 2.1 Setting ==
+== 1.1 Setting ==
 *Setting file:*
  * *Windows:* $(BIWOO_PATH)\bin\wn32\BiwooServer\conf\modules.xml
  * *Linux:* $(BIWOO_PATH)\bin\linux\BiwooServer\conf\modules.xml
@@ -31,7 +28,7 @@
  * *`<commport>`:* P2P file transfer port; *UDP Default: 8022*
  * *`<capacity>`:* Component communication ability. *INTEGER Default: 3*
 
-== 2.2 Start BiwooServer ==
+== 1.2 Start BiwooServer ==
 *Windows:*
 {{{
 cd $(BIWOO_PATH)\bin\wn32\BiwooServer
@@ -44,10 +41,10 @@ win32_run.bat
 # ./CGCP
 }}}
 
-= 3 BiwooClient Installation =
-*[win32]*
+= 2 BiwooClient Installation =
+*`[win32]`*
 
-== 3.1 Setting ==
+== 2.1 Setting ==
 *Setting file:*
  * *Windows:* $(BIWOO_PATH)\win32\BiwooClient\default\setting.xml
 
@@ -61,7 +58,7 @@ win32_run.bat
  * *`<locale>`:* 
  * *`<langtext>`:* langtext_en.xml,langtext_ch.xml
 
-== 3.2 Run BiwooClient ==
+== 2.2 Run BiwooClient ==
  * *Windows:* Run $(BIWOO_PATH)\bin\win32\BiwooClient\biwooclient.exe
 
 ----
