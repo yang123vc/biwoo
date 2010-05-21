@@ -1,0 +1,68 @@
+#summary BiwooServer and BiwooClient installation.
+#labels BiwooServer,BiwooClient,Installation
+
+= 1 Database Installation =
+*See Database file*
+
+= 2 BiwooServer Installation =
+*[liunx,win32]*
+
+== 2.1 Setting ==
+*Setting file:*
+ * *Windows:* $(BIWOO_PATH)\bin\wn32\BiwooServer\conf\modules.xml
+ * *Linux:* $(BIWOO_PATH)\bin\linux\BiwooServer\conf\modules.xml
+
+*`<name>CommTcpServer</name>`:*
+ * Reserve
+
+*`<name>CommUdpServer</name>`:*
+ * *`<commport>`:* Main communication port; *UDP Default: 8012*
+ * *`<capacity>`:* Component communication ability. *INTEGER Default: 3*
+
+*`<name>FileServer</name>`:*
+ * *`<commport>`:* File service transfer port; *UDP Default: 8014*
+ * *`<capacity>`:* Component communication ability. *INTEGER Default: 3*
+
+*`<name>CommRtpServer</name>`:*
+ * *`<commport>`:* P2P audio and video transfer port; *UDP Default: 8020*
+ * *`<capacity>`:* Component communication ability. *INTEGER Default: 3*
+
+*`<name>P2PUDPServer</name>`:*
+ * *`<commport>`:* P2P file transfer port; *UDP Default: 8022*
+ * *`<capacity>`:* Component communication ability. *INTEGER Default: 3*
+
+== 2.2 Start BiwooServer ==
+*Windows:*
+{{{
+cd $(BIWOO_PATH)\bin\wn32\BiwooServer
+win32_run.bat
+}}}
+
+*Linux:*
+{{{
+# cd $(BIWOO_PATH)\bin\linux\BiwooServer
+# ./CGCP
+}}}
+
+= 3 BiwooClient Installation =
+*[win32]*
+
+== 3.1 Setting ==
+*Setting file:*
+ * *Windows:* $(BIWOO_PATH)\win32\BiwooClient\default\setting.xml
+
+*Network setting:*
+ * *`<address>`:* Main communication port; *UDP Default: ip:8012*
+ * *`<fileserver>`:* File service transfer port; *UDP Default: ip:8014*
+ * *`<p2p_rtp>`:* P2P audio and video transfer port; *UDP Default: ip:8020*
+ * *`<p2p_udp>`:* P2P file transfer port; *UDP Default: ip:8022*
+
+*Locale and language setting:*
+ * *`<locale>`:* 
+ * *`<langtext>`:* langtext_en.xml,langtext_ch.xml
+
+== 3.2 Run BiwooClient ==
+ * *Windows:* Run $(BIWOO_PATH)\bin\win32\BiwooClient\biwooclient.exe
+
+
+Support please contact: akee.yang@gmail.com
