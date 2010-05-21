@@ -1,4 +1,4 @@
-#summary Biwoo database.
+#summary Generate biwoo database.
 #labels bodb,bodbclient,database,sql
 
 = 1 bodb =
