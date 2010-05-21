@@ -3,3 +3,5 @@
 
  # *Biwoo database setting:* See [Database]
  # *Biwoo installation:* See [Install]
+
+Support please contact: akee.yang@gmail.com
