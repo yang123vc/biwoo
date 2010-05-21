@@ -65,4 +65,4 @@ BODB:EXEC biwoo_sample.sql;
 
 *Please don't modify bocdb.sql this file.*
 
-Support please contact: akee.yang@gmail.com
+== Return Index: == [Index]
