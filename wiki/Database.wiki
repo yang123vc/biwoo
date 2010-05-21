@@ -1,0 +1,70 @@
+#summary Biwoo database.
+#labels bodb,bodbclient,database,sql
+
+= 1 bodb =
+Biwoo use *bodb* library save all data, including the organizational structure,
+user information and the client chatting record, etc.
+
+Bodb use *bodbclient* application to generate biwoo database files.
+
+ * *Windows:* $(BIWOO_PATH)\bin\win32\Database\bodbclient.exe
+ * *Linux:* $(BIWOO_PATH)\bin\linux\Database\bodbclient
+
+== 1.1 Bodbclient usage ==
+*Usage:*
+
+{{{
+BODB:EXEC [SQL_FILE];
+BODB:[SQL];
+}}}
+
+*Sample:*
+
+{{{
+BODB:EXEC biwoo.sql;
+BODB:SELECT * FROM user_t WHERE account='aaa';
+}}}
+
+= 2 Biwoo database files =
+== 2.1 Server database SQL file ==
+ * *Windows:* $(BIWOO_PATH)\bin\win32\Database\biwoo.sql
+ * *Linux:* $(BIWOO_PATH)\bin\linux\Database\biwoo.sql
+
+ # Enterprise information table;
+ # Department and project group table;
+ # User account information table;
+ # System setting table;
+ # Account offline information event table;
+ # etc;
+
+*Please don't modify biwoo.sql this file.*
+ 
+== 2.2 Server sample SQL file ==
+ * *Windows:* $(BIWOO_PATH)\bin\win32\Database\biwoo_sample.sql
+ * *Linux:* $(BIWOO_PATH)\bin\linux\Database\biwoo_sample.sql
+
+*Please edit biwoo_sample.sql this file, add, delete, or modify department, user account information.*
+
+== 2.3 Server database file ==
+ * *Windows:* $(BIWOO_PATH)\bin\win32\BiwooServer\conf\biwoo\db\biwoo\biwoo.bdf
+ * *Linux:* $(BIWOO_PATH)\bin\linux\BiwooServer\conf\biwoo\db\biwoo\biwoo.bdf
+
+*Generate biwoo database file*
+
+ * Edit biwoo_sample.sql file;
+ * Run bodbclient application, and perform the following commands:
+{{{
+BODB:EXEC biwoo.sql;
+BODB:EXEC biwoo_sample.sql;
+}}}
+ * Replace the biwoo\biwoo.bdf file.
+
+== 2.4 Client database file ==
+ * *SQL file:* $(BIWOO_PATH)\bin\win32\Database\bocdb.sql
+ * *Database file:* $(BIWOO_PATH)\bin\win32\BiwooClient\default\bocdb\bocdb.bdf
+
+ * User chat information record table.
+
+*Please don't modify bocdb.sql this file.*
+
+Support please contact: akee.yang@gmail.com
