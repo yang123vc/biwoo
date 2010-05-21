@@ -2,7 +2,7 @@
 #labels BiwooServer,BiwooClient,Installation
 
 = 1 Database Installation =
-*See Database file*
+*See [Database]*
 
 = 2 BiwooServer Installation =
 *[liunx,win32]*
