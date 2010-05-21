@@ -1,4 +1,4 @@
-#summary Index.
+#summary Index, all documents.
 #labels Index
 
 = Database Setting =
