@@ -12,14 +12,12 @@ Bodb use *bodbclient* application to generate biwoo database files.
 
 == 1.1 Bodbclient usage ==
 *Usage:*
-
 {{{
 BODB:EXEC [SQL_FILE];
 BODB:[SQL];
 }}}
 
 *Sample:*
-
 {{{
 BODB:EXEC biwoo.sql;
 BODB:SELECT * FROM user_t WHERE account='aaa';
