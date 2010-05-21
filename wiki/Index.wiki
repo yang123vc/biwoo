@@ -1,8 +1,5 @@
-#summary Index, all documents.
+#summary All documents index.
 #labels Index
 
-= Database Setting =
-See [Database]
-
-= Biwoo Installation =
-See [Install]
+ # *Biwoo database setting:* See [Database]
+ # *Biwoo installation:* See [Install]
