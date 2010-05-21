@@ -47,10 +47,10 @@ BODB:SELECT * FROM user_t WHERE account='aaa';
  * *Windows:* $(BIWOO_PATH)\bin\win32\BiwooServer\conf\biwoo\db\biwoo\biwoo.bdf
  * *Linux:* $(BIWOO_PATH)\bin\linux\BiwooServer\conf\biwoo\db\biwoo\biwoo.bdf
 
-*Generate biwoo database file*
+*Generate biwoo database file:*
 
  * Edit biwoo_sample.sql file;
- * Run bodbclient application, and perform the following commands:
+ * Run *bodbclient* application, and perform the following commands:
 {{{
 BODB:EXEC biwoo.sql;
 BODB:EXEC biwoo_sample.sql;
