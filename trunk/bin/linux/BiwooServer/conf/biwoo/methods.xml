@@ -5,6 +5,8 @@
 	name: client invoke name
 	method: function name
 	-->
+	<allow><name>0101</name><method>LoadSetting</method></allow>
+	
 	<!-- Account Manager -->
 	<allow><name>1001</name><method>AccCreate</method></allow>
 	<allow><name>1002</name><method>AccDestroy</method></allow>
