@@ -36,10 +36,10 @@ CStreamClient::~CStreamClient(void)
 
 }
 
-bool CStreamClient::avsStart(const CCgcAddress & serverAddr, const CCgcAddress & rtpAddr, const CCgcAddress & udpAddr, CStreamHandler * pHandler)
+bool CStreamClient::avsStart(const CCgcAddress & serverAddr, CStreamHandler * pHandler)
 {
 	gAvsProxy.setAvsHandler(pHandler);
-	return gAvsProxy.avsStart(serverAddr, rtpAddr, udpAddr);
+	return gAvsProxy.avsStart(serverAddr);
 }
 
 void CStreamClient::avsStop(void)

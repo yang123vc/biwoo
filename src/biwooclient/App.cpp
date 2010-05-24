@@ -89,11 +89,11 @@ bool MyApp::OnInit()
 	//std::locale::global(std::locale("Chinese-simplified"));
 
 	CCgcAddress serverAddress(gSetting.address(), CCgcAddress::ST_UDP);
-	CCgcAddress fileserverAddress(gSetting.fileserver(), CCgcAddress::ST_UDP);
-	CCgcAddress rtpserverAddress(gSetting.p2prtp(), CCgcAddress::ST_RTP);
-	CCgcAddress udpserverAddress(gSetting.p2pudp(), CCgcAddress::ST_UDP);
+	//CCgcAddress fileserverAddress(gSetting.fileserver(), CCgcAddress::ST_UDP);
+	//CCgcAddress rtpserverAddress(gSetting.p2prtp(), CCgcAddress::ST_RTP);
+	//CCgcAddress udpserverAddress(gSetting.p2pudp(), CCgcAddress::ST_UDP);
 
-	if (!m_biwoo.start(serverAddress, fileserverAddress, rtpserverAddress, udpserverAddress, (CbiwooHandler*)this))
+	if (!m_biwoo.start(serverAddress, (CbiwooHandler*)this))
 	{
 		//m_biwoo.stop();
 		//return false;

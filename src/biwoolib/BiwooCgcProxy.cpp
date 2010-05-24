@@ -31,7 +31,7 @@ const short MAX_PACKET_SIZE	= 1500;
 //CBiwooCgcProxy::CBiwooCgcProxy(CAvsHandler * handler)
 CBiwooCgcProxy::CBiwooCgcProxy(void)
 : m_handler(NULL)
-, m_bDoAccountUnRegister(false)
+, m_bDoAccountUnRegister(false), m_bLoadSettingReturned(false)
 , m_currentMID(0)
 
 {
@@ -50,29 +50,48 @@ CBiwooCgcProxy::~CBiwooCgcProxy(void)
 	stop();
 }
 
-bool CBiwooCgcProxy::start(const CCgcAddress & serverAddr, const CCgcAddress & fileServerAddr, const CCgcAddress & p2pAddr, const CCgcAddress & p2pudpAddr)
+bool CBiwooCgcProxy::start(const CCgcAddress & serverAddr)
 {
-	//std::locale::global(std::locale(""));
-
 	m_serverAddr = serverAddr;
-	m_fileServerAddr = fileServerAddr;
-	m_p2pAddr = p2pAddr;
-	m_p2pudpAddr = p2pudpAddr;
-
-	m_p2pav.SetP2PAVHandler(this);
-	if (!m_p2pav.connectStreamServer(m_serverAddr, m_p2pAddr, p2pudpAddr))
-	{
-		m_p2pav.disconnectStreamServer();
-		return false;
-	}
-	//PRESULTSET resultset = 0;
-	//bodb_exec("SELECT * FROM userinfo_t", &resultset);
+	//m_fileServerAddr = fileServerAddr;
+	//m_p2pAddr = p2pAddr;
+	//m_p2pudpAddr = p2pudpAddr;
 
 	if (m_cgcClient.get() == NULL)
 	{
 		m_cgcClient = m_sotpClient.startClient(m_serverAddr);
 		if (m_cgcClient.get() == NULL)
 			return false;
+	}
+	m_cgcClient->doStartActiveThread();
+	m_cgcClient->doSetResponseHandler(this);
+	m_cgcClient->doSetAppName(const_Avs_AppName);
+	bool ret = m_cgcClient->doSendOpenSession();
+	if (ret)
+	{
+		int i=0;
+		while (!m_cgcClient->doIsSessionOpened() && i++ < 20)
+		{
+#ifdef WIN32
+			Sleep(100);
+#else
+			usleep(100000);
+#endif
+		}
+	}
+
+	if (!avsLoadSetting())
+	{
+		m_sotpClient.stopClient(m_cgcClient);
+		m_cgcClient.reset();
+		return false;
+	}
+
+	m_p2pav.SetP2PAVHandler(this);
+	if (!m_p2pav.connectStreamServer(m_serverAddr))
+	{
+		m_p2pav.disconnectStreamServer();
+		return false;
 	}
 
 	if (m_fileClient.get() == NULL)
@@ -86,35 +105,12 @@ bool CBiwooCgcProxy::start(const CCgcAddress & serverAddr, const CCgcAddress & f
 	m_fileClient->doStartActiveThread();
 	m_fileClient->doSetResponseHandler(this);
 	m_fileClient->doSetAppName(const_Avs_AppName);
-	bool ret = m_fileClient->doSendOpenSession();
+	ret = m_fileClient->doSendOpenSession();
 	if (ret)
 	{
 		int i=0;
-		while (i++ < 20)
+		while (!m_fileClient->doIsSessionOpened() && i++ < 20)
 		{
-			if (m_fileClient->doIsSessionOpened())
-			{
-				break;
-			}
-#ifdef WIN32
-			Sleep(100);
-#else
-			usleep(100000);
-#endif
-		}
-	}
-
-	m_cgcClient->doStartActiveThread();
-	m_cgcClient->doSetResponseHandler(this);
-	m_cgcClient->doSetAppName(const_Avs_AppName);
-	ret = m_cgcClient->doSendOpenSession();
-	if (ret)
-	{
-		int i=0;
-		while (i++ < 20)
-		{
-			if (m_cgcClient->doIsSessionOpened())
-				return true;
 #ifdef WIN32
 			Sleep(100);
 #else
@@ -162,6 +158,7 @@ void CBiwooCgcProxy::stop(void)
 		m_fileClient.reset();
 		handlertemp->doSendCloseSession();
 		m_sotpClient.stopClient(handlertemp);
+		m_bLoadSettingReturned = false;
 
 		m_account.reset();
 
@@ -174,6 +171,27 @@ void CBiwooCgcProxy::stop(void)
 		m_recents.clear();
 		bodb_exit();
 	}
+}
+
+bool CBiwooCgcProxy::avsLoadSetting(void)
+{
+	if (!isOpenSession()) return false;
+	if (m_bLoadSettingReturned) return true;
+
+	m_bLoadSettingReturned = false;
+	m_cgcClient->doSendAppCall(const_CallSign_LoadSetting, const_Api_LoadSetting);
+
+	int index = 0;
+	while (!m_bLoadSettingReturned && index++ < 20)
+	{
+#ifdef WIN32
+		Sleep(100);
+#else
+		usleep(100000);
+#endif
+	}
+
+	return m_bLoadSettingReturned;
 }
 
 CAccountConversation::pointer CBiwooCgcProxy::getAccountConversations(CFromInfo::pointer fromInfo)
@@ -2957,6 +2975,15 @@ void CBiwooCgcProxy::OnCgcResponse(const cgcParser & response)
 				}
 			}
 		}break;
+	case const_CallSign_LoadSetting:
+		{
+			const tstring & sFileServer = response.getRecvParameterValue(_T("FILESERVER"));
+
+			m_fileServerAddr = CCgcAddress(sFileServer, CCgcAddress::ST_UDP);
+
+			m_bLoadSettingReturned = true;
+		}break;
+
 	case const_CallSign_Register:
 		{
 			// µÇÂ¼³É¹¦

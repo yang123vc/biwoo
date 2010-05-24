@@ -33,7 +33,7 @@ const CCgcAddress defaultCgcAddress;
 class LIBP2PAV_CLASS CP2PProxy
 {
 public:
-	bool connectStreamServer(const CCgcAddress & ServerAddr, const CCgcAddress & RtpAddr, const CCgcAddress & UdpAddr = defaultCgcAddress);
+	bool connectStreamServer(const CCgcAddress & ServerAddr);
 	void disconnectStreamServer(void);
 	bool isConnectedStreamServer(void);
 

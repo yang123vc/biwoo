@@ -159,7 +159,7 @@ public:
 	~ConnectManager(void);
 
 	void setP2PAVHandler(OnP2PHandler * handler) {m_handler = handler;}
-	bool connectStreamServer(const CCgcAddress & ServerAddr,const CCgcAddress & RtpAddr,const CCgcAddress & UdpAddr);
+	bool connectStreamServer(const CCgcAddress & ServerAddr);
 	void disconnectStreamServer(void);
 	bool isConnectedStreamServer(void) const;
 

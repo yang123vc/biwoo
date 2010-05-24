@@ -44,11 +44,11 @@ ConnectManager::~ConnectManager(void)
 	disconnectStreamServer();
 }
 
-bool ConnectManager::connectStreamServer(const CCgcAddress & ServerAddr,const CCgcAddress & RtpAddr,const CCgcAddress & UdpAddr)
+bool ConnectManager::connectStreamServer(const CCgcAddress & ServerAddr)
 {
 	if (!m_avsCgcProxy.avsIsStarted())
 	{
-		if (!m_avsCgcProxy.avsStart(ServerAddr, RtpAddr, UdpAddr, (CStreamHandler*)this))
+		if (!m_avsCgcProxy.avsStart(ServerAddr, (CStreamHandler*)this))
 		{
 			m_avsCgcProxy.avsStop();
 			return false;

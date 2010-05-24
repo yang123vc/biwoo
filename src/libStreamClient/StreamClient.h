@@ -27,7 +27,7 @@
 class LIBAVSCLIENT_CLASS CStreamClient
 {
 public:
-	bool avsStart(const CCgcAddress & serverAddr, const CCgcAddress & rtpAddr, const CCgcAddress & udpAddr, CStreamHandler * pHandler);
+	bool avsStart(const CCgcAddress & serverAddr, CStreamHandler * pHandler);
 	void avsStop(void);
 	bool avsIsStarted(void) const;
 	bool avsIsOpenSession(void) const;

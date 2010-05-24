@@ -2,6 +2,9 @@
 					ChangeLog:
 					==========
 					
+= VERSION: 1.0.3+ =
+ * A: add LoadSetting()
+ 
 
 	VERSION: 1.0.3
 	===============

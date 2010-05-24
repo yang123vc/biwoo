@@ -29,7 +29,7 @@ class BIWOOLIB_CLASS CBiwooClient
 {
 public:
 	void setHandler(CbiwooHandler * handler);
-	bool start(const CCgcAddress & serverAddr, const CCgcAddress & fileAddr, const CCgcAddress & p2prtpAddr, const CCgcAddress & p2pudpAddr, CbiwooHandler * handler);
+	bool start(const CCgcAddress & serverAddr, CbiwooHandler * handler);
 	void stop(void);
 	bool isStarted(void) const;
 	bool isOpenSession(void) const;

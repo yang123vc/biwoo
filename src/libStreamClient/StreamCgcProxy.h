@@ -38,6 +38,10 @@
 const unsigned short const_CGCMediaType	= 1;
 
 const tstring const_Avs_AppName					= _T("StreamModule");
+
+const tstring const_Avs_Api_LoadSetting			= _T("LoadSetting");
+const ULONG const_CallSign_LoadSetting			= 0x1101;
+
 // account manager
 const tstring const_Avs_Api_AccountRegister		= _T("AccountRegister");
 const ULONG const_CallSign_AccountRegister		= 0x0001;
@@ -108,6 +112,7 @@ private:
 	DoSotpClientHandler::pointer m_cgcClient;
 
 	bool m_bDoAccountUnRegister;
+	bool m_bLoadSettingReturned;
 	tstring m_sCurrentUser;
 	CCgcAddress m_serverAddr;
 	CCgcAddress m_rtpAddr;					// for P2P
@@ -121,10 +126,12 @@ public:
 	//const CgcBaseClient & getCgcClient(void) const {return m_cgcClient;}
 	void setAvsHandler(CStreamHandler * newv) {m_handler = newv;}
 
-	bool avsStart(const CCgcAddress & serverAddr, const CCgcAddress & rtpAddr, const CCgcAddress & udpAddr);
+	bool avsStart(const CCgcAddress & serverAddr);
 	void avsStop(void);
 	bool avsIsStarted(void) const {return m_cgcClient != NULL;}
 	bool avsIsOpenSession(void) const {return m_cgcClient == NULL ? false : m_cgcClient->doIsSessionOpened();}
+
+	bool avsLoadSetting(void);
 
 	// account manager
 	bool avsAccountRegister(const tstring & sUsername, const tstring & sPassword);
