@@ -2979,7 +2979,17 @@ void CBiwooCgcProxy::OnCgcResponse(const cgcParser & response)
 		{
 			const tstring & sFileServer = response.getRecvParameterValue(_T("FILESERVER"));
 
-			m_fileServerAddr = CCgcAddress(sFileServer, CCgcAddress::ST_UDP);
+			std::string::size_type find = sFileServer.find(":");
+			if (find == std::string::npos)
+			{
+				tstring sTemp = m_serverAddr.getip();
+				sTemp.append(":");
+				sTemp.append(sFileServer);
+				m_fileServerAddr = CCgcAddress(sTemp, CCgcAddress::ST_UDP);
+			}else
+			{
+				m_fileServerAddr = CCgcAddress(sFileServer, CCgcAddress::ST_UDP);
+			}
 
 			m_bLoadSettingReturned = true;
 		}break;

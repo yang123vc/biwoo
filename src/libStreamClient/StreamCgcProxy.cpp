@@ -1054,8 +1054,28 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 			const tstring & sP2PRtpServer = response.getRecvParameterValue(_T("P2PRTPSERVER"));
 			const tstring & sP2PUdpServer = response.getRecvParameterValue(_T("P2PUDPSERVER"));
 
-			m_rtpAddr = CCgcAddress(sP2PRtpServer, CCgcAddress::ST_RTP);
-			m_udpAddr = CCgcAddress(sP2PUdpServer, CCgcAddress::ST_UDP);
+			std::string::size_type find = sP2PRtpServer.find(":");
+			if (find == std::string::npos)
+			{
+				tstring sTemp = m_serverAddr.getip();
+				sTemp.append(":");
+				sTemp.append(sP2PRtpServer);
+				m_rtpAddr = CCgcAddress(sTemp, CCgcAddress::ST_RTP);
+			}else
+			{
+				m_rtpAddr = CCgcAddress(sP2PRtpServer, CCgcAddress::ST_RTP);
+			}
+			find = sP2PUdpServer.find(":");
+			if (find == std::string::npos)
+			{
+				tstring sTemp = m_serverAddr.getip();
+				sTemp.append(":");
+				sTemp.append(sP2PUdpServer);
+				m_udpAddr = CCgcAddress(sTemp, CCgcAddress::ST_UDP);
+			}else
+			{
+				m_udpAddr = CCgcAddress(sP2PUdpServer, CCgcAddress::ST_UDP);
+			}
 
 			m_bLoadSettingReturned = true;
 		}break;
