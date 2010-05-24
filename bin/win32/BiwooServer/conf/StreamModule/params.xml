@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<root>
+ 	<version>
+ 		<Major>1</Major>
+ 		<Minor>1</Minor>
+ 	</version>
+
+ 	<parameter>
+ 		<name>P2PRTPSERVER</name>
+ 		<type>pt.string</type>
+ 		<!-- PORT or IP:PORT -->
+ 		<value>8020</value>
+ 	</parameter>
+ 	<parameter>
+ 		<name>P2PUDPSERVER</name>
+ 		<type>pt.string</type>
+ 		<!-- PORT or IP:PORT -->
+ 		<value>8022</value>
+ 	</parameter>
+
+</root>
