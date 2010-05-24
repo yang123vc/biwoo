@@ -39,6 +39,9 @@ const unsigned short const_CGCMediaType	= 1;
 
 const tstring const_Avs_AppName					= _T("biwoo");
 
+const tstring const_Api_LoadSetting				= _T("0101");
+const ULONG const_CallSign_LoadSetting			= 0x0101;
+
 // account manager
 const tstring const_Api_AccCreate				= _T("1001");
 const ULONG const_CallSign_AccCreate			= 0x1001;
@@ -137,11 +140,10 @@ private:
 	DoSotpClientHandler::pointer m_fileClient;
 
 	bool m_bDoAccountUnRegister;
+	bool m_bLoadSettingReturned;
 	CAccountInfo::pointer m_account;
 	CCgcAddress m_serverAddr;
 	CCgcAddress m_fileServerAddr;
-	CCgcAddress m_p2pAddr;		// for P2P
-	CCgcAddress m_p2pudpAddr;		// for P2P
 	std::string m_sModulePath;
 
 	CP2PProxy		m_p2pav;
@@ -166,10 +168,12 @@ public:
 	//const CgcBaseClient & getCgcClient(void) const {return m_cgcClient;}
 	void setHandler(CbiwooHandler * newv) {m_handler = newv;}
 
-	bool start(const CCgcAddress & serverAddr, const CCgcAddress & fileServerAddr, const CCgcAddress & p2pAddr, const CCgcAddress & p2pudpAddr);
+	bool start(const CCgcAddress & serverAddr);
 	void stop(void);
 	bool isStarted(void) const {return m_cgcClient != NULL;}
 	bool isOpenSession(void) const {return m_cgcClient == NULL ? false : m_cgcClient->doIsSessionOpened();}
+	
+	bool avsLoadSetting(void);
 	
 	const CLockList<CFromInfo::pointer>	& getRecents(void) const {return m_recents;}
 	CAccountConversation::pointer getAccountConversations(CFromInfo::pointer userInfo);

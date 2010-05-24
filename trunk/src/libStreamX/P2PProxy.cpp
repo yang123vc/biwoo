@@ -36,12 +36,12 @@ CP2PProxy::~CP2PProxy(void)
 }
 
 
-bool CP2PProxy::connectStreamServer(const CCgcAddress & ServerAddr, const CCgcAddress & RtpAddr, const CCgcAddress & UdpAddr)
+bool CP2PProxy::connectStreamServer(const CCgcAddress & ServerAddr)
 {
 	if (m_ConnManager.isConnectedStreamServer())
 		return true;
 
-	return m_ConnManager.connectStreamServer(ServerAddr, RtpAddr, UdpAddr);
+	return m_ConnManager.connectStreamServer(ServerAddr);
 }
 
 

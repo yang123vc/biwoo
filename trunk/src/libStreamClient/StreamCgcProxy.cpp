@@ -22,7 +22,7 @@
 //CStreamCgcProxy::CStreamCgcProxy(CStreamHandler * handler)
 CStreamCgcProxy::CStreamCgcProxy(void)
 : m_handler(NULL)
-, m_bDoAccountUnRegister(false)
+, m_bDoAccountUnRegister(false), m_bLoadSettingReturned(false)
 
 {
 }
@@ -32,11 +32,11 @@ CStreamCgcProxy::~CStreamCgcProxy(void)
 	avsStop();
 }
 
-bool CStreamCgcProxy::avsStart(const CCgcAddress & serverAddr, const CCgcAddress & rtpAddr, const CCgcAddress & udpAddr)
+bool CStreamCgcProxy::avsStart(const CCgcAddress & serverAddr)
 {
 	m_serverAddr = serverAddr;
-	m_rtpAddr = rtpAddr;
-	m_udpAddr = udpAddr;
+	//m_rtpAddr = rtpAddr;
+	//m_udpAddr = udpAddr;
 
 	if (m_cgcClient.get() == NULL)
 	{
@@ -50,20 +50,17 @@ bool CStreamCgcProxy::avsStart(const CCgcAddress & serverAddr, const CCgcAddress
 	m_cgcClient->doSetResponseHandler(this);
 	m_cgcClient->doSetAppName(const_Avs_AppName);
 	bool ret = m_cgcClient->doSendOpenSession();
-	if (ret)
+	int index = 0;
+	while (ret && !m_cgcClient->doIsSessionOpened() && ++index < 20)
 	{
-		int i=0;
-		while (i++ < 20)
-		{
-			if (m_cgcClient->doIsSessionOpened())
-				return true;
 #ifdef WIN32
-			Sleep(100);
+		Sleep(100);
 #else
-			usleep(100000);
+		usleep(100000);
 #endif
-		}
 	}
+
+	ret = avsLoadSetting();
 
 	return ret;
 }
@@ -84,6 +81,26 @@ void CStreamCgcProxy::avsStop(void)
 		handlertemp->doSendCloseSession();
 		m_sotpClient.stopClient(handlertemp);
 	}
+}
+
+bool CStreamCgcProxy::avsLoadSetting(void)
+{
+	if (!avsIsOpenSession()) return false;
+
+	m_bLoadSettingReturned = false;
+	m_cgcClient->doSendAppCall(const_CallSign_LoadSetting, const_Avs_Api_LoadSetting);
+
+	int index = 0;
+	while (!m_bLoadSettingReturned && index++ < 20)
+	{
+#ifdef WIN32
+		Sleep(100);
+#else
+		usleep(100000);
+#endif
+	}
+
+	return m_bLoadSettingReturned;
 }
 
 bool CStreamCgcProxy::avsAccountRegister(const tstring & sUsername, const tstring & sPassword)
@@ -1032,6 +1049,16 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 		}break;
 	case const_CallSign_ResponseTransfer:
 		break;*/
+	case const_CallSign_LoadSetting:
+		{
+			const tstring & sP2PRtpServer = response.getRecvParameterValue(_T("P2PRTPSERVER"));
+			const tstring & sP2PUdpServer = response.getRecvParameterValue(_T("P2PUDPSERVER"));
+
+			m_rtpAddr = CCgcAddress(sP2PRtpServer, CCgcAddress::ST_RTP);
+			m_udpAddr = CCgcAddress(sP2PUdpServer, CCgcAddress::ST_UDP);
+
+			m_bLoadSettingReturned = true;
+		}break;
 	case const_CallSign_AccountRegister:
 		{
 			// µÇÂ¼³É¹¦

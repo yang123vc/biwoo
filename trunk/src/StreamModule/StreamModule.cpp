@@ -88,6 +88,17 @@ extern "C" void CGC_API CGC_Module_Free(void)
 	gAVSProxy.clearAll();
 }
 
+extern "C" int CGC_API LoadSetting(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)
+{
+	// Request
+
+	response->setParameter(gApplication->getInitParameter("P2PRTPSERVER"));
+	response->setParameter(gApplication->getInitParameter("P2PUDPSERVER"));
+	response->sendResponse();
+
+	return 0;
+}
+
 /*
 //////////////////////////
 // UserLogin

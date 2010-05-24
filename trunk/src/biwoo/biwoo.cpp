@@ -111,3 +111,12 @@ extern "C" void CGC_API CGC_Module_Free(void)
 	gApplication->clearAllAtrributes();
 }
 
+extern "C" int CGC_API LoadSetting(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)
+{
+	// Request
+
+	response->setParameter(gApplication->getInitParameter("FILESERVER"));
+	response->sendResponse();
+
+	return 0;
+}

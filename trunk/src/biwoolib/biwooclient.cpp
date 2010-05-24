@@ -41,10 +41,10 @@ void CBiwooClient::setHandler(CbiwooHandler * handler)
 	gBiwooProxy.setHandler(handler);
 }
 
-bool CBiwooClient::start(const CCgcAddress & sServerAddr, const CCgcAddress & fileAddr, const CCgcAddress & p2pAddr, const CCgcAddress & p2pudpAddr, CbiwooHandler * pHandler)
+bool CBiwooClient::start(const CCgcAddress & sServerAddr, CbiwooHandler * pHandler)
 {
 	gBiwooProxy.setHandler(pHandler);
-	return gBiwooProxy.start(sServerAddr, fileAddr, p2pAddr, p2pudpAddr);
+	return gBiwooProxy.start(sServerAddr);
 }
 
 void CBiwooClient::stop(void)
