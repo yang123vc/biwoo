@@ -32,9 +32,9 @@ class XmlParseSetting
 public:
 	XmlParseSetting(void)
 		: m_address(_T("127.0.0.1:8010"))
-		, m_fileserver(_T("127.0.0.1:8014"))
-		, m_p2prtp(_T("127.0.0.1:8020"))
-		, m_p2pudp(_T("127.0.0.1:8022"))
+		//, m_fileserver(_T("127.0.0.1:8014"))
+		//, m_p2prtp(_T("127.0.0.1:8020"))
+		//, m_p2pudp(_T("127.0.0.1:8022"))
 		, m_locale(""), m_langtext("")
 
 	{}
@@ -56,9 +56,9 @@ public:
 		//m_sCgcpName = pt.get<std::string>("debug.filename");
 		// "root.cgcp.*"
 		m_address = pt.get("root.server.address", _T("127.0.0.1:8010"));
-		m_fileserver = pt.get("root.server.fileserver", _T("127.0.0.1:8014"));
-		m_p2prtp = pt.get("root.server.p2p_rtp", _T("127.0.0.1:8020"));
-		m_p2pudp = pt.get("root.server.p2p_udp", _T("127.0.0.1:8022"));
+		//m_fileserver = pt.get("root.server.fileserver", _T("127.0.0.1:8014"));
+		//m_p2prtp = pt.get("root.server.p2p_rtp", _T("127.0.0.1:8020"));
+		//m_p2pudp = pt.get("root.server.p2p_udp", _T("127.0.0.1:8022"));
 		//m_nCgcpRank = pt.get("root.cgcp.rank", 0);
 
 		m_locale = pt.get("root.locale", _T("chs"));
@@ -67,18 +67,18 @@ public:
 	}
 
 	const tstring & address(void) const {return m_address;}
-	const tstring & fileserver(void) const {return m_fileserver;}
-	const tstring & p2prtp(void) const {return m_p2prtp;}
-	const tstring & p2pudp(void) const {return m_p2pudp;}
+	//const tstring & fileserver(void) const {return m_fileserver;}
+	//const tstring & p2prtp(void) const {return m_p2prtp;}
+	//const tstring & p2pudp(void) const {return m_p2pudp;}
 
 	const tstring & locale(void) const {return m_locale;}
 	const tstring & langtext(void) const {return m_langtext;}
 
 private:
 	std::string		m_address;
-	std::string		m_fileserver;
-	std::string		m_p2prtp;
-	std::string		m_p2pudp;
+	//std::string		m_fileserver;
+	//std::string		m_p2prtp;
+	//std::string		m_p2pudp;
 
 	std::string		m_locale;
 	std::string		m_langtext;
