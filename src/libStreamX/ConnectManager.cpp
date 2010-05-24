@@ -138,12 +138,11 @@ void ConnectManager::clientVideoReversal(void)
 void ConnectManager::stopClient(DoDSHandler::pointer pDoDSHandler)
 {
 	// ??
-	if (pDoDSHandler.get() == m_clientHandler.get() && m_clientHandler.get() != NULL)
+	if (pDoDSHandler.get() == m_clientHandler.get())
 	{
-		DoDSHandler::pointer handler = m_clientHandler;
 		m_clientHandler.reset();
-		m_dsproxy.stopDSHandler(handler);
 	}
+	m_dsproxy.stopDSHandler(pDoDSHandler);
 }
 
 void ConnectManager::stopClient(void)
