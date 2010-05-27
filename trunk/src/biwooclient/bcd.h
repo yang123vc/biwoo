@@ -42,4 +42,6 @@ extern CbiwooHandler * gMsgHandler;
 //extern CbiwooHandler * gMyFriend;
 //extern CbiwooHandler * gMyFamily;
 
+const tstring BIWOO_NAME = "biwoo";
+
 #endif // __bcd_h__

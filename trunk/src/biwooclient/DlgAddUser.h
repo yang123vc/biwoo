@@ -61,9 +61,7 @@ private:
 	wxTextCtrl * m_searchTextCtrl;
 	wxListBox * m_listboxChooseFrom;
 	wxListBox * m_listboxChooseTo;
-	wxButton * m_btnAddUser;
-	wxButton * m_btnQuitDialog;
-	wxButton * m_btnCancel;
+	//wxButton * m_btnQuitDialog;
 };
 
 

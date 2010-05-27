@@ -139,6 +139,19 @@ void CAVSProxy::addUserinfo(CUserInfo::pointer userInfo)
 	}
 }
 
+void CAVSProxy::updateUserinfo(CUserInfo::pointer userInfo)
+{
+	if (bodb_isopened())
+	{
+		char sql[2048];
+		memset(sql, 0, sizeof(sql));
+		sprintf(sql, "UPDATE userinfo_t SET nick='%s',gender=%d,phone='%s',email='%s' WHERE account='%s'",
+			userInfo->getNick().c_str(), userInfo->getGender(), 
+			userInfo->getPhone().c_str(), userInfo->getEmail().c_str(), userInfo->getAccount().c_str());
+		bodb_exec(sql);
+	}
+}
+
 void CAVSProxy::deleteUserinfo(const tstring & sAccount)
 {
 	//m_users.remove(sAccount);
@@ -149,6 +162,17 @@ void CAVSProxy::deleteUserinfo(const tstring & sAccount)
 		char sql[2048];
 		memset(sql, 0, sizeof(sql));
 		sprintf(sql, "DELETE FROM userinfo_t WHERE account='%s'", sAccount.c_str());
+		bodb_exec(sql);
+	}
+}
+
+void CAVSProxy::updatePassword(const tstring & sAccount, const tstring & sNewPassword)
+{
+	if (bodb_isopened())
+	{
+		char sql[1024];
+		memset(sql, 0, sizeof(sql));
+		sprintf(sql, "UPDATE userinfo_t SET password='%s' WHERE account='%s'", sNewPassword.c_str(), sAccount.c_str());
 		bodb_exec(sql);
 	}
 }

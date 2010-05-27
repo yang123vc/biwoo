@@ -68,4 +68,6 @@ private:
 	tstring m_callMessage;
 };
 
+const SipCallInfo::pointer NullSipCallInfo;
+
 #endif // __SipCallInfo_h__

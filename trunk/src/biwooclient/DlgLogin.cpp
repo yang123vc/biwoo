@@ -43,11 +43,10 @@ END_EVENT_TABLE()
 
 wxStaticText * staAccount = NULL;
 wxStaticText * staPassword = NULL;
-wxButton * btnCancel = NULL;
 
 CDlglogin::CDlglogin(wxWindow *parent, bool changeAccount)
 : wxDialog(parent, wxID_ANY, gLangText.dlgLoginTitle())
-, m_btnLogin(0), /*m_btnRegister(0), */m_textAccount(0), m_textPassword(0)
+, m_textAccount(0), m_textPassword(0)
 , m_cgcpReturned(false), m_errorCode(0)
 , m_changeAccount(changeAccount)
 
@@ -83,20 +82,19 @@ CDlglogin::CDlglogin(wxWindow *parent, bool changeAccount)
 	sizerCheckBox->Add(m_checkSavePassword, 1, wxALL|wxALIGN_CENTER, 5);
 	sizerCheckBox->Add(m_checkAutoLogin, 1, wxALL|wxALIGN_CENTER, 5);
 
-	wxBoxSizer * sizerButton = new wxBoxSizer(wxHORIZONTAL);
-	m_btnLogin = new wxButton(this, wxID_OK, gLangText.btnLoginText());
-	m_btnLogin->SetToolTip(gLangText.btnLoginHelp());
-	//m_btnRegister = new wxButton(this, ID_REGISTER, _T("&Register"));
-	btnCancel = new wxButton(this, wxID_CANCEL, gLangText.btnCancelText());
-	btnCancel->SetToolTip(gLangText.btnCancelHelp());
-	sizerButton->Add(m_btnLogin, 1, wxALL|wxALIGN_CENTER, 5);
-	//sizerButton->Add(m_btnRegister, 1, wxALL|wxGROW|wxALIGN_CENTRE, 5);
-	sizerButton->Add(btnCancel, 1, wxALL|wxALIGN_CENTER, 5);
+    sizerTop->Add(sizerAccount, 0, wxEXPAND | wxLEFT|wxRIGHT, 5 );
+    sizerTop->Add(sizerPassword, 0, wxEXPAND | wxLEFT|wxRIGHT, 5 );
+    sizerTop->Add(sizerCheckBox, 0, wxEXPAND | wxLEFT|wxRIGHT, 5 );
 
-    sizerTop->Add(sizerAccount, 1, wxGROW|wxALL, 5 );
-    sizerTop->Add(sizerPassword, 1, wxGROW|wxALL, 5 );
-    sizerTop->Add(sizerCheckBox, 1, wxGROW|wxALL, 5 );
-    sizerTop->Add(sizerButton, 1, wxGROW|wxALL, 5 );
+	wxSizer *buttonSizer = CreateSeparatedButtonSizer(wxOK | wxCANCEL);
+	if ( buttonSizer )
+	{
+		this->GetWindowChild(wxID_OK)->SetLabel(gLangText.btnLoginText());
+		this->GetWindowChild(wxID_OK)->SetToolTip(gLangText.btnLoginHelp());
+		this->GetWindowChild(wxID_CANCEL)->SetLabel(gLangText.btnCancelText());
+		this->GetWindowChild(wxID_CANCEL)->SetToolTip(gLangText.btnCancelHelp());
+		sizerTop->Add(buttonSizer, wxSizerFlags().Expand().DoubleBorder());
+	}
 
     SetSizer(sizerTop);
 	sizerTop->SetSizeHints(this);
@@ -113,8 +111,6 @@ CDlglogin::~CDlglogin(void)
 	delete m_textPassword;
 	delete m_checkSavePassword;
 	delete m_checkAutoLogin;
-	delete m_btnLogin;
-	delete btnCancel;
 	m_records.clear();
 }
 
@@ -210,7 +206,7 @@ bool CDlglogin::doLogin(const std::string & sAccount, const std::string & sPassw
 	}
 
 	m_cgcpReturned = false;
-	m_btnLogin->Disable();
+	this->GetWindowChild(wxID_OK)->Disable();
 	m_biwoo.accountRegister(sAccount.c_str(), sPassword.c_str());
 
 	short i=0;
@@ -251,7 +247,7 @@ bool CDlglogin::doLogin(const std::string & sAccount, const std::string & sPassw
 				sprintf(sql, "INSERT INTO loginrecords_t(account,password) VALUES('%s','%s')", sAccount.c_str(), sPasswordSave.c_str());
 			}else
 			{
-				sprintf(sql, "UPDATE bocinfo_t SET account='%s',password='%s'", sAccount.c_str(), sPasswordSave.c_str());
+				sprintf(sql, "UPDATE loginrecords_t SET password='%s' WHERE account='%s'", sPasswordSave.c_str(), sAccount.c_str());
 			}
 			bodb_exec(sql);
 		}
@@ -261,7 +257,7 @@ bool CDlglogin::doLogin(const std::string & sAccount, const std::string & sPassw
 	{
 		m_textAccount->SetFocus();
 		m_textAccount->SetSelection(0, 0);
-		m_btnLogin->Enable();
+		this->GetWindowChild(wxID_OK)->Enable();
 		//m_btnRegister->Enable();
 
 		if (!m_cgcpReturned)

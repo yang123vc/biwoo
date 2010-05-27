@@ -31,7 +31,7 @@ const short MAX_PACKET_SIZE	= 1500;
 //CBiwooCgcProxy::CBiwooCgcProxy(CAvsHandler * handler)
 CBiwooCgcProxy::CBiwooCgcProxy(void)
 : m_handler(NULL)
-, m_bDoAccountUnRegister(false), m_bLoadSettingReturned(false)
+, m_bDoAccountUnRegister(false), m_bLoadSettingReturned(false), m_bWaitingReturned(false)
 , m_currentMID(0)
 
 {
@@ -651,6 +651,7 @@ bool CBiwooCgcProxy::accountRegister(const tstring & accountName, const tstring 
 	if (!isOpenSession()) return false;
 	if (m_account.get() != 0) return true;
 
+	m_sPasswordTemp = sPassword;
 	m_bDoAccountUnRegister = false;
 	m_cgcClient->doAddParameter(cgcParameter::create(_T("Account"), accountName));
 	m_cgcClient->doAddParameter(cgcParameter::create(_T("Password"), sPassword));
@@ -719,6 +720,59 @@ bool CBiwooCgcProxy::accountLoad(void)
 	m_cgcClient->doAddParameter(cgcParameter::create(_T("AccountId"), m_account->getAccountId()));
 	m_cgcClient->doAddParameter(cgcParameter::create(_T("LoadData"), 7));
 	m_cgcClient->doSendAppCall(const_CallSign_AccLoad, const_Api_AccLoad);
+
+	return true;
+}
+
+bool CBiwooCgcProxy::accountSetPwd(const tstring & sCurrentPwd, const tstring & sNewPassword)
+{
+	if (!isOpenSession()) return false;
+	if (m_account.get() == 0) return false;
+
+	if (!m_account->getUserinfo()->isCurrentPwd(sCurrentPwd))
+	{
+		return false;
+	}
+
+	m_bWaitingReturned = false;
+	m_sPasswordTemp = sNewPassword;
+
+	m_cgcClient->doAddParameter(cgcParameter::create(_T("AccountId"), m_account->getAccountId()));
+	m_cgcClient->doAddParameter(cgcParameter::create(_T("OldPwd"), sCurrentPwd));
+	m_cgcClient->doAddParameter(cgcParameter::create(_T("NewPwd"), sNewPassword));
+	m_cgcClient->doSendAppCall(const_CallSign_AccSetPwd, const_Api_AccSetPwd);
+
+	int index = 0;
+	while (!m_bWaitingReturned && index++ < 20)
+	{
+#ifdef WIN32
+		Sleep(100);
+#else
+		usleep(100000);
+#endif
+	}
+
+	return m_bWaitingReturned;
+}
+
+bool CBiwooCgcProxy::accountSetInfo(CUserInfo::pointer newUserInfo)
+{
+	BOOST_ASSERT (newUserInfo.get() != NULL);
+
+	if (!isOpenSession()) return false;
+	if (m_account.get() == 0) return false;
+
+	m_account->getUserinfo()->setNick(newUserInfo->getNick());
+	m_account->getUserinfo()->setGender(newUserInfo->getGender());
+	m_account->getUserinfo()->setPhone(newUserInfo->getPhone());
+	m_account->getUserinfo()->setEmail(newUserInfo->getEmail());
+
+	m_cgcClient->doAddParameter(cgcParameter::create(_T("AccountId"), m_account->getAccountId()));
+	m_cgcClient->doAddParameter(cgcParameter::create(_T("Nick"), m_account->getUserinfo()->getNick()));
+	m_cgcClient->doAddParameter(cgcParameter::create(_T("Gender"), (int)m_account->getUserinfo()->getGender()));
+	m_cgcClient->doAddParameter(cgcParameter::create(_T("Phone"), m_account->getUserinfo()->getPhone()));
+	m_cgcClient->doAddParameter(cgcParameter::create(_T("Email"), m_account->getUserinfo()->getEmail()));
+	m_cgcClient->doSendAppCall(const_CallSign_AccSetInfo, const_Api_AccSetInfo);
 
 	return true;
 }
@@ -2996,15 +3050,18 @@ void CBiwooCgcProxy::OnCgcResponse(const cgcParser & response)
 
 	case const_CallSign_Register:
 		{
-			// 登录成功
 			if (resultValue == 0)
 			{
-				if (m_account.get() != 0)
-					m_account.reset();
+				// 登录成功
+				m_account.reset();
 
+				const tstring & sAccountId = response.getRecvParameterValue(_T("AccountId"));
 				const tstring & sAccount = response.getRecvParameterValue(_T("Account"));
 				const tstring & sUserName = response.getRecvParameterValue(_T("Name"));
-				const tstring & sAccountId = response.getRecvParameterValue(_T("AccountId"));
+				const tstring & sNick = response.getRecvParameterValue(_T("Nick"));
+				long nGender = response.getRecvParameterValue(_T("Gender"), (long)0);
+				const tstring & sPhone = response.getRecvParameterValue(_T("Phone"));
+				const tstring & sEmail = response.getRecvParameterValue(_T("Email"));
 
 				if (!m_p2pav.AccountLogin(sAccount))
 				{
@@ -3047,15 +3104,21 @@ void CBiwooCgcProxy::OnCgcResponse(const cgcParser & response)
 					fs::copy_file(fs::path(sDefaultDBFile, fs::native), fs::path(sPathUserdb, fs::native));
 				}
 
-				CUserInfo::pointer userinfo = CUserInfo::create(sAccount, _T(""));
+				CUserInfo::pointer userinfo = CUserInfo::create(sAccount, m_sPasswordTemp);
 				userinfo->setUserName(sUserName);
+				userinfo->setNick(sNick);
+				userinfo->setGender((short)nGender);
+				userinfo->setPhone(sPhone);
+				userinfo->setEmail(sEmail);
 				m_account = CAccountInfo::create(userinfo, sAccountId);
 				m_handler->onUserLogined(m_account);
 			}else
 			{
 				m_handler->onUserLoginError(resultValue);
 			}
-			return;
+
+			m_sPasswordTemp.clear();
+			//return;
 		}break;
 	case const_CallSign_RegConfirm:
 		{
@@ -3187,6 +3250,16 @@ void CBiwooCgcProxy::OnCgcResponse(const cgcParser & response)
 	case const_CallSign_AccLoad:
 		{
 			this->accountRegConfirm();
+		}break;
+	case const_CallSign_AccSetPwd:
+		{
+			if (resultValue == 0)
+			{
+				// 密码修改成功
+				m_account->getUserinfo()->setPassword(m_sPasswordTemp);
+			}
+
+			m_bWaitingReturned = true;
 		}break;
 	case const_CallSign_GetAllUser:
 		{

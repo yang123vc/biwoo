@@ -56,6 +56,11 @@ const ULONG const_CallSign_UnRegister			= 0x1013;
 const tstring const_Api_AccLoad					= _T("1014");
 const ULONG const_CallSign_AccLoad				= 0x1014;
 
+const tstring const_Api_AccSetPwd				= _T("1021");
+const ULONG const_CallSign_AccSetPwd			= 0x1021;
+const tstring const_Api_AccSetInfo				= _T("1023");
+const ULONG const_CallSign_AccSetInfo			= 0x1023;
+
 // Friend Manager
 const tstring const_Api_FriRequest				= _T("2001");
 const ULONG const_CallSign_FriRequest			= 0x2001;
@@ -141,7 +146,9 @@ private:
 
 	bool m_bDoAccountUnRegister;
 	bool m_bLoadSettingReturned;
+	bool m_bWaitingReturned;
 	CAccountInfo::pointer m_account;
+	tstring m_sPasswordTemp;
 	CCgcAddress m_serverAddr;
 	CCgcAddress m_fileServerAddr;
 	std::string m_sModulePath;
@@ -209,6 +216,8 @@ public:
 	bool accountRegConfirm(void);
 	bool accountUnRegister(void);
 	bool accountLoad(void);
+	bool accountSetPwd(const tstring & sCurrentPwd, const tstring & sNewPassword);
+	bool accountSetInfo(CUserInfo::pointer newUserInfo);
 
 	// Conference
 	bool createConference(const tstring & conferenceName);

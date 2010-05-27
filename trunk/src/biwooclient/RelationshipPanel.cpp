@@ -495,7 +495,7 @@ void RelationshipPanel::OnMenuDeleteMessage(wxCommandEvent& WXUNUSED(event))
 	if (currentItemData == NULL) return;
 
 	wxString sText = wxString::Format("Are you sure you want to delete the messages of this user.\n%s", sItemText.c_str());
-	if (wxMessageBox(sText,	wxT("biwoo"), wxICON_QUESTION | wxYES_NO, this) != wxYES)
+	if (wxMessageBox(sText,	BIWOO_NAME, wxICON_QUESTION | wxYES_NO, this) != wxYES)
 	{
 		return;
 	}

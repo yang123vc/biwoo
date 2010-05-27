@@ -54,8 +54,8 @@ public:
 	//bool accountRegConfirm(void);
 	bool accountUnRegister(void);
 	bool accountLoad(void);
-	bool changePassword(const tstring & oldPassword, const tstring & newPassword);
-	bool changeNick(const tstring & newNick);
+	bool accountSetPwd(const tstring & oldPassword, const tstring & newPassword);
+	bool accountSetInfo(CUserInfo::pointer newUserInfo);
 
 	///////////////////////////////////////////////////
 	// Friend Manager

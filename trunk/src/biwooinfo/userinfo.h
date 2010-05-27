@@ -77,6 +77,7 @@ public:
 	void setAccount(const tstring & newValue) {m_sAccount = newValue;}
 	const tstring & getAccount(void) const {return m_sAccount;}
 
+	bool isCurrentPwd(const tstring & comparePwd) const {return m_sPassword == comparePwd;}
 	void setPassword(const tstring & newValue) {m_sPassword = newValue;}
 	const tstring & getPassword(void) const {return m_sPassword;}
 

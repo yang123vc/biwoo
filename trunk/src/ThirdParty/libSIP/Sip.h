@@ -9,19 +9,20 @@
 class LIBSIP_CLASS CSip
 {
 public:
-	bool initSip(const CSipParameter & sipp, OnSipHandler * handler);
-	void quitSip(void);
-	bool isInitSip(void) const;
-	const CSipParameter & GetSipParameter(void) const;
+	DoSipHandler::pointer initSip(const CSipParameter & sipp, OnSipHandler * handler);
+	void quitSip(DoSipHandler::pointer sipHandler);
 
-	int sipRegister(void);
-	void sipUnRegister(void);
+	//bool isInitSip(void) const;
+	//const CSipParameter & GetSipParameter(void) const;
+
+	//int sipRegister(void);
+	//void sipUnRegister(void);
 
 	// call control
-	int CallInvite(const tstring & callee_num);
-	int CallAnswer(SipCallInfo::pointer callInfo, int localaudioport, int localvideoport);
-	int CallTerminate(SipCallInfo::pointer callInfo);
-	int CallSendDtmf(SipCallInfo::pointer callInfo, char dtmf);
+	//int CallInvite(const tstring & callee_num);
+	//int CallAnswer(SipCallInfo::pointer callInfo, int localaudioport, int localvideoport);
+	//int CallTerminate(SipCallInfo::pointer callInfo);
+	//int CallSendDtmf(SipCallInfo::pointer callInfo, char dtmf);
 
 public:
 	CSip(void);

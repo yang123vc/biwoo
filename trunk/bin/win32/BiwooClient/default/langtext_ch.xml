@@ -10,6 +10,10 @@
 			<help>更换用户重新登录</help>
 			<question>你是否确定要注销当前用户，重新登录？</question>
 		</changeaccount>
+		<informationsetting>
+			<text>用户设置&S</text>
+			<help>用户资料设置</help>
+		</informationsetting>
 
 		<exit>
 			<text>退出(&x)	Alt-X</text>
@@ -36,10 +40,28 @@
 			<stachoosefrom>选择用户(&F)</stachoosefrom>
 			<stachooseto>添加成员(&T)</stachooseto>
 		</adduser>
+		<informationsetting>
+			<title>资料设置</title>
+			<page_information>
+				我的信息
+				<name>姓名:<help>姓名</help></name>
+				<nick>昵称:<help>昵称</help></nick>
+				<gender>性别:<help>性别</help></gender>
+				<phone>电话:<help>电话</help></phone>
+				<email>邮箱:<help>邮箱</help></email>
+			</page_information>
+			<page_password>
+				修改密码
+				<current>当前密码:<help>当前密码</help></current>
+				<new>新密码:<help>新密码</help></new>
+				<confirm>再输入一次:<help>再输入一次</help></confirm>
+			</page_password>
+		</informationsetting>
 	</dialog>
 	<button>
 		<login>登录(&L)<help>登录到 Biwoo</help></login>
 		<cancel>取消(&C)<help>取消</help></cancel>
+		<update>更新(&U)<help>更新</help></update>
 		<sendmsg>发送(&S)<help>发送消息</help></sendmsg>
 		<sendfile>发送文件(&F)<help>发送文件</help></sendfile>
 		<videocall>视频呼叫(&C)<help>视频呼叫</help></videocall>
@@ -80,7 +102,11 @@
 		<loginanotherplacetip>你已经在其他地方登录，点击 OK 退出程序。</loginanotherplacetip>
 		<serverquittip>服务器已经退出，点击 OK 退出程序。</serverquittip>
 		<unreadmsgtip>你有未读信息。</unreadmsgtip>
-		
+		<inforupdatedtip>资料更新成功。</inforupdatedtip>
+		<inforupdateerrtip>资料更新失败。</inforupdateerrtip>
+		<pwdupdatedtip>密码修改成功。</pwdupdatedtip>
+		<pwdupdateerrtip>密码修改失败。</pwdupdateerrtip>
+
 		<sendfileto>发送文件给 </sendfileto>
 		<savefileto>保存文件到 </savefileto>
 		<allfiles>所有文件 </allfiles>
@@ -97,6 +123,13 @@
 		<companytype>公司</companytype>
 		<cogrouptype>部门</cogrouptype>
 		<grouptype>项目组</grouptype>
+		
+		<gendermale>男</gendermale>
+		<genderfemale>女</genderfemale>
+	
 	</text>
-
+	<question>
+		<curmodified_save>当前资料已经修改，是否确定保存？</curmodified_save>
+	</question>
+	
 </root>

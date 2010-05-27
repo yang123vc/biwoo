@@ -6,23 +6,23 @@
 #include <netinet/in.h>
 #endif
 
-#define VER_STRING "bo_Siptransmit v0.1"
+#define VER_STRING "biwoo_Siptransmit v0.1"
 
 Siptransmit::Siptransmit(void)
-: m_bInitedSip(false), m_regid(0)
-, m_ThreadRunFlag(false)
-, m_EvenHandler(NULL)
+: m_threadEventInfo(NULL)
 , m_threadSipEvent(NULL)
-, m_threadEventInfo(NULL)
+, m_bInitedSip(false), m_bIsRegistered(false)
+//, m_osipmessage(0)
 
 {
+	m_regid = 0;
+	m_EvenHandler = NULL;
 }
 
 Siptransmit::~Siptransmit(void)
 {
 	quitSip();
 }
-
 
 tstring Siptransmit::GetRemoteIp(int did)
 {
@@ -225,7 +225,8 @@ void Siptransmit::sipUnRegister(void)                ///蛁种
 {
 	if (!m_bInitedSip) return;
 
-//	osip_message_t *reg = NULL;
+	m_bIsRegistered = false;
+	osip_message_t *reg = NULL;
 
 	try
 	{
@@ -233,7 +234,7 @@ void Siptransmit::sipUnRegister(void)                ///蛁种
 		CLockMap<int, SipCallInfo::pointer>::iterator iter;
 		for (iter=m_mapCallInfo.begin(); iter!=m_mapCallInfo.end(); iter++)
 		{
-			CallTerminate(iter->second);
+			sipCallTerminate(iter->second);
 		}
 		m_mapCallInfo.clear(false);
 	}catch (...)
@@ -244,7 +245,7 @@ void Siptransmit::sipUnRegister(void)                ///蛁种
 	eXosip_unlock ();
 }
 
-int Siptransmit::CallInvite(const tstring & callee_num) ///網請
+int Siptransmit::sipCallInvite(const tstring & callee_num) ///網請
 {
 	if (!m_bInitedSip) return -1;
 
@@ -296,7 +297,7 @@ int Siptransmit::CallInvite(const tstring & callee_num) ///網請
 	eXosip_unlock ();
 	return i > 0 ? 0 : -3;
 }
-int Siptransmit::CallAnswer(SipCallInfo::pointer callInfo, int localaudioport, int localvideoport)       ///茼湘網請
+int Siptransmit::sipCallAnswer(SipCallInfo::pointer callInfo)       ///茼湘網請
 {
 	BOOST_ASSERT (callInfo.get() != NULL);
 	/*
@@ -304,7 +305,11 @@ int Siptransmit::CallAnswer(SipCallInfo::pointer callInfo, int localaudioport, i
 	eXosip_call_send_answer (tid, 100, NULL);//trying
 	eXosip_call_send_answer (tid, 180, NULL);//ringing
 	eXosip_unlock ();*/
+	
+	m_currentCallInfo = callInfo;
 
+	int localaudioport = m_sipp.localaudioport();
+	int localvideoport = m_sipp.localvideoport();
 
 	int tid = callInfo->tranId();
 	int did = callInfo->dialogId();
@@ -331,7 +336,7 @@ int Siptransmit::CallAnswer(SipCallInfo::pointer callInfo, int localaudioport, i
 	eXosip_unlock ();
 	return 0;
 }
-int Siptransmit::CallTerminate(SipCallInfo::pointer callInfo)                    ///境儂
+int Siptransmit::sipCallTerminate(SipCallInfo::pointer callInfo)                    ///境儂
 {
 	BOOST_ASSERT (callInfo.get() != NULL);
 	//m_osipmessage = 0;
@@ -448,7 +453,7 @@ int Siptransmit::sdp_complete_200ok (int did, osip_message_t * answer, int audio
 	return 0;
 }
 
-int  Siptransmit::CallSendDtmf(SipCallInfo::pointer callInfo, char dtmf)
+int  Siptransmit::sipCallSendDtmf(SipCallInfo::pointer callInfo, char dtmf)
 {
 	BOOST_ASSERT (callInfo.get() != NULL);
 
@@ -495,6 +500,22 @@ void Siptransmit::procOneSipEvent(void)
 	if (m_mapEventInfo.front(eventInfo))
 	{
 		BOOST_ASSERT (eventInfo.get() != NULL);
+		switch (eventInfo->getEventType())
+		{
+		case SipEventInfo::ET_Register:
+			{
+				if (eventInfo->getEventData() == 2)
+					m_bIsRegistered = true;
+			}break;
+		case SipEventInfo::ET_CallAnswered:
+			{
+				BOOST_ASSERT (eventInfo->getCallInfo().get() != NULL);
+
+				m_currentCallInfo = eventInfo->getCallInfo();
+			}break;
+		default:
+			break;
+		}
 
 		if (m_EvenHandler != NULL)
 			m_EvenHandler->onSipEvent(eventInfo);
@@ -503,8 +524,11 @@ void Siptransmit::procOneSipEvent(void)
 		{
 		case SipEventInfo::ET_CallClosed:
 			{
-				BOOST_ASSERT (eventInfo->getCallInfo() != NULL);
+				BOOST_ASSERT (eventInfo->getCallInfo().get() != NULL);
+
 				m_mapCallInfo.remove(eventInfo->getCallInfo()->callId());
+				if (eventInfo->getCallInfo().get() == m_currentCallInfo.get())
+					m_currentCallInfo.reset();
 			}break;
 		default:
 			break;

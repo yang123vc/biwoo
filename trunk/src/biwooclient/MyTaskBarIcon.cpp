@@ -46,7 +46,7 @@ void MyTaskBarIcon::OnMenuRestore(wxCommandEvent& )
 
 void MyTaskBarIcon::OnMenuExit(wxCommandEvent& )
 {
-	if (wxMessageBox(gLangText.menuExitQuestion(), wxT("biwoo"), wxICON_QUESTION | wxYES_NO, m_frame) == wxYES)
+	if (wxMessageBox(gLangText.menuExitQuestion(), BIWOO_NAME, wxICON_QUESTION | wxYES_NO, m_frame) == wxYES)
 	{
 		m_frame->Destroy();
 	}

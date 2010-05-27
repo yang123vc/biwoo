@@ -21,9 +21,6 @@
 #include "winsock2.h"
 # include <windows.h>
 #endif // WIN32
-#include <bodb/bodb2.h>
-#include <bodb/fieldvariant.h>
-using namespace bo;
 
 #include "bcd.h"
 #include "DlgAddUser.h"
@@ -90,17 +87,18 @@ CDlgAddUser::CDlgAddUser(wxWindow *parent)
     sizerChoose->Add(sizerChooseLeft, 1, wxGROW|wxALL, 5 );
     sizerChoose->Add(sizerChooseRight, 1, wxGROW|wxALL, 5 );
 
-	wxBoxSizer * sizerButton = new wxBoxSizer(wxHORIZONTAL);
-	m_btnAddUser = new wxButton(this, wxID_OK, gLangText.btnAddUserText());
-	m_btnAddUser->SetToolTip(gLangText.btnAddUserHelp());
-	m_btnAddUser->Disable();
-	m_btnCancel = new wxButton(this, wxID_CANCEL, gLangText.btnCancelText());
-	m_btnCancel->SetToolTip(gLangText.btnCancelHelp());
-	sizerButton->Add(m_btnAddUser, 1, wxALL|wxALIGN_CENTER, 5);
-	sizerButton->Add(m_btnCancel, 1, wxALL|wxALIGN_CENTER, 5);
+    sizerTop->Add(sizerChoose, 1, wxEXPAND | wxLEFT|wxRIGHT, 5 );
 
-    sizerTop->Add(sizerChoose, 1, wxGROW|wxALL, 5 );
-    sizerTop->Add(sizerButton, 0, wxGROW|wxALL, 5 );
+	wxSizer *buttonSizer = CreateSeparatedButtonSizer(wxOK | wxCANCEL);
+	if ( buttonSizer )
+	{
+		this->GetWindowChild(wxID_OK)->SetLabel(gLangText.btnAddUserText());
+		this->GetWindowChild(wxID_OK)->SetToolTip(gLangText.btnAddUserHelp());
+		this->GetWindowChild(wxID_OK)->Disable();
+		this->GetWindowChild(wxID_CANCEL)->SetLabel(gLangText.btnCancelText());
+		this->GetWindowChild(wxID_CANCEL)->SetToolTip(gLangText.btnCancelHelp());
+		sizerTop->Add(buttonSizer, wxSizerFlags().Expand().DoubleBorder());
+	}
 
     SetSizer(sizerTop);
 	sizerTop->SetSizeHints(this);
@@ -112,8 +110,6 @@ CDlgAddUser::~CDlgAddUser(void)
 	delete m_searchTextCtrl;
 	delete m_listboxChooseFrom;
 	delete m_listboxChooseTo;
-	delete m_btnAddUser;
-	delete m_btnCancel;
 
 	m_existusers.clear();
 	m_addusers.clear();
@@ -190,7 +186,7 @@ void CDlgAddUser::OnChooseFromListboxDClick(wxCommandEvent& event)
 	m_listboxChooseFrom->Delete(sel);
 
 	m_addusers.insert(userInfo->getAccount(), userInfo);
-	m_btnAddUser->Enable();
+	this->GetWindowChild(wxID_OK)->Enable();
 }
 
 void CDlgAddUser::OnChooseToListboxDClick(wxCommandEvent& event)
@@ -209,7 +205,7 @@ void CDlgAddUser::OnChooseToListboxDClick(wxCommandEvent& event)
 	m_addusers.remove(userInfo->getAccount());
 	if (m_addusers.empty())
 	{
-		m_btnAddUser->Disable();
+		this->GetWindowChild(wxID_OK)->Disable();
 	}
 }
 
