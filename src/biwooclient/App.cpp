@@ -25,6 +25,7 @@
 #include "bcd.h"
 #include "App.h"
 #include "DlgLogin.h"
+#include "DlgSetting.h"
 
 MyFrame * theFrame = NULL;
 
@@ -38,6 +39,7 @@ MyFrame * theFrame = NULL;
 BEGIN_EVENT_TABLE(MyFrame, wxFrame)
     EVT_MENU(wxID_EXIT,  MyFrame::OnQuit)
     EVT_MENU(ID_Menu_ChangeAccount,  MyFrame::OnChangeAccount)
+    EVT_MENU(ID_Menu_InforSetting,  MyFrame::OnInformationSetting)
     EVT_MENU(wxID_ABOUT, MyFrame::OnAbout)
 	EVT_CLOSE(MyFrame::OnCloseWindow) 
 	EVT_ICONIZE(OnIconize)
@@ -68,7 +70,8 @@ IMPLEMENT_APP(MyApp)
 // the application class
 // ----------------------------------------------------------------------------
 
-// 'Main program' equivalent: the program execution "starts" here
+    #include "wx/numdlg.h"
+
 bool MyApp::OnInit()
 {
 	gAppHandler = this;
@@ -78,7 +81,7 @@ bool MyApp::OnInit()
 	size_t nFind = sFullModleName.rfind(sAppName);
 	gAppPath = sFullModleName.substr(0, nFind-1).c_str();
 
-	setAutorun("Biwoo", sFullModleName.c_str());
+	setAutorun(BIWOO_NAME.c_str(), sFullModleName.c_str());
 
 	wxString xmlFile(gAppPath);
 	xmlFile.Append(wxT("/default/setting.xml"));
@@ -87,12 +90,8 @@ bool MyApp::OnInit()
 	setlocale(LC_ALL, gSetting.locale().c_str());
 	//setlocale(LC_ALL,"Chinese-simplified");
 	//std::locale::global(std::locale("Chinese-simplified"));
-
+	
 	CCgcAddress serverAddress(gSetting.address(), CCgcAddress::ST_UDP);
-	//CCgcAddress fileserverAddress(gSetting.fileserver(), CCgcAddress::ST_UDP);
-	//CCgcAddress rtpserverAddress(gSetting.p2prtp(), CCgcAddress::ST_RTP);
-	//CCgcAddress udpserverAddress(gSetting.p2pudp(), CCgcAddress::ST_UDP);
-
 	if (!m_biwoo.start(serverAddress, (CbiwooHandler*)this))
 	{
 		//m_biwoo.stop();
@@ -103,6 +102,11 @@ bool MyApp::OnInit()
 	xmlFile.Append(wxT("/default/"));
 	xmlFile.Append(gSetting.langtext());
 	gLangText.load(xmlFile.c_str());
+
+	/////////////////////////////////////
+	// test
+	//CDlgSetting dlgSetting(NULL);
+	//dlgSetting.ShowModal();
 
     if ( !wxApp::OnInit() )
 	{
@@ -126,7 +130,7 @@ bool MyApp::OnInit()
 	m_biwoo.setHandler(gAppHandler);
 	m_biwoo.accountLoad();
 
-	wxString title = wxString::Format("biwoo - %s(%s)", gMyAccount->getUserinfo()->getUserName().c_str(), gMyAccount->getUserinfo()->getAccount().c_str());
+	wxString title = wxString::Format("%s - %s(%s)", BIWOO_NAME.c_str(), gMyAccount->getUserinfo()->getUserName().c_str(), gMyAccount->getUserinfo()->getAccount().c_str());
 	frame->SetTitle(title);
 	frame->setTaskBarIcon(wxT("mainframe.ico"), title);
 
@@ -210,10 +214,10 @@ void MyApp::onUserLogouted(CAccountInfo::pointer accountInfo, CbiwooHandler::Log
 	switch (logoutType)
 	{
 	case CbiwooHandler::ServerQuit:
-		wxMessageBox(gLangText.textServerQuitTip(), _T("biwoo"), wxOK | wxICON_INFORMATION, NULL);
+		wxMessageBox(gLangText.textServerQuitTip(), BIWOO_NAME, wxOK | wxICON_INFORMATION, NULL);
 		break;
 	case CbiwooHandler::LT_LoginAnotherPlace:
-		wxMessageBox(gLangText.textLoginAnotherPlaceTip(), _T("biwoo"), wxOK | wxICON_INFORMATION, NULL);
+		wxMessageBox(gLangText.textLoginAnotherPlaceTip(), BIWOO_NAME, wxOK | wxICON_INFORMATION, NULL);
 		break;
 	default:
 		{
@@ -304,9 +308,10 @@ MyFrame::MyFrame(const wxString& title, const wxSize& size)
 
     // the "About" item should be in the help menu
     wxMenu *helpMenu = new wxMenu;
-    //helpMenu->Append(wxID_ABOUT, _T("&About...\tF1"), _T("Show about dialog"));
 
     fileMenu->Append(ID_Menu_ChangeAccount, gLangText.menuChangeAccText(), gLangText.menuChangeAccHelp());
+	fileMenu->AppendSeparator();
+    fileMenu->Append(ID_Menu_InforSetting, gLangText.menuInforSettingText(), gLangText.menuInforSettingHelp());
 	fileMenu->AppendSeparator();
     fileMenu->Append(wxID_EXIT, gLangText.menuExitText(), gLangText.menuExitHelp());
 
@@ -363,38 +368,7 @@ void MyFrame::OnURL(wxTextUrlEvent& event)
 
 void MyFrame::OnTimer(wxTimerEvent & event)
 {
-	if (m_taskBarIcon != NULL)
-	{
-		//if (m_biwoo.hasUnread())
-		//{
-		//	if (m_showMsgIcon) return;
 
-		//	wxString sTemp(gAppPath.c_str());
-		//	sTemp.Append(wxT("/res/unread.ico"));
-
-		//	wxIcon icon(sTemp, wxBITMAP_TYPE_ICO);
-		//	m_taskBarIcon->SetIcon(icon, m_taskBarTooltip);
-		//}else
-		//{
-		//	if (!m_showMsgIcon) return;
-
-		//	m_taskBarIcon->SetIcon(m_iconTaskBar, m_taskBarTooltip);
-		//}
-		//m_showMsgIcon = !m_showMsgIcon;
-
-//		// Set another icon.
-//		if (m_taskBarIcon->IsIconInstalled())
-//		{
-//			m_taskBarIcon->RemoveIcon();
-//#ifdef WIN32
-//			Sleep(100);
-//#else
-//			usleep(100000);
-//#endif
-//		}
-
-		//m_taskBarIcon->SetIcon(m_iconTaskBar, m_taskBarTooltip);
-	}
 }
 
 void MyFrame::changeTaskBarIcon(const wxString & iconfilename, const wxString & tooltip)
@@ -464,7 +438,7 @@ void MyFrame::OnCloseWindow(wxCloseEvent& event)
 
 void MyFrame::OnChangeAccount(wxCommandEvent& WXUNUSED(event))
 {
-	if (wxMessageBox(gLangText.menuChangeAccQuestion(), wxT("biwoo"), wxICON_QUESTION | wxYES_NO, this) == wxYES)
+	if (wxMessageBox(gLangText.menuChangeAccQuestion(), BIWOO_NAME, wxICON_QUESTION | wxYES_NO, this) == wxYES)
 	{
 		this->Show(false);
 		m_biwoo.accountUnRegister();
@@ -496,16 +470,23 @@ void MyFrame::OnChangeAccount(wxCommandEvent& WXUNUSED(event))
 		m_biwoo.setHandler(gAppHandler);
 		m_biwoo.accountLoad();
 
-		wxString title = wxString::Format("biwoo - %s(%s)", gMyAccount->getUserinfo()->getUserName().c_str(), gMyAccount->getUserinfo()->getAccount().c_str());
+		wxString title = wxString::Format("%s - %s(%s)", BIWOO_NAME.c_str(), gMyAccount->getUserinfo()->getUserName().c_str(), gMyAccount->getUserinfo()->getAccount().c_str());
 		SetTitle(title);
 		setTaskBarIcon(wxT("mainframe.ico"), title);
 		this->Show(true);
 	}
 }
 
+void MyFrame::OnInformationSetting(wxCommandEvent& WXUNUSED(event))
+{
+	CDlgSetting dlgSetting(this, wxString::Format("%s %s", gMyAccount->getUserinfo()->getAccount().c_str(), 
+		gLangText.dlgInforSettingTitle().c_str()));
+	dlgSetting.ShowModal();
+}
+
 void MyFrame::OnQuit(wxCommandEvent& WXUNUSED(event))
 {
-	if (wxMessageBox(gLangText.menuExitQuestion(), wxT("biwoo"), wxICON_QUESTION | wxYES_NO, this) == wxYES)
+	if (wxMessageBox(gLangText.menuExitQuestion(), BIWOO_NAME, wxICON_QUESTION | wxYES_NO, this) == wxYES)
 	{
 		bQuitApp = true;
 		Close(true);
@@ -526,9 +507,11 @@ void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
                     _T("This is the open source enterprise communication application \n")
                     _T("running under %s.\n")
                     _T("\n")
-					_T("Version 1.0.2\n")
+					_T("Version 1.0.3\n")
 					_T("Copyright (C)2009-2010 akee.yang@gmail.com\n")
-					_T("All rights reserved.\n"),
+					_T("All rights reserved.\n")
+                    _T("\n")
+					_T("http://code.google.com/p/biwoo/ \n"),
                     wxGetOsDescription().c_str()
                  ),
                  _T("About biwoo client"),
@@ -539,6 +522,8 @@ void MyFrame::OnAbout(wxCommandEvent& WXUNUSED(event))
 void MyFrame::ShowContextMenu(const wxPoint& pos)
 {
     wxMenu menu;
+
+	// ???
 
 	menu.Append(wxID_ABOUT, gLangText.menuAboutText(), gLangText.menuAboutHelp());
     //menu.Append(Menu_Popup_Submenu, _T("&Submenu"), CreateDummyMenu(NULL));

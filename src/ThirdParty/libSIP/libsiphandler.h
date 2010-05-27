@@ -3,6 +3,7 @@
 #define __libsiphandler_h__
 
 #include "SipCallInfo.h"
+#include "SipParameter.h"
 
 class SipEventInfo
 {
@@ -73,6 +74,31 @@ class OnSipHandler
 {
 public:
 	virtual void onSipEvent(SipEventInfo::pointer eventInfo) = 0;
+};
+
+class DoSipHandler
+{
+public:
+	typedef boost::shared_ptr<DoSipHandler> pointer;
+
+	virtual bool initSip(const CSipParameter & sipp, OnSipHandler * handler) = 0;
+	virtual bool isInitSip(void) const = 0;
+	virtual void quitSip(void) = 0;
+
+	virtual const CSipParameter & getSipParameter(void) const = 0;
+	virtual SipCallInfo::pointer getSipCallInfo(void) const = 0;
+
+	virtual int sipRegister(void) = 0;
+	virtual void sipUnRegister(void) = 0;
+	virtual bool isSipRegistered(void) const = 0;
+
+	// call control
+	virtual int sipCallInvite(const tstring & callee_num) = 0; ///網請
+	//virtual int sipCallAnswer(SipCallInfo::pointer callInfo, int localaudioport, int localvideoport) = 0;       ///茼湘網請
+	virtual int sipCallAnswer(SipCallInfo::pointer callInfo) = 0;       ///茼湘網請
+	virtual int sipCallTerminate(SipCallInfo::pointer callInfo) = 0;                    ///境儂
+	virtual int sipCallSendDtmf(SipCallInfo::pointer callInfo, char dtmf) = 0;
+
 };
 
 #endif // __libsiphandler_h__

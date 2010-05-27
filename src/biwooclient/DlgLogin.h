@@ -66,8 +66,6 @@ private:
 	virtual void onUserLoginError(long errorCode);
 
 private:
-	wxButton * m_btnLogin;
-	//wxButton * m_btnRegister;
 	wxTextCtrl * m_textAccount;
 	wxTextCtrl * m_textPassword;
 	wxCheckBox * m_checkSavePassword;

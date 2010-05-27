@@ -110,6 +110,7 @@ protected:
 
     // event handlers (these functions should _not_ be virtual)
     void OnChangeAccount(wxCommandEvent& event);
+	void OnInformationSetting(wxCommandEvent& event);
     void OnQuit(wxCommandEvent& event);
     void OnIconize(wxIconizeEvent& event);
 	void OnSize(wxSizeEvent& event);

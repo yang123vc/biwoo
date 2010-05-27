@@ -134,6 +134,17 @@ bool CBiwooClient::accountLoad(void)
 {
 	return gBiwooProxy.accountLoad();
 }
+
+bool CBiwooClient::accountSetPwd(const tstring & oldPassword, const tstring & newPassword)
+{
+	return gBiwooProxy.accountSetPwd(oldPassword, newPassword);
+}
+
+bool CBiwooClient::accountSetInfo(CUserInfo::pointer newUserInfo)
+{
+	return gBiwooProxy.accountSetInfo(newUserInfo);
+}
+
 //
 //bool CBiwooClient::createFriendGroup(CGroupInfo::pointer groupInfo)
 //{

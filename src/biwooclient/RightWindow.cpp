@@ -1167,7 +1167,7 @@ void RightWindow::OnSendMsg(wxCommandEvent& event)
 
 	if (m_curFromInfo.get() == NULL)
 	{
-		wxMessageBox(gLangText.textSelectUserTip(), _T("biwoo"), wxOK | wxICON_WARNING, this);
+		wxMessageBox(gLangText.textSelectUserTip(), BIWOO_NAME, wxOK | wxICON_WARNING, this);
 		m_richTextCtrl->SetFocus();
 		return;
 	}
@@ -1304,14 +1304,14 @@ void RightWindow::OnSendFile(wxCommandEvent& event)
 
 	if (m_curFromInfo.get() == 0 || m_curFromInfo->fromType() != CFromInfo::FromUserInfo)
 	{
-		wxMessageBox(gLangText.textSelectUserTip(), _T("biwoo"), wxOK | wxICON_WARNING, this);
+		wxMessageBox(gLangText.textSelectUserTip(), BIWOO_NAME, wxOK | wxICON_WARNING, this);
 		m_richTextCtrl->SetFocus();
 		return;
 	}
 
 	if (m_curFromInfo->fromUser()->isOfflineState())
 	{
-		wxMessageBox(gLangText.textOfflineSendfileTip(), _T("biwoo"), wxOK | wxICON_WARNING, this);
+		wxMessageBox(gLangText.textOfflineSendfileTip(), BIWOO_NAME, wxOK | wxICON_WARNING, this);
 		m_richTextCtrl->SetFocus();
 		return;
 	}
@@ -1329,7 +1329,7 @@ void RightWindow::OnSendFile(wxCommandEvent& event)
     {
 		if (m_curFromInfo->fromUser()->isOfflineState())
 		{
-			wxMessageBox(gLangText.textOfflineSendfileTip(), _T("biwoo"), wxOK | wxICON_WARNING, this);
+			wxMessageBox(gLangText.textOfflineSendfileTip(), BIWOO_NAME, wxOK | wxICON_WARNING, this);
 			m_richTextCtrl->SetFocus();
 			return;
 		}
@@ -1344,7 +1344,7 @@ void RightWindow::OnSendFile(wxCommandEvent& event)
         {
 			if (n == 5)
 			{
-				//wxMessageBox(_T("Can not send file to the offline user."), _T("biwoo"), wxOK | wxICON_WARNING, this);
+				//wxMessageBox(_T("Can not send file to the offline user."), BIWOO_NAME, wxOK | wxICON_WARNING, this);
 				m_richTextCtrl->SetFocus();
 				break;
 			}
@@ -1367,14 +1367,14 @@ void RightWindow::OnVideoCall(wxCommandEvent& event)
 
 	if (m_curFromInfo.get() == 0 || m_curFromInfo->fromType() != CFromInfo::FromUserInfo)
 	{
-		wxMessageBox(gLangText.textSelectUserTip(), _T("biwoo"), wxOK | wxICON_WARNING, this);
+		wxMessageBox(gLangText.textSelectUserTip(), BIWOO_NAME, wxOK | wxICON_WARNING, this);
 		m_richTextCtrl->SetFocus();
 		return;
 	}
 
 	if (m_curFromInfo->fromUser()->isOfflineState())
 	{
-		wxMessageBox(gLangText.textOfflineVideoCallTip(), _T("biwoo"), wxOK | wxICON_WARNING, this);
+		wxMessageBox(gLangText.textOfflineVideoCallTip(), BIWOO_NAME, wxOK | wxICON_WARNING, this);
 		return;
 	}
 
@@ -1387,7 +1387,7 @@ void RightWindow::OnAddUser(wxCommandEvent& event)
 
 	if (m_curFromInfo.get() == NULL)
 	{
-		wxMessageBox(gLangText.textSelectUserTip(), _T("biwoo"), wxOK | wxICON_WARNING, this);
+		wxMessageBox(gLangText.textSelectUserTip(), BIWOO_NAME, wxOK | wxICON_WARNING, this);
 		m_richTextCtrl->SetFocus();
 		return;
 	}

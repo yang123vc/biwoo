@@ -3,8 +3,10 @@
 					==========
 					
 = VERSION: 1.0.3+ =
+ * A: add change password function.
+ * A: add update my information function.
  * A: add LoadSetting()
- 
+ * U: fix save password function.
 
 	VERSION: 1.0.3
 	===============

@@ -22,6 +22,7 @@
 #pragma warning(disable:4819)
 
 #include <string>
+//#include <list>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
@@ -31,13 +32,26 @@ public:
 	XmlParseLangText(void)
 		: m_menuFile("")
 		, m_menuChangeAccText(""), m_menuChangeAccHelp(""), m_menuChangeAccQuestion("")
+		, m_menuInforSettingText(""), m_menuInforSettingHelp("")
 		, m_menuExitText(""), m_menuExitHelp(""), m_menuExitQuestion("")
 		, m_menuHelp(""), m_menuAboutText(""), m_menuAboutHelp("")
 		, m_menuHideText(""), m_menuHideHelp(""), m_menuRestoreText(""), m_menuRestoreHelp("")
 		, m_dlgLoginTitle(""), m_dlgLoginAccountText(""), m_dlgLoginAccountHelp(""), m_dlgLoginPasswordText(""), m_dlgLoginPasswordHelp("")
 		, m_dlgAddUserTitle(""), m_dlgStaticChooseFrom(""), m_dlgStaticChooseTo("")
+		, m_dlgInforSettingTitle("")
+		, m_dlgISPageInformationText("")
+		, m_dlgISPINameText(""), m_dlgISPINameHelp("")
+		, m_dlgISPINickText(""), m_dlgISPINickHelp("")
+		, m_dlgISPIGenderText(""), m_dlgISPIGenderHelp("")
+		, m_dlgISPIPhoneText(""), m_dlgISPIPhoneHelp("")
+		, m_dlgISPIEmailText(""), m_dlgISPIEmailHelp("")
+		, m_dlgISPagePasswordText("")
+		, m_dlgISPPCurrentText(""), m_dlgISPPCurrentHelp("")
+		, m_dlgISPPNewText(""), m_dlgISPPNewHelp("")
+		, m_dlgISPPConfirmText(""), m_dlgISPPConfirmHelp("")
 		, m_btnLoginText(""), m_btnLoginHelp("")
 		, m_btnCancelText(""), m_btnCancelHelp("")
+		, m_btnUpdateText(""), m_btnUpdateHelp("")
 		, m_btnMyCompanyText("")//, m_btnMyCompanyHelp("")
 		, m_btnMyDepartmentText("")//, m_btnMyDepartmentHelp("")
 		, m_btnSendMsgText(""), m_btnSendMsgHelp(""), m_btnSendFileText(""), m_btnSendFileHelp(""), m_btnVideoCallText(""), m_btnVideoCallHelp("")
@@ -52,10 +66,14 @@ public:
 		, m_textLoginTimeout(""), m_textAccOrPwdError(""), m_textConnectError(""), m_textSystemError("")
 		, m_textSelectUserTip(""), m_textOfflineSendfileTip(""), m_textOfflineVideoCallTip(""), m_textLoginAnotherPlaceTip(""), m_textServerQuitTip("")
 		, m_textHadUnreadMsgTip("")
+		, m_textInformationUpdatedTip(""), m_textInformationUpdateErrorTip(""), m_textPasswordUpdatedTip(""), m_textPasswordUpdateErrorTip("")
 		, m_textSendFileto(""), m_textSaveFileto(""), m_textAllFiles("")
 		, m_textFileCanceled(""), m_textFileRejected(""), m_textWaitForReceive(""), m_textAcceptFile(""), m_textFileArrived(""), m_textFileSent("")
 		, m_textOnlineState(""), m_textOfflineState(""), m_textAwayState("")
 		, m_textCompanyType(""), m_textCoGroupType(""), m_textGroupType("")
+
+		, m_textGenderMale(""), m_textGenderFemale("")
+		, m_questCurModifiedSave("")
 
 	{}
 	~XmlParseLangText(void)
@@ -78,6 +96,9 @@ public:
 		m_menuChangeAccText = pt.get("root.menu.changeaccount.text", _T("changeaccount"));
 		m_menuChangeAccHelp = pt.get("root.menu.changeaccount.help", _T("changeaccount"));
 		m_menuChangeAccQuestion = pt.get("root.menu.changeaccount.question", _T("changeaccount question"));
+		m_menuInforSettingText = pt.get("root.menu.informationsetting.text", _T("informationsetting"));
+		m_menuInforSettingHelp = pt.get("root.menu.informationsetting.help", _T("informationsetting"));
+
 		m_menuExitText = pt.get("root.menu.exit.text", _T("exit"));
 		m_menuExitHelp = pt.get("root.menu.exit.help", _T("exit"));
 		m_menuExitQuestion = pt.get("root.menu.exit.question", _T("exit question"));
@@ -100,10 +121,37 @@ public:
 		m_dlgStaticChooseFrom = pt.get("root.dialog.adduser.stachoosefrom", _T("stachoosefrom"));
 		m_dlgStaticChooseTo = pt.get("root.dialog.adduser.stachooseto", _T("stachooseto"));
 
+		m_dlgInforSettingTitle = pt.get("root.dialog.informationsetting.title", _T("informationsetting title"));
+		m_dlgISPageInformationText = pt.get("root.dialog.informationsetting.page_information", _T("information"));
+		m_dlgISPINameText = pt.get("root.dialog.informationsetting.page_information.name", _T("name"));
+		m_dlgISPINameHelp = pt.get("root.dialog.informationsetting.page_information.name.help", _T("name"));
+		m_dlgISPINickText = pt.get("root.dialog.informationsetting.page_information.nick", _T("nick"));
+		m_dlgISPINickHelp = pt.get("root.dialog.informationsetting.page_information.nick.help", _T("nick"));
+		m_dlgISPIGenderText = pt.get("root.dialog.informationsetting.page_information.gender", _T("gender"));
+		m_dlgISPIGenderHelp = pt.get("root.dialog.informationsetting.page_information.gender.help", _T("gender"));
+		m_dlgISPIPhoneText = pt.get("root.dialog.informationsetting.page_information.phone", _T("phone"));
+		m_dlgISPIPhoneHelp = pt.get("root.dialog.informationsetting.page_information.phone.help", _T("phone"));
+		m_dlgISPIEmailText = pt.get("root.dialog.informationsetting.page_information.email", _T("email"));
+		m_dlgISPIEmailHelp = pt.get("root.dialog.informationsetting.page_information.email.help", _T("email"));
+
+		m_dlgISPagePasswordText = pt.get("root.dialog.informationsetting.page_password", _T("password"));
+		m_dlgISPPCurrentText = pt.get("root.dialog.informationsetting.page_password.current", _T("current password"));
+		m_dlgISPPCurrentHelp = pt.get("root.dialog.informationsetting.page_password.current.help", _T("current password"));
+		m_dlgISPPNewText = pt.get("root.dialog.informationsetting.page_password.new", _T("new password"));
+		m_dlgISPPNewHelp = pt.get("root.dialog.informationsetting.page_password.new.help", _T("new password"));
+		m_dlgISPPConfirmText = pt.get("root.dialog.informationsetting.page_password.confirm", _T("confirm password"));
+		m_dlgISPPConfirmHelp = pt.get("root.dialog.informationsetting.page_password.confirm.help", _T("confirm password"));
+
+		
+		//m_enumGenders
+
 		m_btnLoginText = pt.get("root.button.login", _T("login"));
 		m_btnLoginHelp = pt.get("root.button.login.help", _T("login"));
 		m_btnCancelText = pt.get("root.button.cancel", _T("cancel"));
 		m_btnCancelHelp = pt.get("root.button.cancel.help", _T("cancel"));
+		m_btnUpdateText = pt.get("root.button.update", _T("update"));
+		m_btnUpdateHelp = pt.get("root.button.update.help", _T("update"));
+
 		m_btnMyCompanyText = pt.get("root.button.mycompany", _T("my company"));
 		//m_btnMyCompanyHelp = pt.get("root.button.mycompany.help", _T("my company"));
 		m_btnMyDepartmentText = pt.get("root.button.mydepartment", _T("my department"));
@@ -153,6 +201,10 @@ public:
 		m_textLoginAnotherPlaceTip = pt.get("root.text.loginanotherplacetip", _T("login another place tip"));
 		m_textServerQuitTip = pt.get("root.text.serverquittip", _T("server quit tip"));
 		m_textHadUnreadMsgTip = pt.get("root.text.unreadmsgtip", _T("rnuead msg tip"));
+		m_textInformationUpdatedTip = pt.get("root.text.inforupdatedtip", _T("information updated"));
+		m_textInformationUpdateErrorTip = pt.get("root.text.inforupdateerrtip", _T("information update error"));
+		m_textPasswordUpdatedTip = pt.get("root.text.pwdupdatedtip", _T("password updated"));
+		m_textPasswordUpdateErrorTip = pt.get("root.text.pwdupdateerrtip", _T("password update error"));
 
 		m_textSendFileto = pt.get("root.text.sendfileto", _T("sendfileto"));
 		m_textSaveFileto = pt.get("root.text.savefileto", _T("savefileto"));
@@ -171,12 +223,20 @@ public:
 		m_textCoGroupType = pt.get("root.text.cogrouptype", _T("department"));
 		m_textGroupType = pt.get("root.text.grouptype", _T("group"));
 
+		m_textGenderMale = pt.get("root.text.gendermale", _T("male"));
+		m_textGenderFemale = pt.get("root.text.genderfemale", _T("female"));
+
+		m_questCurModifiedSave = pt.get("root.question.curmodified_save", _T("save?"));
+
 	}
 
 	const std::string & menuFile(void) const {return m_menuFile;}
 	const std::string & menuChangeAccText(void) const {return m_menuChangeAccText;}
 	const std::string & menuChangeAccHelp(void) const {return m_menuChangeAccHelp;}
 	const std::string & menuChangeAccQuestion(void) const {return m_menuChangeAccQuestion;}
+	const std::string & menuInforSettingText(void) const {return m_menuInforSettingText;}
+	const std::string & menuInforSettingHelp(void) const {return m_menuInforSettingHelp;}
+
 	const std::string & menuExitText(void) const {return m_menuExitText;}
 	const std::string & menuExitHelp(void) const {return m_menuExitHelp;}
 	const std::string & menuExitQuestion(void) const {return m_menuExitQuestion;}
@@ -199,10 +259,34 @@ public:
 	const std::string & dlgStaticChooseFrom(void) const {return m_dlgStaticChooseFrom;}
 	const std::string & dlgStaticChooseTo(void) const {return m_dlgStaticChooseTo;}
 
+	const std::string & dlgInforSettingTitle(void) const {return m_dlgInforSettingTitle;}
+	const std::string & dlgISPageInformationText(void) const {return m_dlgISPageInformationText;}
+	const std::string & dlgISPINameText(void) const {return m_dlgISPINameText;}
+	const std::string & dlgISPINameHelp(void) const {return m_dlgISPINameHelp;}
+	const std::string & dlgISPINickText(void) const {return m_dlgISPINickText;}
+	const std::string & dlgISPINickHelp(void) const {return m_dlgISPINickHelp;}
+	const std::string & dlgISPIGenderText(void) const {return m_dlgISPIGenderText;}
+	const std::string & dlgISPIGenderHelp(void) const {return m_dlgISPIGenderHelp;}
+	const std::string & dlgISPIPhoneText(void) const {return m_dlgISPIPhoneText;}
+	const std::string & dlgISPIPhoneHelp(void) const {return m_dlgISPIPhoneHelp;}
+	const std::string & dlgISPIEmailText(void) const {return m_dlgISPIEmailText;}
+	const std::string & dlgISPIEmailHelp(void) const {return m_dlgISPIEmailHelp;}
+
+	const std::string & dlgISPagePasswordText(void) const {return m_dlgISPagePasswordText;}
+	const std::string & dlgISPPCurrentText(void) const {return m_dlgISPPCurrentText;}
+	const std::string & dlgISPPCurrentHelp(void) const {return m_dlgISPPCurrentHelp;}
+	const std::string & dlgISPPNewText(void) const {return m_dlgISPPNewText;}
+	const std::string & dlgISPPNewHelp(void) const {return m_dlgISPPNewHelp;}
+	const std::string & dlgISPPConfirmText(void) const {return m_dlgISPPConfirmText;}
+	const std::string & dlgISPPConfirmHelp(void) const {return m_dlgISPPConfirmHelp;}
+
 	const std::string & btnLoginText(void) const {return m_btnLoginText;}
 	const std::string & btnLoginHelp(void) const {return m_btnLoginHelp;}
 	const std::string & btnCancelText(void) const {return m_btnCancelText;}
 	const std::string & btnCancelHelp(void) const {return m_btnCancelHelp;}
+	const std::string & btnUpdateText(void) const {return m_btnUpdateText;}
+	const std::string & btnUpdateHelp(void) const {return m_btnUpdateHelp;}
+
 	const std::string & btnMyCompanyText(void) const {return m_btnMyCompanyText;}
 	//const std::string & btnMyCompanyHelp(void) const {return m_btnMyCompanyHelp;}
 	const std::string & btnMyDepartmentText(void) const {return m_btnMyDepartmentText;}
@@ -252,6 +336,10 @@ public:
 	const std::string & textLoginAnotherPlaceTip(void) const {return m_textLoginAnotherPlaceTip;}
 	const std::string & textServerQuitTip(void) const {return m_textServerQuitTip;}
 	const std::string & textHadUnreadMsgTip(void) const {return m_textHadUnreadMsgTip;}
+	const std::string & textInformationUpdatedTip(void) const {return m_textInformationUpdatedTip;}
+	const std::string & textInformationUpdateErrorTip(void) const {return m_textInformationUpdateErrorTip;}
+	const std::string & textPasswordUpdatedTip(void) const {return m_textPasswordUpdatedTip;}
+	const std::string & textPasswordUpdateErrorTip(void) const {return m_textPasswordUpdateErrorTip;}
 
 	const std::string & textSendFileto(void) const {return m_textSendFileto;}
 	const std::string & textSaveFileto(void) const {return m_textSaveFileto;}
@@ -270,12 +358,20 @@ public:
 	const std::string & textCoGroupType(void) const {return m_textCoGroupType;}
 	const std::string & textGroupType(void) const {return m_textGroupType;}
 
+	const std::string & textGenderMale(void) const {return m_textGenderMale;}
+	const std::string & textGenderFemale(void) const {return m_textGenderFemale;}
+
+	const std::string & questCurModifiedSave(void) const {return m_questCurModifiedSave;}
+
 private:
 	// Menu
 	std::string		m_menuFile;
 	std::string		m_menuChangeAccText;
 	std::string		m_menuChangeAccHelp;
 	std::string		m_menuChangeAccQuestion;
+	std::string		m_menuInforSettingText;
+	std::string		m_menuInforSettingHelp;
+
 	std::string		m_menuExitText;
 	std::string		m_menuExitHelp;
 	std::string		m_menuExitQuestion;
@@ -298,11 +394,37 @@ private:
 	std::string		m_dlgStaticChooseFrom;
 	std::string		m_dlgStaticChooseTo;
 
+	std::string		m_dlgInforSettingTitle;
+	std::string		m_dlgISPageInformationText;
+	std::string		m_dlgISPINameText;
+	std::string		m_dlgISPINameHelp;
+	std::string		m_dlgISPINickText;
+	std::string		m_dlgISPINickHelp;
+	std::string		m_dlgISPIGenderText;
+	std::string		m_dlgISPIGenderHelp;
+	std::string		m_dlgISPIPhoneText;
+	std::string		m_dlgISPIPhoneHelp;
+	std::string		m_dlgISPIEmailText;
+	std::string		m_dlgISPIEmailHelp;
+	std::string		m_dlgISPagePasswordText;
+	std::string		m_dlgISPPCurrentText;
+	std::string		m_dlgISPPCurrentHelp;
+	std::string		m_dlgISPPNewText;
+	std::string		m_dlgISPPNewHelp;
+	std::string		m_dlgISPPConfirmText;
+	std::string		m_dlgISPPConfirmHelp;
+
+	// enum
+	//std::list<std::string> m_enumGenders;
+
 	// Button
 	std::string		m_btnLoginText;
 	std::string		m_btnLoginHelp;
 	std::string		m_btnCancelText;
 	std::string		m_btnCancelHelp;
+	std::string		m_btnUpdateText;
+	std::string		m_btnUpdateHelp;
+
 	std::string		m_btnMyCompanyText;
 	//std::string		m_btnMyCompanyHelp;
 	std::string		m_btnMyDepartmentText;
@@ -353,6 +475,10 @@ private:
 	std::string		m_textLoginAnotherPlaceTip;
 	std::string		m_textServerQuitTip;
 	std::string		m_textHadUnreadMsgTip;
+	std::string		m_textInformationUpdatedTip;
+	std::string		m_textInformationUpdateErrorTip;
+	std::string		m_textPasswordUpdatedTip;
+	std::string		m_textPasswordUpdateErrorTip;
 
 	std::string		m_textSendFileto;
 	std::string		m_textSaveFileto;
@@ -370,6 +496,13 @@ private:
 	std::string		m_textCompanyType;
 	std::string		m_textCoGroupType;
 	std::string		m_textGroupType;
+
+	std::string		m_textGenderMale;
+	std::string		m_textGenderFemale;
+
+	// question
+	std::string		m_questCurModifiedSave;
+
 };
 
 #endif // __XmlParseLangText_h__

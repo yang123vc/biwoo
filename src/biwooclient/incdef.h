@@ -44,6 +44,7 @@ enum
 	Menu_NewRootGroup		= 100
 	, Menu_Deletemessage
 	, ID_Menu_ChangeAccount
+	, ID_Menu_InforSetting
 	, Menu_NewChildGroup
 	, Menu_DeleteGroup
 

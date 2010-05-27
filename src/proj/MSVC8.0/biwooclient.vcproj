@@ -262,6 +262,14 @@
 				RelativePath="..\..\biwooclient\DlgLogin.h"
 				>
 			</File>
+			<File
+				RelativePath="..\..\biwooclient\DlgSetting.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\biwooclient\DlgSetting.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Head Files"

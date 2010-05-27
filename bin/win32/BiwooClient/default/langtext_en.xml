@@ -10,6 +10,10 @@
 			<help>Change Login Account</help>
 			<question>Are you sure you want to re-login with another account?</question>
 		</changeaccount>
+		<informationsetting>
+			<text>Information &Setting</text>
+			<help>User Information Setting</help>
+		</informationsetting>
 
 		<exit>
 			<text>E&xit	Alt-X</text>
@@ -36,10 +40,29 @@
 			<stachoosefrom>&Choose contacts</stachoosefrom>
 			<stachooseto>&Start IM with group</stachooseto>
 		</adduser>
+		<informationsetting>
+			<title>Information Setting</title>
+			<page_information>
+				My Information
+				<name>Name:<help>Name</help></name>
+				<nick>Nick:<help>Nick</help></nick>
+				<gender>Gender:<help>Gender</help></gender>
+				<phone>Phone:<help>Phone</help></phone>
+				<email>Email:<help>Email</help></email>
+			</page_information>
+			<page_password>
+				Password
+				<current>Current Password:<help>Current Password</help></current>
+				<new>New Password:<help>New Password</help></new>
+				<confirm>Confirm Password:<help>Confirm Password</help></confirm>
+			</page_password>
+		</informationsetting>
 	</dialog>
+
 	<button>
 		<login>&Login<help>Login to biwoo</help></login>
 		<cancel>&Cancel<help>Cancel</help></cancel>
+		<update>&Update<help>Update</help></update>
 		<sendmsg>&Send<help>Send message</help></sendmsg>
 		<sendfile>Send &File<help>Send file to user</help></sendfile>
 		<videocall>Video &Call<help>Video Call with user</help></videocall>
@@ -80,6 +103,10 @@
 		<loginanotherplacetip>You had already login another place. Click OK to exit this application.</loginanotherplacetip>
 		<serverquittip>Server quit. Clock OK to exit this application.</serverquittip>
 		<unreadmsgtip>You had unread messages.</unreadmsgtip>
+		<inforupdatedtip>Information updated.</inforupdatedtip>
+		<inforupdateerrtip>Information update error.</inforupdateerrtip>
+		<pwdupdatedtip>Password updated.</pwdupdatedtip>
+		<pwdupdateerrtip>Password update error.</pwdupdateerrtip>
 		
 		<sendfileto>Send file to </sendfileto>
 		<savefileto>Save file to </savefileto>
@@ -97,6 +124,12 @@
 		<companytype>Company</companytype>
 		<cogrouptype>Department</cogrouptype>
 		<grouptype>Project</grouptype>
+		
+		<gendermale>Male</gendermale>
+		<genderfemale>Female</genderfemale>
 	</text>
+	<question>
+		<curmodified_save>Information modified. Are you want to save?</curmodified_save>
+	</question>
 
 </root>

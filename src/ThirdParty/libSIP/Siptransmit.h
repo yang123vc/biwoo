@@ -11,16 +11,23 @@
 #include "SipParameter.h"
 #include "libsiphandler.h"
 
+#pragma   warning(disable:4996)
 
 #ifndef HANDLE
 typedef void * HANDLE;
 #endif // HANDLE
 
 class Siptransmit
+	: public DoSipHandler
 {
 public:
 	Siptransmit(void);
 	~Siptransmit(void);
+
+	static DoSipHandler::pointer create(void)
+	{
+		return DoSipHandler::pointer(new Siptransmit());
+	}
 
 	static tstring GetRemoteIp(int did);
 	static tstring GetCaller(int did);
@@ -29,19 +36,23 @@ public:
 	static void GetRemoteMedia(int did);
 
 public:
-	bool initSip(const CSipParameter & sipp, OnSipHandler * handler);
-	bool isInitSip(void) const {return m_bInitedSip;}
-	void quitSip(void);
-	const CSipParameter & GetSipParameter(void) const {return m_sipp;}
+	// DoSipHandler
+	virtual bool initSip(const CSipParameter & sipp, OnSipHandler * handler);
+	virtual bool isInitSip(void) const {return m_bInitedSip;}
+	virtual void quitSip(void);
 
-	int sipRegister(void);					///蛁聊
-	void sipUnRegister(void);				///蛁种
+	virtual const CSipParameter & getSipParameter(void) const {return m_sipp;}
+	virtual SipCallInfo::pointer getSipCallInfo(void) const {return m_currentCallInfo;}
+
+	virtual int sipRegister(void);					///蛁聊
+	virtual void sipUnRegister(void);				///蛁种
+	virtual bool isSipRegistered(void) const {return m_bIsRegistered;}
 
 	// call control
-	int CallInvite(const tstring & callee_num); ///網請
-	int CallAnswer(SipCallInfo::pointer callInfo, int localaudioport, int localvideoport);       ///茼湘網請
-	int CallTerminate(SipCallInfo::pointer callInfo);                    ///境儂
-	int CallSendDtmf(SipCallInfo::pointer callInfo, char dtmf);
+	virtual int sipCallInvite(const tstring & callee_num); ///網請
+	virtual int sipCallAnswer(SipCallInfo::pointer callInfo);       ///茼湘網請
+	virtual int sipCallTerminate(SipCallInfo::pointer callInfo);                    ///境儂
+	virtual int sipCallSendDtmf(SipCallInfo::pointer callInfo, char dtmf);
 	
 	void procOneSipEvent(void);
 	void addSipEvent(SipEventInfo::pointer eventInfo);
@@ -57,9 +68,11 @@ protected:
 
 private:
 	bool m_bInitedSip;
+	bool m_bIsRegistered;
 	int m_regid;
 	//osip_message_t * m_osipmessage;
 	CSipParameter m_sipp;
+	SipCallInfo::pointer m_currentCallInfo;
 
 	//int  m_LocalAudioPort;
 	//int  m_LocalVideoPort;
@@ -72,4 +85,3 @@ private:
 };
 
 #endif // __Siptransmit_h__
-

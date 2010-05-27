@@ -56,7 +56,9 @@ public:
 	void deleteDbOffEvent(unsigned long id);
 	void addOffEvent(CUserInfo::pointer userInfo, COfflineEvent::pointer offlineEvent);
 	void addUserinfo(CUserInfo::pointer userInfo);
+	void updateUserinfo(CUserInfo::pointer userInfo);
 	void deleteUserinfo(const tstring & sAccount);
+	void updatePassword(const tstring & sAccount, const tstring & sNewPassword);
 
 	void loadAccountInfo(CAccountInfo::pointer accountInfo);
 	void addFriendGroup(CAccountInfo::pointer accountInfo, CGroupInfo::pointer groupInfo);

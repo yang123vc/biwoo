@@ -96,7 +96,7 @@ extern "C" int CGC_API AccDestroy(const cgcRequest::pointer & request, cgcRespon
 
 	/////////////////////////////////
 	// Response
-	response->setParameter(cgcParameter::create(_T("A	ccount"), pAccount->getValue()));
+	response->setParameter(cgcParameter::create(_T("Account"), pAccount->getValue()));
 	return 0;
 }
 
@@ -148,9 +148,13 @@ extern "C" int CGC_API AccRegister(const cgcRequest::pointer & request, cgcRespo
 
 	/////////////////////////////////
 	// Response
+	response->setParameter(cgcParameter::create(_T("AccountId"), sAccountId));
 	response->setParameter(cgcParameter::create(_T("Account"), accountInfo->getUserinfo()->getAccount()));
 	response->setParameter(cgcParameter::create(_T("Name"), accountInfo->getUserinfo()->getUserName()));
-	response->setParameter(cgcParameter::create(_T("AccountId"), sAccountId));
+	response->setParameter(cgcParameter::create(_T("Nick"), accountInfo->getUserinfo()->getNick()));
+	response->setParameter(cgcParameter::create(_T("Gender"), (int)accountInfo->getUserinfo()->getGender()));
+	response->setParameter(cgcParameter::create(_T("Phone"), accountInfo->getUserinfo()->getPhone()));
+	response->setParameter(cgcParameter::create(_T("Email"), accountInfo->getUserinfo()->getEmail()));
 	return 0;
 }
 
@@ -482,6 +486,8 @@ extern "C" int CGC_API AccSetPwd(const cgcRequest::pointer & request, cgcRespons
 		// Password Error.
 		return 13;
 	}
+
+	gAVSProxy.updatePassword(accountInfo->getUserinfo()->getAccount(), sNewPwd);
 	accountInfo->getUserinfo()->setPassword(sNewPwd);
 
 	/////////////////////////////////
@@ -489,6 +495,7 @@ extern "C" int CGC_API AccSetPwd(const cgcRequest::pointer & request, cgcRespons
 	return 0;
 }
 
+/*
 extern "C" int CGC_API AccSetNick(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)
 {
 	/////////////////////////////////
@@ -555,7 +562,7 @@ extern "C" int CGC_API AccSetNick(const cgcRequest::pointer & request, cgcRespon
 	return 0;
 }
 
-
+*/
 extern "C" int CGC_API AccSetInfo(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)
 {
 	// Request
@@ -575,38 +582,69 @@ extern "C" int CGC_API AccSetInfo(const cgcRequest::pointer & request, cgcRespon
 		return -3;
 	}
 
+	bool bModified = false;
 	// UserName
-	cgcParameter::pointer userName = request->getParameter(_T("Name"));
-	if (userName.get() != 0)
+	//cgcParameter::pointer userName = request->getParameter(_T("Name"));
+	//if (userName.get() != 0)
+	//{
+	//	if (userName->getValue().empty())
+	//		accountInfo->getUserinfo()->setUserName(accountInfo->getUserinfo()->getAccount());
+	//	else
+	//		accountInfo->getUserinfo()->setUserName(userName->getValue());
+	//}
+	cgcParameter::pointer userNick = request->getParameter(_T("Nick"));
+	if (userNick.get() != 0)
 	{
-		if (userName->getValue().empty())
-			accountInfo->getUserinfo()->setUserName(accountInfo->getUserinfo()->getAccount());
-		else
-			accountInfo->getUserinfo()->setUserName(userName->getValue());
+		if (userNick->getValue() != accountInfo->getUserinfo()->getNick())
+		{
+			bModified = true;
+			accountInfo->getUserinfo()->setNick(userNick->getValue());
+		}
 	}
+
 	// Gender
 	int gender = request->getParameterValue(_T("Gender"), 0);
-	if (gender == 1 || gender == 2)
+	if (gender >= 0 && gender <= 2)
 	{
-		accountInfo->getUserinfo()->setGender((short)gender);
+		if ((short)gender != accountInfo->getUserinfo()->getGender())
+		{
+			bModified = true;
+			accountInfo->getUserinfo()->setGender((short)gender);
+		}
 	}
+
 	// Birthday
-	cgcParameter::pointer birthday = request->getParameter(_T("Birthday"));
-	if (birthday.get() != 0)
-	{
-		accountInfo->getUserinfo()->setBirthday(birthday->getValue());
-	}
+	//cgcParameter::pointer birthday = request->getParameter(_T("Birthday"));
+	//if (birthday.get() != 0)
+	//{
+	//	accountInfo->getUserinfo()->setBirthday(birthday->getValue());
+	//}
+
 	// Phone
 	cgcParameter::pointer phone = request->getParameter(_T("Phone"));
 	if (phone.get() != 0)
 	{
-		accountInfo->getUserinfo()->setPhone(phone->getValue());
+		if (phone->getValue() != accountInfo->getUserinfo()->getPhone())
+		{
+			bModified = true;
+			accountInfo->getUserinfo()->setPhone(phone->getValue());
+		}
 	}
+
 	// Email
 	cgcParameter::pointer email = request->getParameter(_T("Email"));
 	if (email.get() != 0)
 	{
-		accountInfo->getUserinfo()->setEmail(email->getValue());
+		if (email->getValue() != accountInfo->getUserinfo()->getEmail())
+		{
+			bModified = true;
+			accountInfo->getUserinfo()->setEmail(email->getValue());
+		}
+	}
+
+	if (bModified)
+	{
+		gAVSProxy.updateUserinfo(accountInfo->getUserinfo());
 	}
 
 	// Response
