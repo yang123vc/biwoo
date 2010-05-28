@@ -10,6 +10,6 @@
  # Use BiwooClient application. See [Install]
 
 = Use Biwoo secondary development =
- # Download and compile all the thirdparty librarys.
+ # Download and compile all the thirdparty librarys. See [ThirdParty]
  # Modify biwoo and biwooclient source code.
- # Compile and release.
+ # Compile and release. See [Compile]
