@@ -3,8 +3,9 @@
 
 *Latest Version:* 1.0.4
 
-|| *[Database]* || Biwoo database setting. ||
-|| *[Install]* || Biwoo installation. ||
+|| *[How]* || How Biwoo begin? ||
+|| [Database] || Biwoo database setting. ||
+|| [Install] || Biwoo installation. ||
 
 ----
 Support Please Contact: akee.yang@gmail.com
