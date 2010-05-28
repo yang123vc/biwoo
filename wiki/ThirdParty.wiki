@@ -1,0 +1,15 @@
+#summary Third-Party library.
+
+[Index]
+----
+|| [http://code.google.com/p/mycp/ MYCP_1_0_3] || MYCP is a Boost based, open-source, cross-platform enterprise application communication service development solutions. ||
+|| [http://code.google.com/p/bodb/ bodb_0_1_2] || Bodb is a boost based software library that implements a simple SQL database engine. ||
+|| [http://www.wxwidgets.org/ wxWidgets-2.8.10] || wxWidgets is a C++ GUI library.||
+|| [http://www.boost.org boost_1_41_0] || Boost provides free peer-reviewed portable C++ source libraries. ||
+|| jrtp || jrtplib-3.7.1, jthread-1.2.1 [http://www.edm.uhasselt.be/] [http://www.uhasselt.be/] ||
+|| [http://www.gnu.org/software/osip/ libosip2-3.3.0] || sip ||
+|| [http://www.antisip.com/doc/exosip2/modules.html libeXosip2-3.3.0] || sip ||
+|| DirectX 9.0 SDK || DirectShow ||
+|| [http://www.xvid.org/ xvidcore] || XviD is a high performance and high quality MPEG-4 video de-/encoding solution. ||
+|| [http://www.ffmpeg.org/ ffmpeg] || audio/video codec library ||
+|| [http://www.videolan.org/developers/x264.html x264] || x264 is a free library for encoding H264/AVC video streams. ||
