@@ -1,0 +1,15 @@
+#summary How.
+#labels how
+
+[Index]
+----
+
+= Use Biwoo applied in enterprise communication =
+ # Edit biwoo_sample.sql file, and generate the biwoo database file. See [Database]
+ # Setting and install BiwooServer. See [Install]
+ # Use BiwooClient application. See [Install]
+
+= Use Biwoo secondary development =
+ # Download and compile all the thirdparty librarys.
+ # Modify biwoo and biwooclient source code.
+ # Compile and release.
