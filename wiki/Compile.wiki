@@ -1,6 +1,9 @@
 #summary Linux and windows compile.
 #labels compile
 
+[Index]
+----
+
 = Linux Compile =
 *!!! Only support BiwooServer linux compile !!!*
 
