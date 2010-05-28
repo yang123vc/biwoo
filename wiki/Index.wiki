@@ -3,7 +3,7 @@
 
 *Latest Version:* 1.0.4
 
-|| *[How]* || How Biwoo begin? ||
+|| [How] || How Biwoo begin? ||
 || [Database] || Biwoo database setting. ||
 || [Install] || Biwoo installation. ||
 
