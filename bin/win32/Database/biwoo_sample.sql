@@ -12,12 +12,12 @@ INSERT INTO systemsetting_t(curdialogid) VALUES(0);
 
 //////////////////////////////////////////;
 // Create user account here;
-INSERT INTO userinfo_t(account, password, username, phone, email) VALUES('aaa', 'aaa', 'UserAccount1', '137', 'aaa@company.com');
-INSERT INTO userinfo_t(account, password, username, phone, email) VALUES('bbb', 'bbb', 'UserAccount2', '137', 'bbb@company.com');
-INSERT INTO userinfo_t(account, password, username, phone, email) VALUES('ccc', 'ccc', 'UserAccount3', '137', 'ccc@company.com');
-INSERT INTO userinfo_t(account, password, username, phone, email) VALUES('ddd', 'ddd', 'UserAccount4', '137', 'ddd@company.com');
-INSERT INTO userinfo_t(account, password, username, phone, email) VALUES('eee', 'eee', 'UserAccount5', '137', 'eee@company.com');
-INSERT INTO userinfo_t(account, password, username, phone, email) VALUES('fff', 'fff', 'UserAccount6', '137', 'fff@company.com');
+INSERT INTO userinfo_t(account, password, username, gender, extension, phone, mobile, email) VALUES('aaa', 'aaa', 'UserAccount1', 1, '1001', '85510000', '137xx', 'aaa@company.com');
+INSERT INTO userinfo_t(account, password, username, gender, extension, phone, mobile, email) VALUES('bbb', 'bbb', 'UserAccount2', 1, '1002', '85510000', '137xx', 'bbb@company.com');
+INSERT INTO userinfo_t(account, password, username, gender, extension, phone, mobile, email) VALUES('ccc', 'ccc', 'UserAccount3', 1, '1003', '85510000', '137xx', 'ccc@company.com');
+INSERT INTO userinfo_t(account, password, username, gender, extension, phone, mobile, email) VALUES('ddd', 'ddd', 'UserAccount4', 1, '1004', '85510000', '137xx', 'ddd@company.com');
+INSERT INTO userinfo_t(account, password, username, gender, extension, phone, mobile, email) VALUES('eee', 'eee', 'UserAccount5', 2, '1005', '85510000', '137xx', 'eee@company.com');
+INSERT INTO userinfo_t(account, password, username, gender, extension, phone, mobile, email) VALUES('fff', 'fff', 'UserAccount6', 2, '1006', '85510000', '137xx', 'fff@company.com');
 
 
 ////////////////////////////////////////////////////;

@@ -17,7 +17,7 @@
 
 		<exit>
 			<text>退出(&x)	Alt-X</text>
-			<help>退出程序</help>
+			<help>退出 BiwooClient 应用程序！</help>
 			<question>你是否确定要退出当前程序？</question>
 		</exit>
 
@@ -47,7 +47,9 @@
 				<name>姓名:<help>姓名</help></name>
 				<nick>昵称:<help>昵称</help></nick>
 				<gender>性别:<help>性别</help></gender>
-				<phone>电话:<help>电话</help></phone>
+				<extension>分机号码:<help>分机号码</help></extension>
+				<phone>电话号码:<help>电话号码</help></phone>
+				<mobile>手机号码:<help>手机号码</help></mobile>
 				<email>邮箱:<help>邮箱</help></email>
 			</page_information>
 			<page_password>
@@ -120,6 +122,7 @@
 		<onlinestate>在线</onlinestate>
 		<offlinestate>离线</offlinestate>
 		<awaystate>离开</awaystate>
+		<type>类型</type>
 		<companytype>公司</companytype>
 		<cogrouptype>部门</cogrouptype>
 		<grouptype>项目组</grouptype>

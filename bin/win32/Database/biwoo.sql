@@ -7,14 +7,17 @@ USE biwoo;
 
 CREATE TABLE userinfo_t
 (
-	account 	VARCHAR(32)	PRIMARY KEY,
-	password 	VARCHAR(16),
-	username 	VARCHAR(32),
-	nick 			VARCHAR(32),
-	gender 		TINYINT DEFAULT 0,
-	birthday 	DATE,
-	phone			VARCHAR(32),
-	email			VARCHAR(32)
+	account 			VARCHAR(32)	PRIMARY KEY,
+	password 			VARCHAR(16),
+	username 			VARCHAR(32),
+	nick 					VARCHAR(32),
+	gender 				TINYINT DEFAULT 0,
+	birthday 			DATE,
+	extension			VARCHAR(16),
+	phone					VARCHAR(32),
+	mobile				VARCHAR(32),
+	email					VARCHAR(32),
+	description		VARCHAR(256)
 );
 
 CREATE TABLE systemsetting_t

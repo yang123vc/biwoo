@@ -153,8 +153,11 @@ extern "C" int CGC_API AccRegister(const cgcRequest::pointer & request, cgcRespo
 	response->setParameter(cgcParameter::create(_T("Name"), accountInfo->getUserinfo()->getUserName()));
 	response->setParameter(cgcParameter::create(_T("Nick"), accountInfo->getUserinfo()->getNick()));
 	response->setParameter(cgcParameter::create(_T("Gender"), (int)accountInfo->getUserinfo()->getGender()));
+	response->setParameter(cgcParameter::create(_T("Ext"), accountInfo->getUserinfo()->getExtension()));
 	response->setParameter(cgcParameter::create(_T("Phone"), accountInfo->getUserinfo()->getPhone()));
+	response->setParameter(cgcParameter::create(_T("Mobile"), accountInfo->getUserinfo()->getMobile()));
 	response->setParameter(cgcParameter::create(_T("Email"), accountInfo->getUserinfo()->getEmail()));
+	//response->setParameter(cgcParameter::create(_T("Desc"), accountInfo->getUserinfo()->getDescription()));
 	return 0;
 }
 
@@ -620,6 +623,17 @@ extern "C" int CGC_API AccSetInfo(const cgcRequest::pointer & request, cgcRespon
 	//	accountInfo->getUserinfo()->setBirthday(birthday->getValue());
 	//}
 
+	// Extension
+	cgcParameter::pointer extension = request->getParameter(_T("Ext"));
+	if (extension.get() != 0)
+	{
+		if (extension->getValue() != accountInfo->getUserinfo()->getExtension())
+		{
+			bModified = true;
+			accountInfo->getUserinfo()->setExtension(extension->getValue());
+		}
+	}
+
 	// Phone
 	cgcParameter::pointer phone = request->getParameter(_T("Phone"));
 	if (phone.get() != 0)
@@ -628,6 +642,17 @@ extern "C" int CGC_API AccSetInfo(const cgcRequest::pointer & request, cgcRespon
 		{
 			bModified = true;
 			accountInfo->getUserinfo()->setPhone(phone->getValue());
+		}
+	}
+
+	// Mobile
+	cgcParameter::pointer mobile = request->getParameter(_T("Mobile"));
+	if (mobile.get() != 0)
+	{
+		if (mobile->getValue() != accountInfo->getUserinfo()->getMobile())
+		{
+			bModified = true;
+			accountInfo->getUserinfo()->setMobile(mobile->getValue());
 		}
 	}
 

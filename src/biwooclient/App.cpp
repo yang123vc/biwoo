@@ -523,16 +523,11 @@ void MyFrame::ShowContextMenu(const wxPoint& pos)
 {
     wxMenu menu;
 
-	// ???
-
-	menu.Append(wxID_ABOUT, gLangText.menuAboutText(), gLangText.menuAboutHelp());
-    //menu.Append(Menu_Popup_Submenu, _T("&Submenu"), CreateDummyMenu(NULL));
-    menu.AppendSeparator();
+    menu.Append(ID_Menu_ChangeAccount, gLangText.menuChangeAccText(), gLangText.menuChangeAccHelp());
+	menu.AppendSeparator();
+    menu.Append(ID_Menu_InforSetting, gLangText.menuInforSettingText(), gLangText.menuInforSettingHelp());
+	menu.AppendSeparator();
     menu.Append(wxID_EXIT, gLangText.menuExitText(), gLangText.menuExitHelp());
-
-    //menu.Delete(Menu_Popup_ToBeDeleted);
-    //menu.Check(Menu_Popup_ToBeChecked, true);
-    //menu.Enable(Menu_Popup_ToBeGreyed, false);
 
     PopupMenu(&menu, pos.x, pos.y);
 }

@@ -17,7 +17,7 @@
 
 		<exit>
 			<text>E&xit	Alt-X</text>
-			<help>Quit this program</help>
+			<help>Quit BiwooClient Application!</help>
 			<question>Are you sure you want to exit this application?</question>
 		</exit>
 
@@ -43,11 +43,13 @@
 		<informationsetting>
 			<title>Information Setting</title>
 			<page_information>
-				My Information
-				<name>Name:<help>Name</help></name>
+				Information
+				<name>My Name:<help>My Name</help></name>
 				<nick>Nick:<help>Nick</help></nick>
 				<gender>Gender:<help>Gender</help></gender>
-				<phone>Phone:<help>Phone</help></phone>
+				<extension>Extension:<help>Extension</help></extension>
+				<phone>Phone Number:<help>Phone Number</help></phone>
+				<mobile>Mobile Phone:<help>Mobile Phone</help></mobile>
 				<email>Email:<help>Email</help></email>
 			</page_information>
 			<page_password>
@@ -121,6 +123,7 @@
 		<onlinestate>Online</onlinestate>
 		<offlinestate>Offline</offlinestate>
 		<awaystate>Away</awaystate>
+		<type>Type</type>
 		<companytype>Company</companytype>
 		<cogrouptype>Department</cogrouptype>
 		<grouptype>Project</grouptype>
