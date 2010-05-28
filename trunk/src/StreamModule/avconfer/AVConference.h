@@ -86,6 +86,7 @@ private:
 
 	// SIP
 	CSip m_sip;
+	DoSipHandler::pointer m_sipHandler;
 
 	CLockMap<tstring, CConferenceInfo::pointer> m_conferences;
 	CLockMap<void*, CConferenceInfo::pointer> m_conferences2;	// SipCallInfo->

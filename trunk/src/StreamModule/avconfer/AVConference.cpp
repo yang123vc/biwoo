@@ -39,7 +39,6 @@ bool CAVConference::initsip(const CSipParameter & sipp)
 	tstring sPwd = _T("yhz");
 	tstring sIdentity = _T("sip:yhz@192.168.19.77");
 	tstring sProxy = _T("sip:192.168.19.84:5060");
-
 	CSipParameter sipp;
 	sipp.ua(sUA);
 	sipp.pwd(sPwd);
@@ -47,13 +46,18 @@ bool CAVConference::initsip(const CSipParameter & sipp)
 	sipp.proxy(sProxy);
 	sipp.sipport(sipport);*/
 
-	bool ret = m_sip.initSip(sipp, this);
-	return ret;
+	if (m_sipHandler.get() == NULL)
+	{
+		m_sipHandler = m_sip.initSip(sipp, this);
+	}
+
+	return m_sipHandler.get() != NULL;
 }
 
 void CAVConference::quitsip(void)
 {
-	m_sip.quitSip();
+	m_sip.quitSip(m_sipHandler);
+	m_sipHandler.reset();
 
 	CLockMap<tstring, CConferenceInfo::pointer>::iterator iterConference;
 	boost::mutex::scoped_lock lockConference(m_conferences.mutex());
@@ -153,6 +157,7 @@ void CAVConference::enableVideoRecv(const tstring & conferenceName, int memberIn
 void CAVConference::onSipEvent(SipEventInfo::pointer eventInfo)
 {
 	BOOST_ASSERT (eventInfo.get() != 0);
+	if (m_sipHandler.get() == NULL) return;
 
 	switch (eventInfo->getEventType())
 	{
@@ -171,7 +176,8 @@ void CAVConference::onSipEvent(SipEventInfo::pointer eventInfo)
 
 			if (getIndexByUserIndentify(conferenceName,eventInfo->getCallInfo()->caller())!= -1) ///用户已经存在 add by xap
 			{
-				m_sip.CallTerminate(eventInfo->getCallInfo());
+				m_sipHandler->sipCallTerminate(eventInfo->getCallInfo());
+				//m_sip.CallTerminate(eventInfo->getCallInfo());
 				return;
 			}
 
@@ -179,7 +185,8 @@ void CAVConference::onSipEvent(SipEventInfo::pointer eventInfo)
 			if (conferenceInfo.get() == NULL || conferenceInfo->isLimitMaxNumbers())
 			{
 				// 找不到会议号，或者超过最大会议成员数，直接挂机
-				m_sip.CallTerminate(eventInfo->getCallInfo());
+				m_sipHandler->sipCallTerminate(eventInfo->getCallInfo());
+				//m_sip.CallTerminate(eventInfo->getCallInfo());
 				return;
 			}
 
@@ -213,7 +220,8 @@ void CAVConference::onSipEvent(SipEventInfo::pointer eventInfo)
 				audioRtpHandler->doAddDest(eventInfo->getCallInfo()->remoteIp().c_str(), eventInfo->getCallInfo()->audioPort());
 				videoRtpHandler->doAddDest(eventInfo->getCallInfo()->remoteIp().c_str(), eventInfo->getCallInfo()->videoPort());
 
-				m_sip.CallAnswer(eventInfo->getCallInfo(), audioRtpHandler->doGetRtpPort(), videoRtpHandler->doGetRtpPort());
+				m_sipHandler->sipCallAnswer(eventInfo->getCallInfo(), audioRtpHandler->doGetRtpPort(), videoRtpHandler->doGetRtpPort());
+				//m_sip.CallAnswer(eventInfo->getCallInfo(), audioRtpHandler->doGetRtpPort(), videoRtpHandler->doGetRtpPort());
 
 				conferenceMember->setIp(eventInfo->getCallInfo()->remoteIp());
 				conferenceMember->setAudioPort(eventInfo->getCallInfo()->audioPort());
@@ -244,7 +252,8 @@ void CAVConference::onSipEvent(SipEventInfo::pointer eventInfo)
 			{
 				m_rtp.stopRtp(audioRtpHandler);
 				m_rtp.stopRtp(videoRtpHandler);
-				m_sip.CallTerminate(eventInfo->getCallInfo());
+				m_sipHandler->sipCallTerminate(eventInfo->getCallInfo());
+				//m_sip.CallTerminate(eventInfo->getCallInfo());
 			}
 
 
