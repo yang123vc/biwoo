@@ -1,6 +1,9 @@
 #summary BiwooServer and BiwooClient installation.
 #labels BiwooServer,BiwooClient,Installation
 
+*[Index Index]*
+----
+
 = 1 BiwooServer Installation =
 *`[liunx,win32]`*
 
@@ -62,6 +65,3 @@ win32_run.bat
 
 == 2.2 Run BiwooClient ==
  * *Windows:* Run $(BIWOO_PATH)\bin\win32\BiwooClient\biwooclient.exe
-
-----
-*[Index Index]*
