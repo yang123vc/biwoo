@@ -6,6 +6,7 @@
 || [How] || *How Biwoo begin?* ||
 || [Database] || Biwoo database setting. ||
 || [Install] || Biwoo installation. ||
+|| [Compile] || Biwoo compile. ||
 || [ThirdParty] || Third-Party library. ||
 
 ----
