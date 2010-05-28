@@ -1,0 +1,12 @@
+#summary Linux and windows compile.
+#labels compile
+
+= Linux Compile =
+*!!! Only support BiwooServer linux compile !!!*
+
+|| # ./configure CPPFLAGS="-I/usr/local/include/jrtplib3 -I/usr/local/include/jthread" ||
+|| # make ||
+|| # sudo make install ||
+
+= Windows Compile =
+...
