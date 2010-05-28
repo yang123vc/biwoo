@@ -17,19 +17,19 @@
 */
 
 #include "bcd.h"
+#include "incdef.h"
 #include "MyTaskBarIcon.h"
-
-enum {
-    PU_RESTORE = 10001,
-    //PU_EXIT,
-};
+#include "DlgSetting.h"
 
 
 BEGIN_EVENT_TABLE(MyTaskBarIcon, wxTaskBarIcon)
-    EVT_MENU(PU_RESTORE, MyTaskBarIcon::OnMenuRestore)
+    EVT_MENU(ID_Menu_Restore, MyTaskBarIcon::OnMenuRestore)
+    EVT_MENU(ID_Menu_ChangeAccount,  MyTaskBarIcon::OnChangeAccount)
+    EVT_MENU(ID_Menu_InforSetting,  MyTaskBarIcon::OnInformationSetting)
+    EVT_MENU(wxID_ABOUT, MyTaskBarIcon::OnAbout)
     EVT_MENU(wxID_EXIT,    MyTaskBarIcon::OnMenuExit)
-    EVT_TASKBAR_LEFT_DCLICK  (MyTaskBarIcon::OnLeftButtonDClick)
-    EVT_UPDATE_UI(PU_RESTORE,MyTaskBarIcon::OnMenuUICheckmark)
+    EVT_TASKBAR_LEFT_DCLICK(MyTaskBarIcon::OnLeftButtonDClick)
+    EVT_UPDATE_UI(ID_Menu_Restore, MyTaskBarIcon::OnMenuUICheckmark)
 END_EVENT_TABLE()
 
 void MyTaskBarIcon::OnMenuRestore(wxCommandEvent& )
@@ -44,12 +44,24 @@ void MyTaskBarIcon::OnMenuRestore(wxCommandEvent& )
 	}
 }
 
+void MyTaskBarIcon::OnChangeAccount(wxCommandEvent& WXUNUSED(event))
+{
+	m_frame->ProcessCommand(ID_Menu_ChangeAccount);
+}
+
+void MyTaskBarIcon::OnInformationSetting(wxCommandEvent& WXUNUSED(event))
+{
+	m_frame->ProcessCommand(ID_Menu_InforSetting);
+}
+
+void MyTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event))
+{
+	m_frame->ProcessCommand(wxID_ABOUT);
+}
+
 void MyTaskBarIcon::OnMenuExit(wxCommandEvent& )
 {
-	if (wxMessageBox(gLangText.menuExitQuestion(), BIWOO_NAME, wxICON_QUESTION | wxYES_NO, m_frame) == wxYES)
-	{
-		m_frame->Destroy();
-	}
+	m_frame->ProcessCommand(wxID_EXIT);
 }
 
 // Overridables
@@ -58,10 +70,14 @@ wxMenu *MyTaskBarIcon::CreatePopupMenu()
     // Try creating menus different ways
     // TODO: Probably try calling SetBitmap with some XPMs here
     wxMenu *menu = new wxMenu;
-    menu->Append(PU_RESTORE, gLangText.menuRestoreText(), gLangText.menuRestoreHelp());
+    menu->Append(ID_Menu_Restore, gLangText.menuRestoreText(), gLangText.menuRestoreHelp());
+    menu->AppendSeparator();
+    menu->Append(ID_Menu_ChangeAccount, gLangText.menuChangeAccText(), gLangText.menuChangeAccHelp());
+    menu->Append(ID_Menu_InforSetting, gLangText.menuInforSettingText(), gLangText.menuInforSettingHelp());
+    menu->AppendSeparator();
+ 	menu->Append(wxID_ABOUT, gLangText.menuAboutText(), gLangText.menuAboutHelp());
     menu->AppendSeparator();
     menu->Append(wxID_EXIT, gLangText.menuExitText(), gLangText.menuExitHelp());
-    //menu->Append(PU_EXIT,    _T("E&xit"));
     return menu;
 }
 

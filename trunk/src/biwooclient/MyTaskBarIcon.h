@@ -42,6 +42,10 @@ public:
 
 	void OnLeftButtonDClick(wxTaskBarIconEvent&);
 	void OnMenuRestore(wxCommandEvent&);
+    void OnChangeAccount(wxCommandEvent& event);
+	void OnInformationSetting(wxCommandEvent& event);
+
+    void OnAbout(wxCommandEvent& event);
 	void OnMenuExit(wxCommandEvent&);
 	void OnMenuUICheckmark(wxUpdateUIEvent &event);
 	virtual wxMenu *CreatePopupMenu();

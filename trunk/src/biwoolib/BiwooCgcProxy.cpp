@@ -764,13 +764,17 @@ bool CBiwooCgcProxy::accountSetInfo(CUserInfo::pointer newUserInfo)
 
 	m_account->getUserinfo()->setNick(newUserInfo->getNick());
 	m_account->getUserinfo()->setGender(newUserInfo->getGender());
+	m_account->getUserinfo()->setExtension(newUserInfo->getExtension());
 	m_account->getUserinfo()->setPhone(newUserInfo->getPhone());
+	m_account->getUserinfo()->setMobile(newUserInfo->getMobile());
 	m_account->getUserinfo()->setEmail(newUserInfo->getEmail());
 
 	m_cgcClient->doAddParameter(cgcParameter::create(_T("AccountId"), m_account->getAccountId()));
 	m_cgcClient->doAddParameter(cgcParameter::create(_T("Nick"), m_account->getUserinfo()->getNick()));
 	m_cgcClient->doAddParameter(cgcParameter::create(_T("Gender"), (int)m_account->getUserinfo()->getGender()));
+	m_cgcClient->doAddParameter(cgcParameter::create(_T("Ext"), m_account->getUserinfo()->getExtension()));
 	m_cgcClient->doAddParameter(cgcParameter::create(_T("Phone"), m_account->getUserinfo()->getPhone()));
+	m_cgcClient->doAddParameter(cgcParameter::create(_T("Mobile"), m_account->getUserinfo()->getMobile()));
 	m_cgcClient->doAddParameter(cgcParameter::create(_T("Email"), m_account->getUserinfo()->getEmail()));
 	m_cgcClient->doSendAppCall(const_CallSign_AccSetInfo, const_Api_AccSetInfo);
 
@@ -2894,7 +2898,10 @@ void CBiwooCgcProxy::OnCgcResponse(const cgcParser & response)
 			const tstring & account = response.getRecvParameterValue(_T("Account"));
 			const tstring & name = response.getRecvParameterValue(_T("Name"));
 			const tstring & nick = response.getRecvParameterValue(_T("Nick"));
+			long gender = response.getRecvParameterValue(_T("Gender"), 0);
+			const tstring & extension = response.getRecvParameterValue(_T("Ext"));
 			const tstring & phone = response.getRecvParameterValue(_T("Phone"));
+			const tstring & mobile = response.getRecvParameterValue(_T("Mobile"));
 			const tstring & email = response.getRecvParameterValue(_T("Email"));
 			long lineState = response.getRecvParameterValue(_T("LineState"), 0);
 
@@ -2904,7 +2911,10 @@ void CBiwooCgcProxy::OnCgcResponse(const cgcParser & response)
 				userInfo = CUserInfo::create(account, "");
 				userInfo->setUserName(name);
 				userInfo->setNick(nick);
+				userInfo->setGender((short)gender);
+				userInfo->setExtension(extension);
 				userInfo->setPhone(phone);
+				userInfo->setMobile(mobile);
 				userInfo->setEmail(email);
 				userInfo->setLineState((CUserInfo::UserLineState)lineState);
 				companyInfo->m_userinfos.insert(userInfo->getAccount(), userInfo);
@@ -3060,7 +3070,9 @@ void CBiwooCgcProxy::OnCgcResponse(const cgcParser & response)
 				const tstring & sUserName = response.getRecvParameterValue(_T("Name"));
 				const tstring & sNick = response.getRecvParameterValue(_T("Nick"));
 				long nGender = response.getRecvParameterValue(_T("Gender"), (long)0);
+				const tstring & sExtension = response.getRecvParameterValue(_T("Ext"));
 				const tstring & sPhone = response.getRecvParameterValue(_T("Phone"));
+				const tstring & sMobile = response.getRecvParameterValue(_T("Mobile"));
 				const tstring & sEmail = response.getRecvParameterValue(_T("Email"));
 
 				if (!m_p2pav.AccountLogin(sAccount))
@@ -3108,7 +3120,9 @@ void CBiwooCgcProxy::OnCgcResponse(const cgcParser & response)
 				userinfo->setUserName(sUserName);
 				userinfo->setNick(sNick);
 				userinfo->setGender((short)nGender);
+				userinfo->setExtension(sExtension);
 				userinfo->setPhone(sPhone);
+				userinfo->setMobile(sMobile);
 				userinfo->setEmail(sEmail);
 				m_account = CAccountInfo::create(userinfo, sAccountId);
 				m_handler->onUserLogined(m_account);

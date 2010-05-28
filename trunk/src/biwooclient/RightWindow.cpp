@@ -93,8 +93,10 @@ RightWindow::RightWindow(wxWindow * parent)
 RightWindow::~RightWindow(void)
 {
 	delete m_staName;
+	delete m_staExtension;
 	delete m_staUserEMail;
 	delete m_staUserPhone;
+	delete m_staMobile;
 	delete m_staUserDepartment;
 
 	delete m_btnSendFile;
@@ -139,21 +141,27 @@ void RightWindow::createUserInfoPanel(wxWindow * parent)
 		m_sizerUserinfo = new wxBoxSizer(wxHORIZONTAL);
 		//wxStaticBitmap * staUserImage = new wxStaticBitmap(this, wxID_ANY, m_bitmapUI, wxDefaultPosition, wxSize(128, 128));
 		wxBoxSizer * sizerUserDetail = new wxBoxSizer(wxVERTICAL);
-		m_staName = new wxStaticText(m_panelUserInfo, wxID_ANY, wxT(""));
+		m_staName = new wxStaticText(m_panelUserInfo, wxID_ANY, wxEmptyString);
 		
 		wxBoxSizer * sizerUserDetail1 = new wxBoxSizer(wxHORIZONTAL);
-		m_staUserEMail = new wxStaticText(m_panelUserInfo, wxID_ANY, wxT(""));
-		m_staUserPhone = new wxStaticText(m_panelUserInfo, wxID_ANY, wxT(""));
-		sizerUserDetail1->Add(m_staUserEMail, 1, wxALL|wxALIGN_CENTER, 5);
-		sizerUserDetail1->Add(m_staUserPhone, 1, wxALL|wxALIGN_CENTER, 5);
+		wxBoxSizer * sizerUserDetail2 = new wxBoxSizer(wxHORIZONTAL);
+		m_staExtension = new wxStaticText(m_panelUserInfo, wxID_ANY, wxEmptyString);
+		m_staUserEMail = new wxStaticText(m_panelUserInfo, wxID_ANY, wxEmptyString);
+		m_staUserPhone = new wxStaticText(m_panelUserInfo, wxID_ANY, wxEmptyString);
+		m_staMobile = new wxStaticText(m_panelUserInfo, wxID_ANY, wxEmptyString);
+		sizerUserDetail1->Add(m_staExtension, 1, wxALL|wxALIGN_LEFT, 5);
+		sizerUserDetail1->Add(m_staUserEMail, 1, wxALL|wxALIGN_LEFT, 5);
+		sizerUserDetail2->Add(m_staUserPhone, 1, wxALL|wxALIGN_LEFT, 5);
+		sizerUserDetail2->Add(m_staMobile, 1, wxALL|wxALIGN_LEFT, 5);
 
-		m_staUserDepartment = new wxStaticText(m_panelUserInfo, wxID_ANY, wxT(""));
+		m_staUserDepartment = new wxStaticText(m_panelUserInfo, wxID_ANY, wxEmptyString);
 
 		sizerUserDetail->Add(m_staName, 0, wxALL|wxALIGN_LEFT, 5);
-		sizerUserDetail->Add(sizerUserDetail1, 1, wxALL|wxALIGN_LEFT, 0);
+		sizerUserDetail->Add(sizerUserDetail1, 0, wxALL|wxALIGN_LEFT, 0);
+		sizerUserDetail->Add(sizerUserDetail2, 0, wxALL|wxALIGN_LEFT, 0);
 		sizerUserDetail->Add(m_staUserDepartment, 0, wxALL|wxALIGN_LEFT, 5);
 		// ???m_sizerUserinfo->Add(staUserImage, 1, wxALL|wxEXPAND|wxALIGN_CENTER, 5);
-		m_sizerUserinfo->Add(sizerUserDetail, 1, wxALL|wxALIGN_CENTER, 5);
+		m_sizerUserinfo->Add(sizerUserDetail, 0, wxALL|wxALIGN_CENTER, 5);
 
 		m_panelUserInfo->SetSizer(m_sizerUserinfo);
 		m_sizerUserinfo->SetSizeHints(m_panelUserInfo);
@@ -421,8 +429,10 @@ void RightWindow::reset(void)
 	clearMessage();
 
 	m_staName->SetLabel("");
+	m_staExtension->SetLabel("");
 	m_staUserEMail->SetLabel("");
 	m_staUserPhone->SetLabel("");
+	m_staMobile->SetLabel("");
 }
 
 //void RightWindow::showHistory(CAccountConversation::pointer account)
@@ -471,7 +481,7 @@ void RightWindow::setCurrentSelect(CFromInfo::pointer fromInfo)
 			m_btnAddUser->Enable(false);
 
 			m_staName->SetLabel(curCompany->name());
-			m_staUserEMail->SetLabel(gLangText.textCompanyType());
+			m_staExtension->SetLabel(wxString::Format("%s: %s", gLangText.textType().c_str(), gLangText.textCompanyType().c_str()));
 		}break;
 	case CFromInfo::FromCoGroup:
 		{
@@ -484,13 +494,13 @@ void RightWindow::setCurrentSelect(CFromInfo::pointer fromInfo)
 			m_staName->SetLabel(curCoGroupInfo->name());
 			if (curCoGroupInfo->type() == CCoGroupInfo::GT_Group)
 			{
-				m_staUserEMail->SetLabel(gLangText.textGroupType());
+				m_staExtension->SetLabel(wxString::Format("%s: %s", gLangText.textType().c_str(), gLangText.textGroupType().c_str()));
 			}else if (curCoGroupInfo->type() == CCoGroupInfo::GT_Normal)
 			{
-				m_staUserEMail->SetLabel(gLangText.textCoGroupType());
+				m_staExtension->SetLabel(wxString::Format("%s: %s", gLangText.textType().c_str(), gLangText.textCoGroupType().c_str()));
 			}
 			wxString temp = getParentCoGroup(fromInfo);
-			m_staUserDepartment->SetLabel(temp);
+			m_staUserDepartment->SetLabel(wxString::Format("%s: %s", gLangText.textCoGroupType().c_str(), temp.c_str()));
 		}break;
 	case CFromInfo::FromUserInfo:
 		{
@@ -517,10 +527,12 @@ void RightWindow::setCurrentSelect(CFromInfo::pointer fromInfo)
 				temp = wxString::Format(_T("%s (%s)"), curUserInfo->getUserName().c_str(), gLangText.textOfflineState().c_str());
 			m_staName->SetLabel(temp);
 
-			m_staUserEMail->SetLabel(curUserInfo->getEmail());
-			m_staUserPhone->SetLabel(curUserInfo->getPhone());
+			m_staExtension->SetLabel(wxString::Format("%s %s", gLangText.dlgISPIExtensionText().c_str(), curUserInfo->getExtension().c_str()));
+			m_staUserEMail->SetLabel(wxString::Format("%s %s", gLangText.dlgISPIEmailText().c_str(), curUserInfo->getEmail().c_str()));
+			m_staUserPhone->SetLabel(wxString::Format("%s %s", gLangText.dlgISPIPhoneText().c_str(), curUserInfo->getPhone().c_str()));
+			m_staMobile->SetLabel(wxString::Format("%s %s", gLangText.dlgISPIMobileText().c_str(), curUserInfo->getMobile().c_str()));
 			temp = getParentCoGroup(fromInfo);
-			m_staUserDepartment->SetLabel(temp);
+			m_staUserDepartment->SetLabel(wxString::Format("%s: %s", gLangText.textCoGroupType().c_str(), temp.c_str()));
 
 			static bool gFit = false;
 			if (!gFit)

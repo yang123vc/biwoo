@@ -188,8 +188,10 @@ private:
 	GroupChatWindow * m_panelGroup;
 	wxPanel * m_panelUserInfo;
 	wxStaticText * m_staName;
+	wxStaticText * m_staExtension;
 	wxStaticText * m_staUserEMail;
 	wxStaticText * m_staUserPhone;
+	wxStaticText * m_staMobile;
 	wxStaticText * m_staUserDepartment;
 
 	wxPanel * m_panelMsg;

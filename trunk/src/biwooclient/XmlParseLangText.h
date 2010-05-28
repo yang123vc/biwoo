@@ -43,7 +43,9 @@ public:
 		, m_dlgISPINameText(""), m_dlgISPINameHelp("")
 		, m_dlgISPINickText(""), m_dlgISPINickHelp("")
 		, m_dlgISPIGenderText(""), m_dlgISPIGenderHelp("")
+		, m_dlgISPIExtensionText(""), m_dlgISPIExtensionHelp("")
 		, m_dlgISPIPhoneText(""), m_dlgISPIPhoneHelp("")
+		, m_dlgISPIMobileText(""), m_dlgISPIMobileHelp("")
 		, m_dlgISPIEmailText(""), m_dlgISPIEmailHelp("")
 		, m_dlgISPagePasswordText("")
 		, m_dlgISPPCurrentText(""), m_dlgISPPCurrentHelp("")
@@ -70,7 +72,7 @@ public:
 		, m_textSendFileto(""), m_textSaveFileto(""), m_textAllFiles("")
 		, m_textFileCanceled(""), m_textFileRejected(""), m_textWaitForReceive(""), m_textAcceptFile(""), m_textFileArrived(""), m_textFileSent("")
 		, m_textOnlineState(""), m_textOfflineState(""), m_textAwayState("")
-		, m_textCompanyType(""), m_textCoGroupType(""), m_textGroupType("")
+		, m_textType(""), m_textCompanyType(""), m_textCoGroupType(""), m_textGroupType("")
 
 		, m_textGenderMale(""), m_textGenderFemale("")
 		, m_questCurModifiedSave("")
@@ -129,8 +131,12 @@ public:
 		m_dlgISPINickHelp = pt.get("root.dialog.informationsetting.page_information.nick.help", _T("nick"));
 		m_dlgISPIGenderText = pt.get("root.dialog.informationsetting.page_information.gender", _T("gender"));
 		m_dlgISPIGenderHelp = pt.get("root.dialog.informationsetting.page_information.gender.help", _T("gender"));
+		m_dlgISPIExtensionText = pt.get("root.dialog.informationsetting.page_information.extension", _T("extension"));
+		m_dlgISPIExtensionHelp = pt.get("root.dialog.informationsetting.page_information.extension.help", _T("extension"));
 		m_dlgISPIPhoneText = pt.get("root.dialog.informationsetting.page_information.phone", _T("phone"));
 		m_dlgISPIPhoneHelp = pt.get("root.dialog.informationsetting.page_information.phone.help", _T("phone"));
+		m_dlgISPIMobileText = pt.get("root.dialog.informationsetting.page_information.mobile", _T("mobile"));
+		m_dlgISPIMobileHelp = pt.get("root.dialog.informationsetting.page_information.mobile.help", _T("mobile"));
 		m_dlgISPIEmailText = pt.get("root.dialog.informationsetting.page_information.email", _T("email"));
 		m_dlgISPIEmailHelp = pt.get("root.dialog.informationsetting.page_information.email.help", _T("email"));
 
@@ -219,6 +225,8 @@ public:
 		m_textOnlineState = pt.get("root.text.onlinestate", _T("online"));
 		m_textOfflineState = pt.get("root.text.offlinestate", _T("offline"));
 		m_textAwayState = pt.get("root.text.awaystate", _T("away"));
+
+		m_textType = pt.get("root.text.type", _T("type"));
 		m_textCompanyType = pt.get("root.text.companytype", _T("company"));
 		m_textCoGroupType = pt.get("root.text.cogrouptype", _T("department"));
 		m_textGroupType = pt.get("root.text.grouptype", _T("group"));
@@ -267,8 +275,12 @@ public:
 	const std::string & dlgISPINickHelp(void) const {return m_dlgISPINickHelp;}
 	const std::string & dlgISPIGenderText(void) const {return m_dlgISPIGenderText;}
 	const std::string & dlgISPIGenderHelp(void) const {return m_dlgISPIGenderHelp;}
+	const std::string & dlgISPIExtensionText(void) const {return m_dlgISPIExtensionText;}
+	const std::string & dlgISPIExtensionHelp(void) const {return m_dlgISPIExtensionHelp;}
 	const std::string & dlgISPIPhoneText(void) const {return m_dlgISPIPhoneText;}
 	const std::string & dlgISPIPhoneHelp(void) const {return m_dlgISPIPhoneHelp;}
+	const std::string & dlgISPIMobileText(void) const {return m_dlgISPIMobileText;}
+	const std::string & dlgISPIMobileHelp(void) const {return m_dlgISPIMobileHelp;}
 	const std::string & dlgISPIEmailText(void) const {return m_dlgISPIEmailText;}
 	const std::string & dlgISPIEmailHelp(void) const {return m_dlgISPIEmailHelp;}
 
@@ -354,6 +366,8 @@ public:
 	const std::string & textOnlineState(void) const {return m_textOnlineState;}
 	const std::string & textOfflineState(void) const {return m_textOfflineState;}
 	const std::string & textAwayState(void) const {return m_textAwayState;}
+
+	const std::string & textType(void) const {return m_textType;}
 	const std::string & textCompanyType(void) const {return m_textCompanyType;}
 	const std::string & textCoGroupType(void) const {return m_textCoGroupType;}
 	const std::string & textGroupType(void) const {return m_textGroupType;}
@@ -402,8 +416,12 @@ private:
 	std::string		m_dlgISPINickHelp;
 	std::string		m_dlgISPIGenderText;
 	std::string		m_dlgISPIGenderHelp;
+	std::string		m_dlgISPIExtensionText;
+	std::string		m_dlgISPIExtensionHelp;
 	std::string		m_dlgISPIPhoneText;
 	std::string		m_dlgISPIPhoneHelp;
+	std::string		m_dlgISPIMobileText;
+	std::string		m_dlgISPIMobileHelp;
 	std::string		m_dlgISPIEmailText;
 	std::string		m_dlgISPIEmailHelp;
 	std::string		m_dlgISPagePasswordText;
@@ -493,6 +511,7 @@ private:
 	std::string		m_textOnlineState;
 	std::string		m_textOfflineState;
 	std::string		m_textAwayState;
+	std::string		m_textType;
 	std::string		m_textCompanyType;
 	std::string		m_textCoGroupType;
 	std::string		m_textGroupType;

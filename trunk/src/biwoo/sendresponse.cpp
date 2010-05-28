@@ -422,8 +422,12 @@ bool sendCoGroupUserInfo(cgcResponse::pointer response, unsigned int coId, unsig
 	response->setParameter(cgcParameter::create(_T("Account"), userInfo->getAccount()));
 	response->setParameter(cgcParameter::create(_T("Name"), userInfo->getUserName()));
 	response->setParameter(cgcParameter::create(_T("Nick"), userInfo->getNick()));
+	response->setParameter(cgcParameter::create(_T("Gender"), (long)userInfo->getGender()));
+	response->setParameter(cgcParameter::create(_T("Ext"), userInfo->getExtension()));
 	response->setParameter(cgcParameter::create(_T("Phone"), userInfo->getPhone()));
+	response->setParameter(cgcParameter::create(_T("Mobile"), userInfo->getMobile()));
 	response->setParameter(cgcParameter::create(_T("Email"), userInfo->getEmail()));
+	//response->setParameter(cgcParameter::create(_T("Desc"), userInfo->getDescription()));
 	response->setParameter(cgcParameter::create(_T("LineState"), (long)userInfo->getLineState()));
 	response->sendResponse(0, 112);
 	return true;

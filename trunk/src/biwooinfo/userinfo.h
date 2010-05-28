@@ -54,8 +54,7 @@ public:
 	CUserInfo(const tstring & account, const tstring & password)
 		: m_sAccount(account), m_sPassword(password)
 		, m_sUserName(_T("")), m_sNick(_T(""))
-		, m_gender(0), m_birthday(_T("")), m_phone(_T("")), m_email(_T(""))
-		//, m_sAccountId(_T("")), m_sSessionId(_T(""))
+		, m_gender(0), m_birthday(_T("")), m_extension(_T("")), m_phone(_T("")), m_mobile(_T("")), m_email(_T(""))
 		, m_lineState(UserOffLineState)
 	{}
 	~CUserInfo(void)
@@ -89,17 +88,24 @@ public:
 
 	void setGender(short newv) {m_gender = newv;}
 	short getGender(void) const {return m_gender;}
+	
 	void setBirthday(const tstring & newv) {m_birthday = newv;}
 	const tstring & getBirthday(void) const {return m_birthday;}
+	
+	void setExtension(const tstring & newv) {m_extension = newv;}
+	const tstring & getExtension(void) const {return m_extension;}
+
 	void setPhone(const tstring & newv) {m_phone = newv;}
 	const tstring & getPhone(void) const {return m_phone;}
+
+	void setMobile(const tstring & newv) {m_mobile = newv;}
+	const tstring & getMobile(void) const {return m_mobile;}
+
 	void setEmail(const tstring & newv) {m_email = newv;}
 	const tstring & getEmail(void) const {return m_email;}
 
-	//void setAccountId(const tstring & newv) {m_sAccountId = newv;}
-	//const tstring & getAccountId(void) const {return m_sAccountId;}
-	//void setSessionId(const tstring & newValue) {m_sSessionId = newValue;}
-	//const tstring & getSessionId(void) const {return m_sSessionId;}
+	void setDescription(const tstring & newv) {m_description = newv;}
+	const tstring & getDescription(void) const {return m_description;}
 
 	void setLineState(UserLineState newv) {m_lineState = newv;}
 	UserLineState getLineState(void) const {return m_lineState;}
@@ -112,12 +118,13 @@ private:
 	tstring m_sNick;
 	short	m_gender;		// 1: male, 2: female, default 0
 	tstring m_birthday;
+	tstring m_extension;
 	tstring m_phone;
+	tstring m_mobile;
 	tstring m_email;
+	tstring m_description;
 
 	UserLineState	m_lineState;
-	//tstring m_sAccountId;	// Account@DOMAIN
-	//tstring m_sSessionId;	// For CGC
 };
 
 

@@ -129,12 +129,13 @@ void CAVSProxy::addUserinfo(CUserInfo::pointer userInfo)
 	{
 		char sql[2048];
 		memset(sql, 0, sizeof(sql));
-		sprintf(sql, "INSERT INTO userinfo_t (account,password,username,nick,gender,birthday,phone,email)\
-					 VALUES('%s','%s','%s','%s',%d,'%s','%s','%s')",
+		sprintf(sql, "INSERT INTO userinfo_t (account,password,username,nick,gender,birthday,extension,phone,mobile,email,description)\
+					 VALUES('%s','%s','%s','%s',%d,'%s','%s','%s','%s','%s','%s')",
 			userInfo->getAccount().c_str(), userInfo->getPassword().c_str(),
 			userInfo->getUserName().c_str(), userInfo->getNick().c_str(),
-			userInfo->getGender(), userInfo->getBirthday().c_str(),
-			userInfo->getPhone().c_str(), userInfo->getEmail().c_str());
+			userInfo->getGender(), userInfo->getBirthday().c_str(), userInfo->getExtension().c_str(),
+			userInfo->getPhone().c_str(), userInfo->getMobile().c_str(), userInfo->getEmail().c_str(),
+			userInfo->getDescription().c_str());
 		bodb_exec(sql);
 	}
 }
@@ -143,11 +144,13 @@ void CAVSProxy::updateUserinfo(CUserInfo::pointer userInfo)
 {
 	if (bodb_isopened())
 	{
+		// ?? birthday description
 		char sql[2048];
 		memset(sql, 0, sizeof(sql));
-		sprintf(sql, "UPDATE userinfo_t SET nick='%s',gender=%d,phone='%s',email='%s' WHERE account='%s'",
-			userInfo->getNick().c_str(), userInfo->getGender(), 
-			userInfo->getPhone().c_str(), userInfo->getEmail().c_str(), userInfo->getAccount().c_str());
+		sprintf(sql, "UPDATE userinfo_t SET nick='%s',gender=%d,extension='%s',phone='%s',mobile='%s',email='%s' WHERE account='%s'",
+			userInfo->getNick().c_str(), userInfo->getGender(), userInfo->getExtension().c_str(), 
+			userInfo->getPhone().c_str(), userInfo->getMobile().c_str(), 
+			userInfo->getEmail().c_str(), userInfo->getAccount().c_str());
 		bodb_exec(sql);
 	}
 }
@@ -601,7 +604,8 @@ bool CAVSProxy::load(void)
 	}
 
 	PRESULTSET resultset = 0;
-	bodb_exec("SELECT * FROM userinfo_t", &resultset);
+	// description 
+	bodb_exec("SELECT account,password,username,nick,gender,birthday,extension,phone,mobile,email,description FROM userinfo_t", &resultset);
 
 	if (resultset != 0)
 	{
@@ -613,16 +617,22 @@ bool CAVSProxy::load(void)
 			CFieldVariant varNick(resultset->rsvalues[i]->fieldvalues[3]);
 			CFieldVariant varGender(resultset->rsvalues[i]->fieldvalues[4]);
 			CFieldVariant varBirthday(resultset->rsvalues[i]->fieldvalues[5]);
-			CFieldVariant varPhone(resultset->rsvalues[i]->fieldvalues[6]);
-			CFieldVariant varEmail(resultset->rsvalues[i]->fieldvalues[7]);
+			CFieldVariant varExtension(resultset->rsvalues[i]->fieldvalues[6]);
+			CFieldVariant varPhone(resultset->rsvalues[i]->fieldvalues[7]);
+			CFieldVariant varMobile(resultset->rsvalues[i]->fieldvalues[8]);
+			CFieldVariant varEmail(resultset->rsvalues[i]->fieldvalues[9]);
+			CFieldVariant varDescription(resultset->rsvalues[i]->fieldvalues[10]);
 
 			CUserInfo::pointer userInfo = CUserInfo::create(varAccount.getString(), varPassword.getString());
 			userInfo->setUserName(varUserName.getString());
 			userInfo->setNick(varNick.getString());
 			userInfo->setGender(varGender.getInt());
 			userInfo->setBirthday(varBirthday.getString());
+			userInfo->setExtension(varExtension.getString());
 			userInfo->setPhone(varPhone.getString());
+			userInfo->setMobile(varMobile.getString());
 			userInfo->setEmail(varEmail.getString());
+			userInfo->setDescription(varDescription.getString());
 
 			gApplication->setAttribute(BMT_ALLUSERS, userInfo->getAccount(), userInfo);
 		}
