@@ -1,6 +1,8 @@
 #summary Generate biwoo database.
 #labels bodb,bodbclient,database,sql
 
+*[Index Index]*
+----
 = 1 bodb =
 Biwoo use *bodb* library save all data, including the organizational structure,
 user information and the client chatting record, etc.
@@ -64,6 +66,3 @@ BODB:EXEC biwoo_sample.sql;
  * User chat information record table.
 
 *Please don't modify bocdb.sql this file.*
-
-----
-*[Index Index]*
