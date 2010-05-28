@@ -12,4 +12,9 @@
 || # sudo make install ||
 
 = Windows Compile =
-...
+ * *ThirdParty compile:*
+Open $(BIWOO_PATH)\src\ThirdParty\proj\MSVC8.0\libThirdParty.sln file and build solution.
+ * *BiwooServer compile:*
+Open $(BIWOO_PATH)\src\proj\MSVC8.0\biwooserver.sln file and build solution.
+ * *BiwooClient compile:*
+Open $(BIWOO_PATH)\src\proj\MSVC8.0\biwooclient.sln file and build solution.
