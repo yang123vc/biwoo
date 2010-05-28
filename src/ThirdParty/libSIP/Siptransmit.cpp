@@ -297,7 +297,8 @@ int Siptransmit::sipCallInvite(const tstring & callee_num) ///網請
 	eXosip_unlock ();
 	return i > 0 ? 0 : -3;
 }
-int Siptransmit::sipCallAnswer(SipCallInfo::pointer callInfo)       ///茼湘網請
+
+int Siptransmit::sipCallAnswer(SipCallInfo::pointer callInfo, int localaudioport, int localvideoport)       ///茼湘網請
 {
 	BOOST_ASSERT (callInfo.get() != NULL);
 	/*
@@ -307,9 +308,8 @@ int Siptransmit::sipCallAnswer(SipCallInfo::pointer callInfo)       ///茼湘網請
 	eXosip_unlock ();*/
 	
 	m_currentCallInfo = callInfo;
-
-	int localaudioport = m_sipp.localaudioport();
-	int localvideoport = m_sipp.localvideoport();
+	m_sipp.localaudioport(localaudioport);
+	m_sipp.localvideoport(localvideoport);
 
 	int tid = callInfo->tranId();
 	int did = callInfo->dialogId();
@@ -336,6 +336,12 @@ int Siptransmit::sipCallAnswer(SipCallInfo::pointer callInfo)       ///茼湘網請
 	eXosip_unlock ();
 	return 0;
 }
+
+int Siptransmit::sipCallAnswer(SipCallInfo::pointer callInfo)       ///茼湘網請
+{
+	return sipCallAnswer(callInfo, m_sipp.localaudioport(), m_sipp.localvideoport());
+}
+
 int Siptransmit::sipCallTerminate(SipCallInfo::pointer callInfo)                    ///境儂
 {
 	BOOST_ASSERT (callInfo.get() != NULL);

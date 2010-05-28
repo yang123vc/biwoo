@@ -94,7 +94,7 @@ public:
 
 	// call control
 	virtual int sipCallInvite(const tstring & callee_num) = 0; ///網請
-	//virtual int sipCallAnswer(SipCallInfo::pointer callInfo, int localaudioport, int localvideoport) = 0;       ///茼湘網請
+	virtual int sipCallAnswer(SipCallInfo::pointer callInfo, int localaudioport, int localvideoport) = 0;       ///茼湘網請
 	virtual int sipCallAnswer(SipCallInfo::pointer callInfo) = 0;       ///茼湘網請
 	virtual int sipCallTerminate(SipCallInfo::pointer callInfo) = 0;                    ///境儂
 	virtual int sipCallSendDtmf(SipCallInfo::pointer callInfo, char dtmf) = 0;
