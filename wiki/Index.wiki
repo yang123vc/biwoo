@@ -1,7 +1,8 @@
 #summary All documents index.
 #labels Index
 
-|| *Last Version:* || 1.0.4 ||
+*Latest Version:* 1.0.4
+
 || *[Database]* || Biwoo database setting. ||
 || *[Install]* || Biwoo installation. ||
 
