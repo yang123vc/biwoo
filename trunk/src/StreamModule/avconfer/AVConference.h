@@ -24,8 +24,10 @@
 #include <boost/shared_ptr.hpp>
 #include <stl/lockmap.h>
 #include <libSIP/libSIP.h>
-#include <libRTP/libRTP.h>
+//#include <libRTP/libRTP.h>
 #include "ConferenceInfo.h"
+#include <CGCBase/cgcRtp.h>
+using namespace cgc;
 
 #ifdef WIN32
 #ifdef _DEBUG
@@ -81,7 +83,7 @@ public:
 	~CAVConference(void);
 
 private:
-	CRtp m_rtp;
+	//CRtp m_rtp;
 	unsigned short m_currentRtpPort;
 
 	// SIP
