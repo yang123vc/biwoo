@@ -1,1 +1,1 @@
-SUBDIRS = libCoder libG729a libRTP libSIP
+SUBDIRS = libCoder libG729a libSIP

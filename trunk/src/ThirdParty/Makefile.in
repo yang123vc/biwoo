@@ -153,7 +153,7 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
-SUBDIRS = libCoder libG729a libRTP libSIP
+SUBDIRS = libCoder libG729a libSIP
 all: all-recursive
 
 .SUFFIXES:

@@ -4,9 +4,8 @@ THESOURCES = avconfer/AVConference.cpp avconfer/ConferenceInfo.cpp avconfer/Memb
 
 libStreamModule_la_SOURCES = $(THESOURCES)
 libStreamModule_la_LIBADD = $(libdir)/libCGCBase.a $(libdir)/libCGCClass.a \
-	../ThirdParty/libRTP/libRTP.a ../ThirdParty/libCoder/libCoder.a \
+	../ThirdParty/libCoder/libCoder.a \
 	../ThirdParty/libG729a/libG729a.a \
-	$(libdir)/libjrtp.a $(libdir)/libjthread.a \
 	../ThirdParty/libSIP/libSIP.a $(libdir)/libeXosip2.a \
 	$(libdir)/libosip2.a $(libdir)/libosipparser2.a
 
