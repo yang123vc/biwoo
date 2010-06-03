@@ -4,6 +4,10 @@
 					
  # *(DB)* : Database table or field modified.
 
+= VERSION: 1.0.4+ =
+*2010-06-03=*
+ * U: Update to mycp 1.0.3+. Use cgcRtp::pointer gRtpService.
+
 = VERSION: 1.0.4 =
 *2010-05-28*
  * A: *(DB)* add extension, mobile and description field in biwoo database userinfo_t table.

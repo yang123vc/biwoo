@@ -54,12 +54,10 @@ am__installdirs = "$(DESTDIR)$(libdir)"
 libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libStreamModule_la_DEPENDENCIES = $(libdir)/libCGCBase.a \
-	$(libdir)/libCGCClass.a ../ThirdParty/libRTP/libRTP.a \
-	../ThirdParty/libCoder/libCoder.a \
-	../ThirdParty/libG729a/libG729a.a $(libdir)/libjrtp.a \
-	$(libdir)/libjthread.a ../ThirdParty/libSIP/libSIP.a \
-	$(libdir)/libeXosip2.a $(libdir)/libosip2.a \
-	$(libdir)/libosipparser2.a
+	$(libdir)/libCGCClass.a ../ThirdParty/libCoder/libCoder.a \
+	../ThirdParty/libG729a/libG729a.a \
+	../ThirdParty/libSIP/libSIP.a $(libdir)/libeXosip2.a \
+	$(libdir)/libosip2.a $(libdir)/libosipparser2.a
 am__objects_1 = AVConference.lo ConferenceInfo.lo MemberData.lo \
 	AVSProxy.lo AccountMgr.lo P2PMgr.lo SAVConference.lo \
 	StreamModule.lo
@@ -185,9 +183,8 @@ THESOURCES = avconfer/AVConference.cpp avconfer/ConferenceInfo.cpp avconfer/Memb
 
 libStreamModule_la_SOURCES = $(THESOURCES)
 libStreamModule_la_LIBADD = $(libdir)/libCGCBase.a $(libdir)/libCGCClass.a \
-	../ThirdParty/libRTP/libRTP.a ../ThirdParty/libCoder/libCoder.a \
+	../ThirdParty/libCoder/libCoder.a \
 	../ThirdParty/libG729a/libG729a.a \
-	$(libdir)/libjrtp.a $(libdir)/libjthread.a \
 	../ThirdParty/libSIP/libSIP.a $(libdir)/libeXosip2.a \
 	$(libdir)/libosip2.a $(libdir)/libosipparser2.a
 

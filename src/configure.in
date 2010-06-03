@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.59])
-AC_INIT(Biwoo, 1.0.2, akee.yang@gmail.com)
-AM_INIT_AUTOMAKE(Biwoo, 1.0.2)
+AC_INIT(Biwoo, 1.0.4, akee.yang@gmail.com)
+AM_INIT_AUTOMAKE(Biwoo, 1.0.4)
 
 # Checks for programs.
 AC_PROG_CXX
@@ -37,6 +37,5 @@ AC_OUTPUT( \
 	ThirdParty/Makefile \
 	ThirdParty/libCoder/Makefile \
 	ThirdParty/libG729a/Makefile \
-	ThirdParty/libRTP/Makefile \
 	ThirdParty/libSIP/Makefile
 )
