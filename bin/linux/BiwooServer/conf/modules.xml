@@ -1,6 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <root>
+  <!-- ******** RTP -->
+  <module>
+  	<name>RtpService</name>
+  	<file>RtpService</file>
+  	<type>RTP</type>
+  </module>
   <!-- ******** PARSER -->
   <module>
   	<name>SotpParser</name>

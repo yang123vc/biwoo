@@ -195,7 +195,7 @@ void CAVConference::onSipEvent(SipEventInfo::pointer eventInfo)
 			while(i++ != 20)
 			{
 				m_currentRtpPort += i*2;
-				audioRtpHandler = m_rtp.startRtp(m_currentRtpPort);
+				audioRtpHandler = gRtpService->startRtp(m_currentRtpPort);
 				if (audioRtpHandler.get() != NULL)
 					break;
 			}
@@ -204,7 +204,7 @@ void CAVConference::onSipEvent(SipEventInfo::pointer eventInfo)
 			while(i++ != 20)
 			{
 				m_currentRtpPort += i*2;
-				videoRtpHandler = m_rtp.startRtp(m_currentRtpPort);
+				videoRtpHandler = gRtpService->startRtp(m_currentRtpPort);
 				if (videoRtpHandler.get() != NULL)
 					break;
 			}
@@ -250,8 +250,8 @@ void CAVConference::onSipEvent(SipEventInfo::pointer eventInfo)
 				m_conferences2.insert(eventInfo->getCallInfo().get(), conferenceInfo);
 			}else
 			{
-				m_rtp.stopRtp(audioRtpHandler);
-				m_rtp.stopRtp(videoRtpHandler);
+				gRtpService->stopRtp(audioRtpHandler);
+				gRtpService->stopRtp(videoRtpHandler);
 				m_sipHandler->sipCallTerminate(eventInfo->getCallInfo());
 				//m_sip.CallTerminate(eventInfo->getCallInfo());
 			}
@@ -328,8 +328,8 @@ void CAVConference::onMemberClosed(CConferenceMember::pointer member, bool confe
 		m_clearMember.add(member);
 	}
 
-	m_rtp.stopRtp(member->getAudioHandler());
-	m_rtp.stopRtp(member->getVideoHandler());
+	gRtpService->stopRtp(member->getAudioHandler());
+	gRtpService->stopRtp(member->getVideoHandler());
 }
 
 
