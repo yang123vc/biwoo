@@ -20,18 +20,21 @@
 #ifndef __AVSProxy_h__
 #define __AVSProxy_h__
 
-//#include <stl/lockmap.h>
+#include <boost/shared_ptr.hpp>
 #include "UserInfo.h"
-//#include "CommConferMgr.h"
 #include "avconfer/AVConference.h"
 
 const int NAME_USERINFO = 100;
 
 class CAVSProxy
 {
-private:
-
 public:
+	typedef boost::shared_ptr<CAVSProxy> pointer;
+	static CAVSProxy::pointer create(cgcRtp::pointer rtpService, cgcSip::pointer sipService)
+	{
+		return CAVSProxy::pointer(new CAVSProxy(rtpService, sipService));
+	}
+
 	void clearAll(void);
 
 public:
@@ -40,12 +43,11 @@ public:
 	CAVConference	m_conference;
 
 public:
-	CAVSProxy(void);
+	CAVSProxy(cgcRtp::pointer rtpService, cgcSip::pointer sipService);
 	~CAVSProxy(void);
 
 };
 
-
-extern CAVSProxy gAVSProxy;
+extern CAVSProxy::pointer gAVSProxy;
 
 #endif // __AVSProxy_h__
