@@ -18,7 +18,9 @@
 
 #include "AVSProxy.h"
 
-CAVSProxy::CAVSProxy(void)
+CAVSProxy::CAVSProxy(cgcRtp::pointer rtpService, cgcSip::pointer sipService)
+: m_conference(rtpService, sipService)
+
 {
 }
 
@@ -34,5 +36,5 @@ void CAVSProxy::clearAll(void)
 	//m_commfMgr.clearAll();
 }
 
-CAVSProxy gAVSProxy;
+CAVSProxy::pointer gAVSProxy;
 

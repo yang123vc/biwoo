@@ -28,7 +28,7 @@ extern "C" int CGC_API CreateConference(const cgcRequest::pointer & request, cgc
 	unsigned short maxNumbers = request->getParameterValue(_T("MaxNumbers"), 0);
 
 	CConferInfo::pointer conferInfo = CConferInfo::create(conferenceName, maxNumbers);
-	gAVSProxy.m_conference.addConference(conferInfo);
+	gAVSProxy->m_conference.addConference(conferInfo);
 
 	gApplication->log(DL_INFO, _T("Create Conference %s"), conferenceName.c_str());
 	return 0;
@@ -41,9 +41,9 @@ extern "C" int CGC_API EnableAudioSend(const cgcRequest::pointer & request, cgcR
 	bool enable = request->getParameterValue(_T("Enable"), 0) == 1;
 
 	if (memberIndex == 0)
-		gAVSProxy.m_conference.enableAudioSend(conferenceName, enable);
+		gAVSProxy->m_conference.enableAudioSend(conferenceName, enable);
 	else
-		gAVSProxy.m_conference.enableAudioSend(conferenceName, memberIndex, enable);
+		gAVSProxy->m_conference.enableAudioSend(conferenceName, memberIndex, enable);
 
 	return 0;
 }
@@ -55,9 +55,9 @@ extern "C" int CGC_API EnableAudioRecv(const cgcRequest::pointer & request, cgcR
 	bool enable = request->getParameterValue(_T("Enable"), 0) == 1;
 
 	if (memberIndex == 0)
-		gAVSProxy.m_conference.enableAudioRecv(conferenceName, enable);
+		gAVSProxy->m_conference.enableAudioRecv(conferenceName, enable);
 	else
-		gAVSProxy.m_conference.enableAudioRecv(conferenceName, memberIndex, enable);
+		gAVSProxy->m_conference.enableAudioRecv(conferenceName, memberIndex, enable);
 
 	return 0;
 }
@@ -68,7 +68,7 @@ extern "C" int CGC_API EnableVideoSend(const cgcRequest::pointer & request, cgcR
 	int memberIndex = request->getParameterValue(_T("Index"), 0);
 	bool enable = request->getParameterValue(_T("Enable"), 0) == 1;
 
-	gAVSProxy.m_conference.enableVideoSend(conferenceName, memberIndex, enable);
+	gAVSProxy->m_conference.enableVideoSend(conferenceName, memberIndex, enable);
 	return 0;
 }
 
@@ -79,9 +79,9 @@ extern "C" int CGC_API EnableVideoRecv(const cgcRequest::pointer & request, cgcR
 	bool enable = request->getParameterValue(_T("Enable"), 0) == 1;
 
 	if (memberIndex == 0)
-		gAVSProxy.m_conference.enableVideoRecv(conferenceName, enable);
+		gAVSProxy->m_conference.enableVideoRecv(conferenceName, enable);
 	else
-		gAVSProxy.m_conference.enableVideoRecv(conferenceName, memberIndex, enable);
+		gAVSProxy->m_conference.enableVideoRecv(conferenceName, memberIndex, enable);
 
 	return 0;
 }
@@ -96,7 +96,7 @@ extern "C" int CGC_API SelectVideoRecv(const cgcRequest::pointer & request, cgcR
 	//	gAVSProxy.m_conference.enableVideoRecv(conferenceName, enable);
 	//else
 	//	gAVSProxy.m_conference.enableVideoRecv(conferenceName, memberIndex, enable);
-	gAVSProxy.m_conference.enableVideoRecvIndex(conferenceName,memberIndex,selectIndex);
+	gAVSProxy->m_conference.enableVideoRecvIndex(conferenceName,memberIndex,selectIndex);
 	return 0;
 }
 
@@ -110,6 +110,6 @@ extern "C" int CGC_API SelectVideoRecvByIndentify(const cgcRequest::pointer & re
 	//	gAVSProxy.m_conference.enableVideoRecv(conferenceName, enable);
 	//else
 	//	gAVSProxy.m_conference.enableVideoRecv(conferenceName, memberIndex, enable);
-	gAVSProxy.m_conference.enableVideoRecvIndexByIndentify(conferenceName,MemberIndentify,selectIndex);
+	gAVSProxy->m_conference.enableVideoRecvIndexByIndentify(conferenceName,MemberIndentify,selectIndex);
 	return 0;
 }

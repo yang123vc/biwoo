@@ -34,6 +34,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 // cgcÍ·ÎÄ¼þ
 #include <CGCBase/includeapp.h>
 #include <CGCBase/cgcString.h>
+#include <CGCBase/cgcRtp.h>
+#include <CGCBase/cgcSip.h>
 using namespace cgc;
 
 ///////////////////////////////
@@ -43,6 +45,13 @@ using namespace cgc;
 
 extern "C" bool CGC_API CGC_Module_Init(void)
 {
+	cgcRtp::pointer rtpService = CGC_RTPSERVICE_DEF(gCgcService->getService("RtpService"));
+	cgcSip::pointer sipService = CGC_SIPSERVICE_DEF(gCgcService->getService("SipService"));
+	BOOST_ASSERT (rtpService.get() != NULL);
+	BOOST_ASSERT (sipService.get() != NULL);
+
+	gAVSProxy = CAVSProxy::create(rtpService, sipService);
+
 	bool result = true;
 	bool enableSipConference = gApplication->getInitParameterValue2(_T("EnableSipConference"), false);
 	if (enableSipConference)
@@ -56,7 +65,7 @@ extern "C" bool CGC_API CGC_Module_Init(void)
 		CLockMap<tstring, CConferInfo::pointer>::iterator iter;
 		for (iter=parse.m_confers.begin(); iter!=parse.m_confers.end(); iter++)
 		{
-			gAVSProxy.m_conference.addConference(iter->second);
+			gAVSProxy->m_conference.addConference(iter->second);
 		}
 
 		CSipParameter sipp;
@@ -66,7 +75,7 @@ extern "C" bool CGC_API CGC_Module_Init(void)
 		sipp.proxy(gApplication->getInitParameterValue(_T("PROXY"), _T("sip:192.168.19.84:5060")));
 		sipp.sipport(gApplication->getInitParameterValue(_T("SIPPORT"), 5060));
 
-		result = gAVSProxy.m_conference.initsip(sipp);
+		result = gAVSProxy->m_conference.initsip(sipp);
 		gApplication->log(DL_INFO, _T("Conference Service SIPPORT: %d, %s"), sipp.sipport(), result ? _T("Succeed") : _T("Failed"));
 	}
 	return result;
@@ -74,7 +83,7 @@ extern "C" bool CGC_API CGC_Module_Init(void)
 
 extern "C" void CGC_API CGC_Module_Free(void)
 {
-	gAVSProxy.m_conference.quitsip();
+	gAVSProxy->m_conference.quitsip();
 
 	//CCommConferenceMap & mapCommConfer = const_cast<CCommConferenceMap&>(gAVSProxy.m_commfMgr.getMap());
 	//CCommConferenceMapIter pIter;
@@ -85,7 +94,7 @@ extern "C" void CGC_API CGC_Module_Free(void)
 	//}
 
 	gApplication->clearAllAtrributes();
-	gAVSProxy.clearAll();
+	gAVSProxy.reset();
 }
 
 extern "C" int CGC_API LoadSetting(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)

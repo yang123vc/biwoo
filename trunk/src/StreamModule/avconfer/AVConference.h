@@ -23,18 +23,17 @@
 #include <boost/thread.hpp>
 #include <boost/shared_ptr.hpp>
 #include <stl/lockmap.h>
-#include <libSIP/libSIP.h>
+//#include <libSIP/libSIP.h>
 //#include <libRTP/libRTP.h>
 #include "ConferenceInfo.h"
 #include <CGCBase/cgcRtp.h>
+#include <CGCBase/cgcSip.h>
 using namespace cgc;
 
 #ifdef WIN32
 #ifdef _DEBUG
-//#pragma comment(lib,"msvcrtd.lib")
 #pragma comment(linker,"/NODEFAULTLIB:libcmtd.lib") 
 #else
-//#pragma comment(lib,"msvcrt.lib")	// ??Release编译时，不同切换注释可以播放视频
 #pragma comment(linker,"/NODEFAULTLIB:libcmt.lib") 
 #endif
 #endif
@@ -79,15 +78,17 @@ private:
 	virtual void onMemberClosed(CConferenceMember::pointer member, bool conferenceClosed);
 
 public:
-	CAVConference(void);
+	CAVConference(cgcRtp::pointer rtpService, cgcSip::pointer sipService);
 	~CAVConference(void);
 
 private:
 	//CRtp m_rtp;
+	cgcRtp::pointer m_rtpService;
 	unsigned short m_currentRtpPort;
 
 	// SIP
-	CSip m_sip;
+	//CSip m_sip;
+	cgcSip::pointer m_sipService;
 	DoSipHandler::pointer m_sipHandler;
 
 	CLockMap<tstring, CConferenceInfo::pointer> m_conferences;
