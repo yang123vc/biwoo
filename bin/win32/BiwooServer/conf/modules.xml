@@ -1,12 +1,19 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <root>
-  <!-- ******** RTP -->
+  <!-- ******** RTP Service -->
   <module>
   	<name>RtpService</name>
   	<file>RtpService</file>
-  	<type>RTP</type>
+  	<type>SERVICE</type>
   </module>
+  <!-- ******** SIP Service -->
+  <module>
+  	<name>SipService</name>
+  	<file>SipService</file>
+  	<type>SERVICE</type>
+  </module>
+    
   <!-- ******** PARSER -->
   <module>
   	<name>SotpParser</name>
