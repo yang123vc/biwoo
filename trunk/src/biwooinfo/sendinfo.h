@@ -20,8 +20,7 @@
 #ifndef __sendinfo_h__
 #define __sendinfo_h__
 
-#include <stl/stldef.h>
-//#include <stl/lockmap.h>
+#include <ThirdParty/stl/stldef.h>
 #include <boost/shared_ptr.hpp>
 #include "messageinfo.h"
 
