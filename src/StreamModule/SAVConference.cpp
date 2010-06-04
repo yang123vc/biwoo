@@ -93,9 +93,9 @@ extern "C" int CGC_API SelectVideoRecv(const cgcRequest::pointer & request, cgcR
 	int selectIndex = request->getParameterValue(_T("SelectIndex"), 0);
 
 	//if (memberIndex == 0)
-	//	gAVSProxy.m_conference.enableVideoRecv(conferenceName, enable);
+	//	gAVSProxy->m_conference.enableVideoRecv(conferenceName, enable);
 	//else
-	//	gAVSProxy.m_conference.enableVideoRecv(conferenceName, memberIndex, enable);
+	//	gAVSProxy->m_conference.enableVideoRecv(conferenceName, memberIndex, enable);
 	gAVSProxy->m_conference.enableVideoRecvIndex(conferenceName,memberIndex,selectIndex);
 	return 0;
 }
@@ -107,9 +107,9 @@ extern "C" int CGC_API SelectVideoRecvByIndentify(const cgcRequest::pointer & re
 	int selectIndex = request->getParameterValue(_T("SelectIndex"), 0);
 
 	//if (memberIndex == 0)
-	//	gAVSProxy.m_conference.enableVideoRecv(conferenceName, enable);
+	//	gAVSProxy->m_conference.enableVideoRecv(conferenceName, enable);
 	//else
-	//	gAVSProxy.m_conference.enableVideoRecv(conferenceName, memberIndex, enable);
+	//	gAVSProxy->m_conference.enableVideoRecv(conferenceName, memberIndex, enable);
 	gAVSProxy->m_conference.enableVideoRecvIndexByIndentify(conferenceName,MemberIndentify,selectIndex);
 	return 0;
 }

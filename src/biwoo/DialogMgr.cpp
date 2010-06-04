@@ -40,7 +40,7 @@ extern "C" int CGC_API DiaInvite(const cgcRequest::pointer & request, cgcRespons
 	// Process
 	CAccountInfo::pointer accountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTIDS, sAccountId));
 	if (accountInfo.get() == NULL)
-	//if (!gAVSProxy.m_accountids.find(sAccountId, accountInfo))
+	//if (!gAVSProxy->m_accountids.find(sAccountId, accountInfo))
 	{
 		// Un register.
 		return 14;
@@ -54,10 +54,10 @@ extern "C" int CGC_API DiaInvite(const cgcRequest::pointer & request, cgcRespons
 	if (dialogId == 0)
 	{
 		// New Dialog
-		dialogInfo = CDialogInfo::create(gAVSProxy.getNextDialogId(), accountInfo->getUserinfo());
+		dialogInfo = CDialogInfo::create(gAVSProxy->getNextDialogId(), accountInfo->getUserinfo());
 		dialogInfo->m_members.insert(accountInfo->getUserinfo()->getAccount(), accountInfo->getUserinfo());
 		gApplication->setAttribute(BMT_DIALOGS, dialogInfo->dialogId(), dialogInfo);
-		//gAVSProxy.m_dialogs.insert(dialogInfo->dialogId(), dialogInfo);
+		//gAVSProxy->m_dialogs.insert(dialogInfo->dialogId(), dialogInfo);
 
 		response->setParameter(cgcParameter::create(_T("DID"), dialogInfo->dialogId()));
 		response->sendResponse();
@@ -65,7 +65,7 @@ extern "C" int CGC_API DiaInvite(const cgcRequest::pointer & request, cgcRespons
 	{
 		dialogInfo = CGC_POINTER_CAST<CDialogInfo>(gApplication->getAttribute(BMT_DIALOGS, dialogId));
 		if (dialogInfo.get() == NULL)
-		//if (!gAVSProxy.m_dialogs.find(dialogId, dialogInfo))
+		//if (!gAVSProxy->m_dialogs.find(dialogId, dialogInfo))
 		{
 			// Dialog id not exist.
 			return 71;
@@ -111,13 +111,13 @@ extern "C" int CGC_API DiaInvite(const cgcRequest::pointer & request, cgcRespons
 			// Not register.
 			CAccountInfo::pointer memberAccountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTS, memberUserInfo->getAccount()));
 			if (memberAccountInfo.get() == NULL)
-			//if (!gAVSProxy.m_accounts.find(memberUserInfo->getAccount(), memberAccountInfo))
+			//if (!gAVSProxy->m_accounts.find(memberUserInfo->getAccount(), memberAccountInfo))
 			{
 				// offline event
 				CMessageInfo::pointer messageInfo = CMessageInfo::create(0, 0, CConversationInfo::CT_INVITE, true);
 				COfflineEvent::pointer offlineEvent = COfflineEvent::create(601, CFromInfo::create(dialogInfo), accountInfo->getUserinfo(), messageInfo);
 				offlineEvent->toAccount(inviteUserInfo);
-				gAVSProxy.addOffEvent(memberUserInfo, offlineEvent);
+				gAVSProxy->addOffEvent(memberUserInfo, offlineEvent);
 				continue;
 			}
 
@@ -144,7 +144,7 @@ extern "C" int CGC_API DiaInvite(const cgcRequest::pointer & request, cgcRespons
 				CMessageInfo::pointer messageInfo = CMessageInfo::create(0, 0, CConversationInfo::CT_INVITE, true);
 				COfflineEvent::pointer offlineEvent = COfflineEvent::create(601, CFromInfo::create(dialogInfo), accountInfo->getUserinfo(), messageInfo);
 				offlineEvent->toAccount(memberUserInfo);
-				gAVSProxy.addOffEvent(inviteUserInfo, offlineEvent);
+				gAVSProxy->addOffEvent(inviteUserInfo, offlineEvent);
 			}
 		}
 
@@ -168,7 +168,7 @@ extern "C" int CGC_API DiaMember(const cgcRequest::pointer & request, cgcRespons
 	// Process
 	CAccountInfo::pointer accountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTIDS, sAccountId));
 	if (accountInfo.get() == NULL)
-	//if (!gAVSProxy.m_accountids.find(sAccountId, accountInfo))
+	//if (!gAVSProxy->m_accountids.find(sAccountId, accountInfo))
 	{
 		// Un register.
 		return 14;
@@ -265,7 +265,7 @@ extern "C" int CGC_API DiaQuit(const cgcRequest::pointer & request, cgcResponse:
 			CMessageInfo::pointer messageInfo = CMessageInfo::create(0, 0, CConversationInfo::CT_QUIT, true);
 			COfflineEvent::pointer offlineEvent = COfflineEvent::create(602, CFromInfo::create(dialogInfo), accountInfo->getUserinfo(), messageInfo);
 			offlineEvent->toAccount(memberUserInfo);
-			gAVSProxy.addOffEvent(memberUserInfo, offlineEvent);
+			gAVSProxy->addOffEvent(memberUserInfo, offlineEvent);
 			continue;
 		}
 

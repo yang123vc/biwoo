@@ -51,7 +51,7 @@ extern "C" int CGC_API RequestP2PUser(const cgcRequest::pointer & request, cgcRe
 	// Send P2P request
 	CUserInfo::pointer pFromUserInfo = CGC_POINTER_CAST<CUserInfo>(gApplication->getAttribute(NAME_USERINFO, pFromUser->getValue()));
 	if (pFromUserInfo.get() == NULL) return -2;
-	//if (!gAVSProxy.m_mapUserInfo.find(pFromUser->getValue(), pFromUserInfo)) return -2;
+	//if (!gAVSProxy->m_mapUserInfo.find(pFromUser->getValue(), pFromUserInfo)) return -2;
 
 	cgcSession::pointer pFromUserCgcSession = gSystem->getcgcSession(pFromUserInfo->getSessionId());
 	if (pFromUserCgcSession.get() == NULL) return -2;
@@ -66,7 +66,7 @@ extern "C" int CGC_API RequestP2PUser(const cgcRequest::pointer & request, cgcRe
 	pFromUserCgcResponse->setParameter(cgcParameter::create(_T("P2PParam"), nP2PParam));
 	CUserInfo::pointer pToUserInfo = CGC_POINTER_CAST<CUserInfo>(gApplication->getAttribute(NAME_USERINFO, pToUser->getValue()));
 	if (pToUserInfo.get() == NULL)
-	//if (!gAVSProxy.m_mapUserInfo.find(pToUser->getValue(), pToUserInfo))
+	//if (!gAVSProxy->m_mapUserInfo.find(pToUser->getValue(), pToUserInfo))
 	{
 		pFromUserCgcResponse->sendResponse(-3, 1006);
 		return -3;
@@ -112,10 +112,10 @@ extern "C" int CGC_API ResponseP2PUser(const cgcRequest::pointer & request, cgcR
 	// Send P2P Response
 	CUserInfo::pointer pFromUserInfo = CGC_POINTER_CAST<CUserInfo>(gApplication->getAttribute(NAME_USERINFO, pFromUser->getValue()));
 	if (pFromUserInfo.get() == NULL) return -2;
-	//if (!gAVSProxy.m_mapUserInfo.find(pFromUser->getValue(), pFromUserInfo)) return -2;
+	//if (!gAVSProxy->m_mapUserInfo.find(pFromUser->getValue(), pFromUserInfo)) return -2;
 	CUserInfo::pointer pToUserInfo = CGC_POINTER_CAST<CUserInfo>(gApplication->getAttribute(NAME_USERINFO, pToUser->getValue()));
 	if (pToUserInfo.get() == NULL) return -2;
-	//if (!gAVSProxy.m_mapUserInfo.find(pToUser->getValue(), pToUserInfo)) return -2;
+	//if (!gAVSProxy->m_mapUserInfo.find(pToUser->getValue(), pToUserInfo)) return -2;
 
 	cgcSession::pointer pToUserCgcSession = gSystem->getcgcSession(pToUserInfo->getSessionId());
 	if (pToUserCgcSession.get() == NULL) return -3;
@@ -167,10 +167,10 @@ extern "C" int CGC_API DisconnectP2PUser(const cgcRequest::pointer & request, cg
 	// Send P2P request
 	CUserInfo::pointer pFromUserInfo = CGC_POINTER_CAST<CUserInfo>(gApplication->getAttribute(NAME_USERINFO, pFromUser->getValue()));
 	if (pFromUser.get() == NULL) return -2;
-	//if (!gAVSProxy.m_mapUserInfo.find(pFromUser->getValue(), pFromUserInfo)) return -2;
+	//if (!gAVSProxy->m_mapUserInfo.find(pFromUser->getValue(), pFromUserInfo)) return -2;
 	CUserInfo::pointer pToUserInfo = CGC_POINTER_CAST<CUserInfo>(gApplication->getAttribute(NAME_USERINFO, pToUser->getValue()));
 	if (pToUserInfo.get() == NULL) return -2;
-	//if (!gAVSProxy.m_mapUserInfo.find(pToUser->getValue(), pToUserInfo)) return -2;
+	//if (!gAVSProxy->m_mapUserInfo.find(pToUser->getValue(), pToUserInfo)) return -2;
 
 	cgcSession::pointer pToUserCgcSession = gSystem->getcgcSession(pToUserInfo->getSessionId());
 	if (pToUserCgcSession.get() == NULL) return -3;
