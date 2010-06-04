@@ -142,7 +142,7 @@ int sendtoMsg(const cgcRequest::pointer & request, cgcAttachment::pointer attach
 		}
 
 		COfflineEvent::pointer offlineEvent = COfflineEvent::create(501, fromInfo, fromAccount->getUserinfo(), offlineMessageInfo);
-		gAVSProxy.addOffEvent(sendtoUserInfo, offlineEvent);
+		gAVSProxy->addOffEvent(sendtoUserInfo, offlineEvent);
 		return 2;
 	}
 
@@ -192,7 +192,7 @@ extern "C" int CGC_API MsgSend(const cgcRequest::pointer & request, cgcResponse:
 		return -3;
 	}*/
 	
-	if (gAVSProxy.m_rejects.exist(mid))
+	if (gAVSProxy->m_rejects.exist(mid))
 	{
 		return 52;
 	}
@@ -260,7 +260,7 @@ extern "C" int CGC_API MsgRequest(const cgcRequest::pointer & request, cgcRespon
 	// Process
 	CAccountInfo::pointer accountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTIDS, sAccountId));
 	if (accountInfo.get() == NULL)
-//	if (!gAVSProxy.m_accountids.find(sAccountId, accountInfo))
+//	if (!gAVSProxy->m_accountids.find(sAccountId, accountInfo))
 	{
 		// Un register.
 		return 14;
@@ -272,7 +272,7 @@ extern "C" int CGC_API MsgRequest(const cgcRequest::pointer & request, cgcRespon
 
 	CAccountInfo::pointer friendAccountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTS, sFriendAccount));
 	if (friendAccountInfo.get() == NULL)
-	//if (!gAVSProxy.m_accounts.find(sFriendAccount, friendAccountInfo))
+	//if (!gAVSProxy->m_accounts.find(sFriendAccount, friendAccountInfo))
 	{
 		// SentTo Account offline state;
 		return 17;
@@ -322,7 +322,7 @@ extern "C" int CGC_API MsgResponse(const cgcRequest::pointer & request, cgcRespo
 	// Process
 	CAccountInfo::pointer accountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTIDS, sAccountId));
 	if (accountInfo.get() == NULL)
-//	if (!gAVSProxy.m_accountids.find(sAccountId, accountInfo))
+//	if (!gAVSProxy->m_accountids.find(sAccountId, accountInfo))
 	{
 		// Un register.
 		return 14;
@@ -333,13 +333,13 @@ extern "C" int CGC_API MsgResponse(const cgcRequest::pointer & request, cgcRespo
 	}
 
 	if (nResponse == 1)
-		gAVSProxy.m_rejects.remove(mid);
+		gAVSProxy->m_rejects.remove(mid);
 	else
-		gAVSProxy.m_rejects.insert(mid, true);
+		gAVSProxy->m_rejects.insert(mid, true);
 
 	CAccountInfo::pointer friendAccountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTS, sFriendAccount));
 	if (friendAccountInfo.get() == NULL)
-//	if (!gAVSProxy.m_accounts.find(sFriendAccount, friendAccountInfo))
+//	if (!gAVSProxy->m_accounts.find(sFriendAccount, friendAccountInfo))
 	{
 		// SentTo Account offline state;
 		return 17;
@@ -374,7 +374,7 @@ extern "C" int CGC_API MsgData(const cgcRequest::pointer & request, cgcResponse:
 	// Process
 	CAccountInfo::pointer accountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTIDS, sAccountId));
 	if (accountInfo.get() == NULL)
-//	if (!gAVSProxy.m_accountids.find(sAccountId, accountInfo))
+//	if (!gAVSProxy->m_accountids.find(sAccountId, accountInfo))
 	{
 		// Un register.
 		return 14;
@@ -395,17 +395,17 @@ extern "C" int CGC_API MsgData(const cgcRequest::pointer & request, cgcResponse:
 	BOOST_ASSERT (attach.get() != NULL);
 
 	CMessageInfo::pointer messageInfo = CGC_POINTER_CAST<CMessageInfo>(gApplication->getAttribute(BMT_OFFLINEMSG, mid));
-	//gAVSProxy.m_offlinemsg.find(mid, messageInfo);
+	//gAVSProxy->m_offlinemsg.find(mid, messageInfo);
 
 	CAccountInfo::pointer friendAccountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTS, sFriendAccount));
 	if (friendAccountInfo.get() == NULL || messageInfo.get() != NULL)
-//	if (!gAVSProxy.m_accounts.find(sFriendAccount, friendAccountInfo) || messageInfo.get() != NULL)
+//	if (!gAVSProxy->m_accounts.find(sFriendAccount, friendAccountInfo) || messageInfo.get() != NULL)
 	{
 		// Friend is offline state.
 		if (messageInfo.get() != NULL && messageInfo->total() != attach->getTotal())
 		{
 			gApplication->removeAttribute(BMT_OFFLINEMSG, mid);
-			//gAVSProxy.m_offlinemsg.remove(mid);
+			//gAVSProxy->m_offlinemsg.remove(mid);
 			messageInfo.reset();
 		}
 
@@ -447,7 +447,7 @@ extern "C" int CGC_API MsgData(const cgcRequest::pointer & request, cgcResponse:
 			}
 
 			gApplication->setAttribute(BMT_OFFLINEMSG, mid, messageInfo);
-			//gAVSProxy.m_offlinemsg.insert(mid, messageInfo);
+			//gAVSProxy->m_offlinemsg.insert(mid, messageInfo);
 		}else if (attach->getIndex() == 0)
 		{
 			long type = request->getParameterValue(_T("Type"), 0);
@@ -470,7 +470,7 @@ extern "C" int CGC_API MsgData(const cgcRequest::pointer & request, cgcResponse:
 			return 17;
 		}
 		gApplication->removeAttribute(BMT_OFFLINEMSG, mid);
-		//gAVSProxy.m_offlinemsg.remove(mid);
+		//gAVSProxy->m_offlinemsg.remove(mid);
 
 		switch (messageInfo->type())
 		{
@@ -503,7 +503,7 @@ extern "C" int CGC_API MsgData(const cgcRequest::pointer & request, cgcResponse:
 		}
 
 		COfflineEvent::pointer offlineEvent = COfflineEvent::create(501, CFromInfo::create(accountInfo->getUserinfo()), accountInfo->getUserinfo(), messageInfo);
-		gAVSProxy.addOffEvent(sendtoUserInfo, offlineEvent);
+		gAVSProxy->addOffEvent(sendtoUserInfo, offlineEvent);
 		return 17;
 	}
 

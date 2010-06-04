@@ -51,7 +51,7 @@ extern "C" int CGC_API AccCreate(const cgcRequest::pointer & request, cgcRespons
 	/////////////////////////////////
 	// process
 	if (gApplication->existAttribute(BMT_ALLUSERS, pAccount->getValue()))
-	//if (gAVSProxy.m_users.exist(pAccount->getValue()))
+	//if (gAVSProxy->m_users.exist(pAccount->getValue()))
 	{
 		// Already exist.
 		return 10;
@@ -59,8 +59,8 @@ extern "C" int CGC_API AccCreate(const cgcRequest::pointer & request, cgcRespons
 	CUserInfo::pointer userInfo = CUserInfo::create(pAccount->getValue(), pPassword->getValue());
 	userInfo->setUserName(sName);
 	userInfo->setNick(sNick);
-	//gAVSProxy.m_users.insert(pAccount->getValue(), userInfo);
-	gAVSProxy.addUserinfo(userInfo);
+	//gAVSProxy->m_users.insert(pAccount->getValue(), userInfo);
+	gAVSProxy->addUserinfo(userInfo);
 
 	/////////////////////////////////
 	// Response
@@ -82,7 +82,7 @@ extern "C" int CGC_API AccDestroy(const cgcRequest::pointer & request, cgcRespon
 	// Process
 	CUserInfo::pointer userInfo = CGC_POINTER_CAST<CUserInfo>(gApplication->getAttribute(BMT_ALLUSERS, pAccount->getValue()));
 	if (userInfo.get() == NULL)
-	//if (!gAVSProxy.m_users.find(pAccount->getValue(), userInfo, false))
+	//if (!gAVSProxy->m_users.find(pAccount->getValue(), userInfo, false))
 	{
 		// Not exist.
 		return 11;
@@ -91,8 +91,8 @@ extern "C" int CGC_API AccDestroy(const cgcRequest::pointer & request, cgcRespon
 		// Password Error.
 		return 13;
 	}
-	//gAVSProxy.m_users.remove(pAccount->getValue());
-	gAVSProxy.deleteUserinfo(pAccount->getValue());
+	//gAVSProxy->m_users.remove(pAccount->getValue());
+	gAVSProxy->deleteUserinfo(pAccount->getValue());
 
 	/////////////////////////////////
 	// Response
@@ -113,7 +113,7 @@ extern "C" int CGC_API AccRegister(const cgcRequest::pointer & request, cgcRespo
 	// Process
 	CUserInfo::pointer userInfo = CGC_POINTER_CAST<CUserInfo>(gApplication->getAttribute(BMT_ALLUSERS, pAccount->getValue()));
 	if (userInfo.get() == NULL)
-	//if (!gAVSProxy.m_users.find(pAccount->getValue(), userInfo, false))
+	//if (!gAVSProxy->m_users.find(pAccount->getValue(), userInfo, false))
 	{
 		// Not exist.
 		return 11;
@@ -129,7 +129,7 @@ extern "C" int CGC_API AccRegister(const cgcRequest::pointer & request, cgcRespo
 
 	CAccountInfo::pointer accountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTIDS, sAccountId));
 	if (accountInfo.get() != NULL)
-	//if (gAVSProxy.m_accountids.find(sAccountId, accountInfo))
+	//if (gAVSProxy->m_accountids.find(sAccountId, accountInfo))
 	{
 		// Set login another place event.
 		sendUserOnOfflineEvent(accountInfo, accountInfo->getUserinfo(), false);
@@ -140,11 +140,11 @@ extern "C" int CGC_API AccRegister(const cgcRequest::pointer & request, cgcRespo
 		accountInfo->setSessionId(session->getId());
 		gApplication->setAttribute(BMT_ACCOUNTIDS, sAccountId, accountInfo);
 		gApplication->setAttribute(BMT_ACCOUNTS, pAccount->getValue(), accountInfo);
-		//gAVSProxy.m_accountids.insert(sAccountId, accountInfo);
-		//gAVSProxy.m_accounts.insert(pAccount->getValue(), accountInfo);
+		//gAVSProxy->m_accountids.insert(sAccountId, accountInfo);
+		//gAVSProxy->m_accounts.insert(pAccount->getValue(), accountInfo);
 	}
 
-	gAVSProxy.loadAccountInfo(accountInfo);
+	gAVSProxy->loadAccountInfo(accountInfo);
 
 	/////////////////////////////////
 	// Response
@@ -172,7 +172,7 @@ extern "C" int CGC_API AccRegConfirm(const cgcRequest::pointer & request, cgcRes
 	// Process
 	CAccountInfo::pointer accountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTIDS, sAccountId));
 	if (accountInfo.get() == NULL)
-	//if (!gAVSProxy.m_accountids.find(sAccountId, accountInfo))
+	//if (!gAVSProxy->m_accountids.find(sAccountId, accountInfo))
 	{
 		// Un register.
 		return 14;
@@ -240,7 +240,7 @@ extern "C" int CGC_API AccRegConfirm(const cgcRequest::pointer & request, cgcRes
 			}break;
 		}
 
-		gAVSProxy.deleteDbOffEvent(offlineEvent->getId());
+		gAVSProxy->deleteDbOffEvent(offlineEvent->getId());
 		
 #ifdef WIN32
 		Sleep(2);
@@ -264,7 +264,7 @@ extern "C" int CGC_API AccRegConfirm(const cgcRequest::pointer & request, cgcRes
 		// Not register.
 		CAccountInfo::pointer friendAccountInfo = (const CAccountInfo::pointer&)gApplication->getAttribute(BMT_ACCOUNTS, friendInfo->userinfo()->getAccount());
 		if (friendAccountInfo.get() == NULL)
-		//if (!gAVSProxy.m_accounts.find(friendInfo->userinfo()->getAccount(), friendAccountInfo))
+		//if (!gAVSProxy->m_accounts.find(friendInfo->userinfo()->getAccount(), friendAccountInfo))
 		{
 			continue;
 		}
@@ -319,7 +319,7 @@ extern "C" int CGC_API AccUnRegister(const cgcRequest::pointer & request, cgcRes
 	// Process
 	CAccountInfo::pointer accountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTIDS, sAccountId));
 	if (accountInfo.get() == NULL)
-	//if (!gAVSProxy.m_accountids.find(sAccountId, accountInfo))
+	//if (!gAVSProxy->m_accountids.find(sAccountId, accountInfo))
 	{
 		// Un register.
 		return 14;
@@ -332,8 +332,8 @@ extern "C" int CGC_API AccUnRegister(const cgcRequest::pointer & request, cgcRes
 	accountInfo->getUserinfo()->setLineState(CUserInfo::UserOffLineState);
 	gApplication->removeAttribute(BMT_ACCOUNTIDS, sAccountId);
 	gApplication->removeAttribute(BMT_ACCOUNTS, accountInfo->getUserinfo()->getAccount());
-	//gAVSProxy.m_accountids.remove(sAccountId);
-	//gAVSProxy.m_accounts.remove(accountInfo->getUserinfo()->getAccount());
+	//gAVSProxy->m_accountids.remove(sAccountId);
+	//gAVSProxy->m_accounts.remove(accountInfo->getUserinfo()->getAccount());
 
 	// 202 offline event
 	/*
@@ -350,7 +350,7 @@ extern "C" int CGC_API AccUnRegister(const cgcRequest::pointer & request, cgcRes
 		// Not register.
 		CAccountInfo::pointer friendAccountInfo = (const CAccountInfo::pointer&)gApplication->getAttribute(BMT_ACCOUNTS, friendInfo->userinfo()->getAccount());
 		if (friendAccountInfo.get() == NULL)
-		//if (!gAVSProxy.m_accounts.find(friendInfo->userinfo()->getAccount(), friendAccountInfo))
+		//if (!gAVSProxy->m_accounts.find(friendInfo->userinfo()->getAccount(), friendAccountInfo))
 		{
 			continue;
 		}
@@ -400,7 +400,7 @@ extern "C" int CGC_API AccLoad(const cgcRequest::pointer & request, cgcResponse:
 	// Process
 	CAccountInfo::pointer accountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTIDS, sAccountId));
 	if (accountInfo.get() == NULL)
-	//if (!gAVSProxy.m_accountids.find(sAccountId, accountInfo))
+	//if (!gAVSProxy->m_accountids.find(sAccountId, accountInfo))
 	{
 		// Un register.
 		return 14;
@@ -476,7 +476,7 @@ extern "C" int CGC_API AccSetPwd(const cgcRequest::pointer & request, cgcRespons
 	// Process
 	CAccountInfo::pointer accountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTIDS, sAccountId));
 	if (accountInfo.get() == NULL)
-	//if (!gAVSProxy.m_accountids.find(sAccountId, accountInfo))
+	//if (!gAVSProxy->m_accountids.find(sAccountId, accountInfo))
 	{
 		// Un register.
 		return 14;
@@ -490,7 +490,7 @@ extern "C" int CGC_API AccSetPwd(const cgcRequest::pointer & request, cgcRespons
 		return 13;
 	}
 
-	gAVSProxy.updatePassword(accountInfo->getUserinfo()->getAccount(), sNewPwd);
+	gAVSProxy->updatePassword(accountInfo->getUserinfo()->getAccount(), sNewPwd);
 	accountInfo->getUserinfo()->setPassword(sNewPwd);
 
 	/////////////////////////////////
@@ -511,7 +511,7 @@ extern "C" int CGC_API AccSetNick(const cgcRequest::pointer & request, cgcRespon
 	// Process
 	CAccountInfo::pointer accountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTIDS, sAccountId));
 	if (accountInfo.get() == NULL)
-	//if (!gAVSProxy.m_accountids.find(sAccountId, accountInfo))
+	//if (!gAVSProxy->m_accountids.find(sAccountId, accountInfo))
 	{
 		// Un register.
 		return 14;
@@ -539,7 +539,7 @@ extern "C" int CGC_API AccSetNick(const cgcRequest::pointer & request, cgcRespon
 		// Not register.
 		CAccountInfo::pointer friendAccountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTS, friendInfo->userinfo()->getAccount()));
 		if (friendAccountInfo.get() == NULL)
-//		if (!gAVSProxy.m_accounts.find(friendInfo->userinfo()->getAccount(), friendAccountInfo))
+//		if (!gAVSProxy->m_accounts.find(friendInfo->userinfo()->getAccount(), friendAccountInfo))
 		{
 			continue;
 		}
@@ -575,7 +575,7 @@ extern "C" int CGC_API AccSetInfo(const cgcRequest::pointer & request, cgcRespon
 	// Process
 	CAccountInfo::pointer accountInfo = CGC_POINTER_CAST<CAccountInfo>(gApplication->getAttribute(BMT_ACCOUNTIDS, sAccountId));
 	if (accountInfo.get() == NULL)
-	//if (!gAVSProxy.m_accountids.find(sAccountId, accountInfo))
+	//if (!gAVSProxy->m_accountids.find(sAccountId, accountInfo))
 	{
 		// Un register.
 		return 14;
@@ -669,7 +669,7 @@ extern "C" int CGC_API AccSetInfo(const cgcRequest::pointer & request, cgcRespon
 
 	if (bModified)
 	{
-		gAVSProxy.updateUserinfo(accountInfo->getUserinfo());
+		gAVSProxy->updateUserinfo(accountInfo->getUserinfo());
 	}
 
 	// Response

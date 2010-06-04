@@ -85,7 +85,7 @@ extern "C" void CGC_API CGC_Module_Free(void)
 {
 	gAVSProxy->m_conference.quitsip();
 
-	//CCommConferenceMap & mapCommConfer = const_cast<CCommConferenceMap&>(gAVSProxy.m_commfMgr.getMap());
+	//CCommConferenceMap & mapCommConfer = const_cast<CCommConferenceMap&>(gAVSProxy->m_commfMgr.getMap());
 	//CCommConferenceMapIter pIter;
 	//for (pIter=mapCommConfer.begin(); pIter!=mapCommConfer.end(); pIter++)
 	//{
@@ -122,11 +122,11 @@ extern "C" int CGC_API UserLogin(const cgcRequest::pointer & request, cgcRespons
 	// addUserInfo
 	CUserInfo::pointer pUserInfo = (const CUserInfo::pointer&)gApplication->getAttribute(NAME_USERINFO, pUserName->getValue());
 	if (pUserInfo.get() == NULL)
-	//if (!gAVSProxy.m_mapUserInfo.find(pUserName->getValue(), pUserInfo))
+	//if (!gAVSProxy->m_mapUserInfo.find(pUserName->getValue(), pUserInfo))
 	{
 		pUserInfo = CUserInfo::create(pUserName->getValue(), pPassword->getValue());
 		gApplication->setAttribute(NAME_USERINFO, pUserInfo->getUsername(), pUserInfo);
-		//gAVSProxy.m_mapUserInfo.insert(pUserInfo->getUsername(), pUserInfo);
+		//gAVSProxy->m_mapUserInfo.insert(pUserInfo->getUsername(), pUserInfo);
 	}else
 	{
 		pUserInfo->setUsername(pUserName->getValue());
@@ -139,8 +139,8 @@ extern "C" int CGC_API UserLogin(const cgcRequest::pointer & request, cgcRespons
 	response->sendResponse(1);
 
 	// User Login Notify:
-	boost::mutex::scoped_lock lock(gAVSProxy.m_mapUserInfo.mutex());
-	const CLockMap<tstring, CUserInfo::pointer> & userInfoMap = gAVSProxy.m_mapUserInfo;
+	boost::mutex::scoped_lock lock(gAVSProxy->m_mapUserInfo.mutex());
+	const CLockMap<tstring, CUserInfo::pointer> & userInfoMap = gAVSProxy->m_mapUserInfo;
 	CLockMap<tstring, CUserInfo::pointer>::const_iterator pIter;
 	for (pIter=userInfoMap.begin(); pIter!=userInfoMap.end(); pIter++)
 	{
@@ -177,11 +177,11 @@ extern "C" int CGC_API UserLogout(const cgcRequest::pointer & request, cgcRespon
 	if (pUserName == 0 || pUserName->getValue().length() == 0) return -1;
 
 	CUserInfo::pointer pUserInfo;
-	if (!gAVSProxy.m_mapUserInfo.find(pUserName->getValue(), pUserInfo, true)) return -2;
+	if (!gAVSProxy->m_mapUserInfo.find(pUserName->getValue(), pUserInfo, true)) return -2;
 	
 	// User Logout Notify:
-	boost::mutex::scoped_lock lock(gAVSProxy.m_mapUserInfo.mutex());
-	const CLockMap<tstring, CUserInfo::pointer> & userInfoMap = gAVSProxy.m_mapUserInfo;
+	boost::mutex::scoped_lock lock(gAVSProxy->m_mapUserInfo.mutex());
+	const CLockMap<tstring, CUserInfo::pointer> & userInfoMap = gAVSProxy->m_mapUserInfo;
 	CLockMap<tstring, CUserInfo::pointer>::const_iterator pIter;
 	for (pIter=userInfoMap.begin(); pIter!=userInfoMap.end(); pIter++)
 	{
@@ -237,8 +237,8 @@ extern "C" int CGC_API GetAllUser(const cgcRequest::pointer & request, cgcRespon
 	}
 
 	/*
-	boost::mutex::scoped_lock lock(gAVSProxy.m_mapUserInfo.mutex());
-	const CLockMap<tstring, CUserInfo::pointer> & userInfoMap = gAVSProxy.m_mapUserInfo;
+	boost::mutex::scoped_lock lock(gAVSProxy->m_mapUserInfo.mutex());
+	const CLockMap<tstring, CUserInfo::pointer> & userInfoMap = gAVSProxy->m_mapUserInfo;
 	CLockMap<tstring, CUserInfo::pointer>::const_iterator pIter;
 	for (pIter=userInfoMap.begin(); pIter!=userInfoMap.end(); pIter++)
 	{
@@ -273,9 +273,9 @@ extern "C" int CGC_API SendTextMessage(const cgcRequest::pointer & request, cgcR
 
 	// Send Text Message
 	CUserInfo::pointer pFromUserInfo;
-	if (!gAVSProxy.m_mapUserInfo.find(pFromUser->getValue(), pFromUserInfo)) return -2;
+	if (!gAVSProxy->m_mapUserInfo.find(pFromUser->getValue(), pFromUserInfo)) return -2;
 	CUserInfo::pointer pToUserInfo;
-	if (!gAVSProxy.m_mapUserInfo.find(pToUser->getValue(), pToUserInfo)) return -2;
+	if (!gAVSProxy->m_mapUserInfo.find(pToUser->getValue(), pToUserInfo)) return -2;
 
 	cgcSession::pointer pToUserCgcSession = gSystem->getcgcSession(pToUserInfo->getSessionId());
 	if (pToUserCgcSession.get() == NULL) return -3;

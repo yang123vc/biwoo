@@ -1,6 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <root>
+  <!-- ******** BODB Service -->
+  <module>
+  	<name>BodbService</name>
+  	<file>BodbService</file>
+  	<type>SERVICE</type>
+  </module>
   <!-- ******** RTP Service -->
   <module>
   	<name>RtpService</name>
@@ -13,7 +19,7 @@
   	<file>SipService</file>
   	<type>SERVICE</type>
   </module>
-    
+
   <!-- ******** PARSER -->
   <module>
   	<name>SotpParser</name>

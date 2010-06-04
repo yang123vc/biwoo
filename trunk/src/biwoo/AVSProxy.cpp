@@ -17,24 +17,24 @@
 */
 
 #include "AVSProxy.h"
-#include <bodb/bodb2.h>
+//#include <bodb/bodb2.h>
 #include <bodb/fieldvariant.h>
 using namespace bo;
 #include <CGCBase/includeapp.h>
 #include <sys/timeb.h>
 
 
-CAVSProxy gAVSProxy;
+CAVSProxy::pointer gAVSProxy;
 
 void CAVSProxy::deleteDbOffEvent(unsigned long id)
 {
 	// Delete offevent
-	if (id > 0 && bodb_isopened())
+	if (id > 0 && m_bodbHandler->isopen())
 	{
 		char sql[1024];
 		memset(sql, 0, sizeof(sql));
 		sprintf(sql, "DELETE FROM offevents_t WHERE id=%ld", id);
-		bodb_exec(sql);
+		m_bodbHandler->execsql(sql);
 	}
 }
 
@@ -57,7 +57,7 @@ void CAVSProxy::addOffEvent(CUserInfo::pointer touserInfo, COfflineEvent::pointe
 	tbNow.time -= (tbNow.timezone*60);
 	offlineEvent->getMessage()->msgtime(tbNow.time);
 
-	if (bodb_isopened())
+	if (m_bodbHandler->isopen())
 	{
 		long nFromId = 0;
 		if (offlineEvent->fromInfo()->fromType() == CFromInfo::FromDialogInfo)
@@ -114,7 +114,7 @@ void CAVSProxy::addOffEvent(CUserInfo::pointer touserInfo, COfflineEvent::pointe
 			}break;
 		}
 
-		bodb_exec(sql);
+		m_bodbHandler->execsql(sql);
 
 	}
 }
@@ -125,7 +125,7 @@ void CAVSProxy::addUserinfo(CUserInfo::pointer userInfo)
 	//m_users.insert(userInfo->getAccount(), userInfo);
 	gApplication->setAttribute(BMT_ALLUSERS, userInfo->getAccount(), userInfo);
 
-	if (bodb_isopened())
+	if (m_bodbHandler->isopen())
 	{
 		char sql[2048];
 		memset(sql, 0, sizeof(sql));
@@ -136,13 +136,13 @@ void CAVSProxy::addUserinfo(CUserInfo::pointer userInfo)
 			userInfo->getGender(), userInfo->getBirthday().c_str(), userInfo->getExtension().c_str(),
 			userInfo->getPhone().c_str(), userInfo->getMobile().c_str(), userInfo->getEmail().c_str(),
 			userInfo->getDescription().c_str());
-		bodb_exec(sql);
+		m_bodbHandler->execsql(sql);
 	}
 }
 
 void CAVSProxy::updateUserinfo(CUserInfo::pointer userInfo)
 {
-	if (bodb_isopened())
+	if (m_bodbHandler->isopen())
 	{
 		// ?? birthday description
 		char sql[2048];
@@ -151,7 +151,7 @@ void CAVSProxy::updateUserinfo(CUserInfo::pointer userInfo)
 			userInfo->getNick().c_str(), userInfo->getGender(), userInfo->getExtension().c_str(), 
 			userInfo->getPhone().c_str(), userInfo->getMobile().c_str(), 
 			userInfo->getEmail().c_str(), userInfo->getAccount().c_str());
-		bodb_exec(sql);
+		m_bodbHandler->execsql(sql);
 	}
 }
 
@@ -160,23 +160,23 @@ void CAVSProxy::deleteUserinfo(const tstring & sAccount)
 	//m_users.remove(sAccount);
 	gApplication->removeAttribute(BMT_ALLUSERS, sAccount);
 
-	if (bodb_isopened())
+	if (m_bodbHandler->isopen())
 	{
 		char sql[2048];
 		memset(sql, 0, sizeof(sql));
 		sprintf(sql, "DELETE FROM userinfo_t WHERE account='%s'", sAccount.c_str());
-		bodb_exec(sql);
+		m_bodbHandler->execsql(sql);
 	}
 }
 
 void CAVSProxy::updatePassword(const tstring & sAccount, const tstring & sNewPassword)
 {
-	if (bodb_isopened())
+	if (m_bodbHandler->isopen())
 	{
 		char sql[1024];
 		memset(sql, 0, sizeof(sql));
 		sprintf(sql, "UPDATE userinfo_t SET password='%s' WHERE account='%s'", sNewPassword.c_str(), sAccount.c_str());
-		bodb_exec(sql);
+		m_bodbHandler->execsql(sql);
 	}
 }
 
@@ -185,14 +185,14 @@ void CAVSProxy::loadAccountInfo(CAccountInfo::pointer accountInfo)
 	BOOST_ASSERT (accountInfo.get() != 0);
 	BOOST_ASSERT (accountInfo->getUserinfo().get() != 0);
 
-	if (bodb_isopened())
+	if (m_bodbHandler->isopen())
 	{
 		PRESULTSET resultset = 0;
 		char sql[2048];
 
 		memset(sql, 0, sizeof(sql));
 		sprintf(sql, "SELECT groupid,parentgroupid,groupname,grouptype FROM groupinfo_t WHERE account='%s'", accountInfo->getUserinfo()->getAccount().c_str());
-		bodb_exec(sql, &resultset);
+		m_bodbHandler->execsql(sql, &resultset);
 		if (resultset != 0)
 		{
 			for (int i=0; i<resultset->rscount; i++)
@@ -222,7 +222,7 @@ void CAVSProxy::loadAccountInfo(CAccountInfo::pointer accountInfo)
 
 		memset(sql, 0, sizeof(sql));
 		sprintf(sql, "SELECT curgroupid,curdataid,curdatagroupid FROM accountsetting_t WHERE account='%s'", accountInfo->getUserinfo()->getAccount().c_str());
-		bodb_exec(sql, &resultset);
+		m_bodbHandler->execsql(sql, &resultset);
 		if (resultset != 0)
 		{
 			for (int i=0; i<resultset->rscount; i++)
@@ -249,7 +249,7 @@ void CAVSProxy::loadAccountInfo(CAccountInfo::pointer accountInfo)
 
 		memset(sql, 0, sizeof(sql));
 		sprintf(sql, "SELECT groupid FROM usercogroup_t WHERE account='%s'", accountInfo->getUserinfo()->getAccount().c_str());
-		bodb_exec(sql, &resultset);
+		m_bodbHandler->execsql(sql, &resultset);
 		if (resultset != 0)
 		{
 			for (int i=0; i<resultset->rscount; i++)
@@ -278,7 +278,7 @@ void CAVSProxy::loadAccountInfo(CAccountInfo::pointer accountInfo)
 			memset(sql, 0, sizeof(sql));
 			sprintf(sql, "SELECT id,event,fromtype,fromid,fromaccount,msgtype,newflag,message,msgsize,width,height,msgtime FROM offevents_t \
 						 WHERE toaccount='%s'", accountInfo->getUserinfo()->getAccount().c_str());
-			bodb_exec(sql, &resultset);
+			m_bodbHandler->execsql(sql, &resultset);
 			if (resultset != 0)
 			{
 				for (int i=0; i<resultset->rscount; i++)
@@ -401,7 +401,7 @@ void CAVSProxy::loadAccountInfo(CAccountInfo::pointer accountInfo)
 		{
 			memset(sql, 0, sizeof(sql));
 			sprintf(sql, "DELETE FROM offevents_t WHERE toaccount='%s'", accountInfo->getUserinfo()->getAccount().c_str());
-			bodb_exec(sql);
+			m_bodbHandler->execsql(sql);
 		}
 	}
 }
@@ -427,7 +427,7 @@ void CAVSProxy::addFriendGroup(CAccountInfo::pointer accountInfo, CGroupInfo::po
 
 	accountInfo->m_allgroups.insert(groupInfo->groupid(), groupInfo);
 
-	if (bodb_isopened())
+	if (m_bodbHandler->isopen())
 	{
 		std::string groupname = groupInfo->name();
 		string_replace(groupname, "'", "''");
@@ -439,7 +439,7 @@ void CAVSProxy::addFriendGroup(CAccountInfo::pointer accountInfo, CGroupInfo::po
 			accountInfo->getUserinfo()->getAccount().c_str(), groupInfo->groupid(),
 			groupInfo->parentgroupid(), groupname.c_str(),
 			(int)groupInfo->type());
-		bodb_exec(sql);
+		m_bodbHandler->execsql(sql);
 	}
 }
 
@@ -451,7 +451,7 @@ void CAVSProxy::addFriendinfo(CAccountInfo::pointer accountInfo, CFriendInfo::po
 
 	accountInfo->m_allfriends.insert(friendInfo->userinfo()->getAccount(), friendInfo);
 
-	if (bodb_isopened())
+	if (m_bodbHandler->isopen())
 	{
 		char sql[2048];
 		memset(sql, 0, sizeof(sql));
@@ -459,7 +459,7 @@ void CAVSProxy::addFriendinfo(CAccountInfo::pointer accountInfo, CFriendInfo::po
 					 VALUES('%s',%d,%d,'%s')",
 			friendInfo->userinfo()->getAccount().c_str(), friendInfo->groupid(),
 			friendInfo->substate(), friendInfo->note().c_str());
-		bodb_exec(sql);
+		m_bodbHandler->execsql(sql);
 	}
 }
 
@@ -469,7 +469,7 @@ void CAVSProxy::updateGroupName(CAccountInfo::pointer accountInfo, CGroupInfo::p
 	BOOST_ASSERT (groupInfo.get() != 0);
 	groupInfo->name(newName);
 
-	if (bodb_isopened())
+	if (m_bodbHandler->isopen())
 	{
 
 	}
@@ -505,12 +505,12 @@ void CAVSProxy::deleteGroup(CAccountInfo::pointer accountInfo, unsigned int grou
 	BOOST_ASSERT (accountInfo.get() != 0);
 	accountInfo->m_allgroups.remove(groupId);
 
-	if (bodb_isopened())
+	if (m_bodbHandler->isopen())
 	{
 		char sql[2048];
 		memset(sql, 0, sizeof(sql));
 		sprintf(sql, "DELETE FROM groupinfo_t WHERE account='%s' AND groupid=%d", accountInfo->getUserinfo()->getAccount().c_str(), groupId);
-		bodb_exec(sql);
+		m_bodbHandler->execsql(sql);
 	}
 }
 
@@ -524,7 +524,7 @@ long CAVSProxy::getNextDialogId(void)
 void CAVSProxy::loadSystemSetting(void)
 {
 	PRESULTSET resultset = 0;
-	bodb_exec("SELECT curdialogid FROM systemsetting_t", &resultset);
+	m_bodbHandler->execsql("SELECT curdialogid FROM systemsetting_t", &resultset);
 
 	if (resultset != 0)
 	{
@@ -544,12 +544,12 @@ void CAVSProxy::loadSystemSetting(void)
 
 void CAVSProxy::updateSystemSetting(void)
 {
-	if (bodb_isopened())
+	if (m_bodbHandler->isopen())
 	{
 		char sql[1024];
 		memset(sql, 0, sizeof(sql));
 		sprintf(sql, "UPDATE systemsetting_t SET curdialogid=%ld", m_currentDialogId);
-		bodb_exec(sql);
+		m_bodbHandler->execsql(sql);
 	}
 }
 
@@ -558,12 +558,12 @@ void CAVSProxy::updateAccountSetting(CAccountInfo::pointer accountInfo)
 	BOOST_ASSERT (accountInfo.get() != 0);
 	BOOST_ASSERT (accountInfo->getUserinfo().get() != 0);
 
-	if (bodb_isopened())
+	if (m_bodbHandler->isopen())
 	{
 		char sql[2048];
 		memset(sql, 0, sizeof(sql));
 		sprintf(sql, "SELECT * FROM accountsetting_t WHERE account='%s'", accountInfo->getUserinfo()->getAccount().c_str());
-		int ret = bodb_exec(sql);
+		int ret = m_bodbHandler->execsql(sql);
 
 		if (ret < 1)
 		{
@@ -579,7 +579,7 @@ void CAVSProxy::updateAccountSetting(CAccountInfo::pointer accountInfo)
 				accountInfo->getcurgroupid(),accountInfo->getcurdataid(),
 				accountInfo->getcurdatagroupid(), accountInfo->getUserinfo()->getAccount().c_str());
 		}
-		bodb_exec(sql);
+		m_bodbHandler->execsql(sql);
 	}
 }
 
@@ -591,21 +591,16 @@ unsigned int CAVSProxy::addCompany(const std::string & coName)
 
 bool CAVSProxy::load(void)
 {
-	if (!bodb_init(m_path.c_str()))
-	{
-		return false;
-	}
-
 	std::string sql("USE ");
 	sql.append(biwoo_db_name);
-	if (bodb_exec(sql.c_str()) != 0)
+	if (m_bodbHandler->execsql(sql.c_str()) != 0)
 	{
 		return false;
 	}
 
 	PRESULTSET resultset = 0;
 	// description 
-	bodb_exec("SELECT account,password,username,nick,gender,birthday,extension,phone,mobile,email,description FROM userinfo_t", &resultset);
+	m_bodbHandler->execsql("SELECT account,password,username,nick,gender,birthday,extension,phone,mobile,email,description FROM userinfo_t", &resultset);
 
 	if (resultset != 0)
 	{
@@ -641,7 +636,7 @@ bool CAVSProxy::load(void)
 		resultset = 0;
 	}
 
-	bodb_exec("SELECT coid,name FROM company_t", &resultset);
+	m_bodbHandler->execsql("SELECT coid,name FROM company_t", &resultset);
 	if (resultset != 0)
 	{
 		for (int i=0; i<resultset->rscount; i++)
@@ -667,7 +662,7 @@ bool CAVSProxy::load(void)
 
 	// ??
 	// cogroup_t
-	bodb_exec("SELECT groupid,parentgroupid,name,type FROM cogroup_t WHERE coid=1", &resultset);
+	m_bodbHandler->execsql("SELECT groupid,parentgroupid,name,type FROM cogroup_t WHERE coid=1", &resultset);
 	if (resultset != 0)
 	{
 		for (int i=0; i<resultset->rscount; i++)
@@ -698,7 +693,7 @@ bool CAVSProxy::load(void)
 	}
 
 	// usercogroup_t
-	bodb_exec("SELECT account,groupid FROM usercogroup_t", &resultset);
+	m_bodbHandler->execsql("SELECT account,groupid FROM usercogroup_t", &resultset);
 	if (resultset != 0)
 	{
 		for (int i=0; i<resultset->rscount; i++)
@@ -736,23 +731,26 @@ bool CAVSProxy::load(void)
 	return true;
 }
 
-CAVSProxy::CAVSProxy(void)
-: m_path("")
+CAVSProxy::CAVSProxy(cgcBodb::pointer bodbService, CBodbHandler::pointer bodbHandler)
+: m_bodbService(bodbService), m_bodbHandler(bodbHandler)
 , m_currentDialogId(0)
 
 {
-
+	BOOST_ASSERT (m_bodbService.get() != NULL);
+	BOOST_ASSERT (m_bodbHandler.get() != NULL);
 }
 
 CAVSProxy::~CAVSProxy(void)
 {
 	close();
+	m_bodbService->bodb_exit(m_bodbHandler);
+	m_bodbService.reset();
 }
 
 
 void CAVSProxy::close(void)
 {
-	bodb_exit();
+	m_bodbHandler->close();
 	m_rejects.clear();
 	//m_commfMgr.clearAll();
 }

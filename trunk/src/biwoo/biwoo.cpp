@@ -34,6 +34,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 #include <boost/filesystem.hpp>
 // cgc head file
 #include <CGCBase/includeapp.h>
+#include <CGCBase/cgcBodb.h>
 #include <CGCBase/cgcString.h>
 using namespace cgc;
 
@@ -44,17 +45,38 @@ using namespace cgc;
 #include "AVSProxy.h"
 #include "xmlparseusers.h"
 
+cgcBodb::pointer gBodbService;
+CBodbHandler::pointer gBodbHandler;
+
 extern "C" bool CGC_API CGC_Module_Init(void)
 {
-	// Load datas from bodb.
+	cgcBodb::pointer bodbService = CGC_BODBSERVICE_DEF(gCgcService->getService("BodbService"));
+	BOOST_ASSERT (bodbService.get() != NULL);
+
 	tstring sBodbPath(gApplication->getAppConfPath());
 	sBodbPath.append(_T("/db"));
-	//tstring sBodbPath = "d:/bodbtest";
-	gAVSProxy.setpath(sBodbPath);
-	if (!gAVSProxy.load())
+	CBodbHandler::pointer bodbHandler = bodbService->bodb_init(sBodbPath.c_str());
+	if (bodbHandler.get() == NULL)
 	{
+		bodbService.reset();
 		return false;
 	}
+
+	gAVSProxy = CAVSProxy::create(bodbService, bodbHandler);
+	if (!gAVSProxy->load())
+	{
+		gAVSProxy.reset();
+		bodbService->bodb_exit(bodbHandler);
+		bodbService.reset();
+		return false;
+	}
+
+	// Load datas from bodb.
+	//gAVSProxy->setpath(sBodbPath);
+	//if (!gAVSProxy->load())
+	//{
+	//	return false;
+	//}
 
 	namespace fs = boost::filesystem;
 	std::string filePath(gApplication->getAppConfPath());
@@ -74,10 +96,10 @@ extern "C" bool CGC_API CGC_Module_Init(void)
 	for (iter=parseusers.m_users.begin(); iter!=parseusers.m_users.end(); iter++)
 	{
 		if (!gApplication->existAttribute(BMT_ALLUSERS, iter->second->getAccount()))
-		//if (!gAVSProxy.m_users.exist(iter->second->getAccount()))
+		//if (!gAVSProxy->m_users.exist(iter->second->getAccount()))
 		{
-			//gAVSProxy.m_users.insert(iter->second->getAccount(), iter->second);
-			gAVSProxy.addUserinfo(iter->second);
+			//gAVSProxy->m_users.insert(iter->second->getAccount(), iter->second);
+			gAVSProxy->addUserinfo(iter->second);
 		}
 	}
 	parseusers.m_users.clear();
@@ -106,7 +128,8 @@ extern "C" void CGC_API CGC_Module_Free(void)
 		}
 	}
 
-	gAVSProxy.close();
+	gAVSProxy->close();
+	gAVSProxy.reset();
 
 	gApplication->clearAllAtrributes();
 }

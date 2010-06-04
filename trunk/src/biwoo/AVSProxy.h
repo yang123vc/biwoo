@@ -20,7 +20,9 @@
 #ifndef __AVSProxy_h__
 #define __AVSProxy_h__
 
+#include <boost/shared_ptr.hpp>
 #include <CGCBase/includeapp.h>
+#include <CGCBase/cgcBodb.h>
 #include <ThirdParty/stl/lockmap.h>
 #include <fstream>
 #include "../biwooinfo/accountinfo.h"
@@ -47,6 +49,12 @@ enum BiwooMapType
 class CAVSProxy
 {
 public:
+	typedef boost::shared_ptr<CAVSProxy> pointer;
+	static CAVSProxy::pointer create(cgcBodb::pointer bodbService, CBodbHandler::pointer bodbHandler)
+	{
+		return CAVSProxy::pointer(new CAVSProxy(bodbService, bodbHandler));
+	}
+
 	CLockMap<long, bool> m_rejects;
 
 	//CCommConferMgr	m_commfMgr;
@@ -71,22 +79,22 @@ public:
 	void updateAccountSetting(CAccountInfo::pointer accountInfo);
 	unsigned int addCompany(const std::string & coName);
 	
-	void setpath(const tstring & newv) {m_path = newv;}
 	bool load(void);
 	void close(void);
 
 	long getNextDialogId(void);
 
 public:
-	CAVSProxy(void);
+	CAVSProxy(cgcBodb::pointer bodbServic, CBodbHandler::pointer bodbHandler);
 	~CAVSProxy(void);
 
 private:
-	tstring m_path;
+	cgcBodb::pointer m_bodbService;
+	CBodbHandler::pointer m_bodbHandler;
 	long m_currentDialogId;
 };
 
 
-extern CAVSProxy gAVSProxy;
+extern CAVSProxy::pointer gAVSProxy;
 
 #endif // __AVSProxy_h__
