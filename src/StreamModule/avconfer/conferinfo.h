@@ -21,7 +21,7 @@
 #define __conferinfo_h__
 
 #include <map>
-#include <stl/stldef.h>
+#include "../../ThirdParty/stl/stldef.h"
 #include <boost/shared_ptr.hpp>
 
 class CConferInfo
