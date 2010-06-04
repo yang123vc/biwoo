@@ -20,8 +20,8 @@
 #ifndef __usermessages_h__
 #define __usermessages_h__
 
-#include <stl/stldef.h>
-#include <stl/lockmap.h>
+#include <ThirdParty/stl/stldef.h>
+#include <ThirdParty/stl/lockmap.h>
 #include <boost/shared_ptr.hpp>
 #include "userinfo.h"
 #include "messageinfo.h"
