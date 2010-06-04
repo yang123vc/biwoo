@@ -226,10 +226,6 @@
 				RelativePath="..\..\StreamModule\UserInfo.h"
 				>
 			</File>
-			<File
-				RelativePath="..\..\StreamModule\UserMgr.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="avconfer"
