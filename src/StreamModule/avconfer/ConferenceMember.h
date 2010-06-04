@@ -21,8 +21,8 @@
 #define __ConferenceMember_h__
 
 #include <boost/thread.hpp>
-#include <stl/stldef.h>
-#include <stl/buffer.h>
+#include "../../ThirdParty/stl/stldef.h"
+#include "../../ThirdParty/stl/buffer.h"
 #include <boost/shared_ptr.hpp>
 #include <libRTP/libRTP.h>
 #include <sys/timeb.h>

@@ -22,9 +22,9 @@
 
 #include <boost/thread.hpp>
 #include <boost/shared_ptr.hpp>
-#include <stl/lockmap.h>
-#include <stl/locklist.h>
-#include <stl/buffer.h>
+#include "../../ThirdParty/stl/lockmap.h"
+#include "../../ThirdParty/stl/locklist.h"
+#include "../../ThirdParty/stl/buffer.h"
 #include "../../ThirdParty/libRTP/libRTP.h"
 #include "../../ThirdParty/libG729a/libG729a.h"
 #include "ConferenceMember.h"

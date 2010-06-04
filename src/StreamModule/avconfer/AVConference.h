@@ -22,7 +22,7 @@
 
 #include <boost/thread.hpp>
 #include <boost/shared_ptr.hpp>
-#include <stl/lockmap.h>
+#include <ThirdParty/stl/lockmap.h>
 //#include <libSIP/libSIP.h>
 //#include <libRTP/libRTP.h>
 #include "ConferenceInfo.h"
