@@ -20,8 +20,8 @@
 #ifndef __cogroupinfo_h__
 #define __cogroupinfo_h__
 
-#include <stl/stldef.h>
-#include <stl/locklist.h>
+#include <ThirdParty/stl/stldef.h>
+#include <ThirdParty/stl/locklist.h>
 #include <boost/shared_ptr.hpp>
 #include <CGCBase/cgcpointer.h>
 //#include "userinfo.h"

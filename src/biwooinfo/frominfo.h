@@ -20,7 +20,7 @@
 #ifndef __frominfo_h__
 #define __frominfo_h__
 
-#include <stl/stldef.h>
+#include <ThirdParty/stl/stldef.h>
 #include <boost/shared_ptr.hpp>
 //#include "userinfo.h"
 #include "dialoginfo.h"

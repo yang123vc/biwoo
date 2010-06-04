@@ -20,7 +20,7 @@
 #ifndef __friendinfo_h__
 #define __friendinfo_h__
 
-#include <stl/stldef.h>
+#include <ThirdParty/stl/stldef.h>
 #include <boost/shared_ptr.hpp>
 #include "userinfo.h"
 
