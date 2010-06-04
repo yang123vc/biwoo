@@ -3,7 +3,7 @@
 #define __SipCallInfo_h__
 
 #include <boost/shared_ptr.hpp>
-#include <stl/stldef.h>
+#include "../stl/stldef.h"
 
 class SipCallInfo
 {

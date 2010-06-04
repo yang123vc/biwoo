@@ -5,9 +5,9 @@
 #include <osip2/osip_mt.h>
 #include <eXosip2/eXosip.h>
 #include <boost/thread.hpp>
-#include <stl/lockmap.h>
-#include <stl/locklist.h>
-#include <stl/stldef.h>
+#include "../stl/lockmap.h"
+#include "../stl/locklist.h"
+#include "../stl/stldef.h"
 #include "SipParameter.h"
 #include "libsiphandler.h"
 

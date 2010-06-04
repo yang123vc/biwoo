@@ -2,7 +2,7 @@
 #ifndef __SipParameter_h__
 #define __SipParameter_h__
 
-#include <stl/stldef.h>
+#include "../stl/stldef.h"
 
 class CSipParameter
 {
