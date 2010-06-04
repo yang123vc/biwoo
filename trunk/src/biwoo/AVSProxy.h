@@ -21,7 +21,7 @@
 #define __AVSProxy_h__
 
 #include <CGCBase/includeapp.h>
-#include <stl/lockmap.h>
+#include <ThirdParty/stl/lockmap.h>
 #include <fstream>
 #include "../biwooinfo/accountinfo.h"
 #include "../biwooinfo/companyinfo.h"
