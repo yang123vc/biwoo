@@ -20,7 +20,7 @@
 #ifndef __conversationinfo_h__
 #define __conversationinfo_h__
 
-#include <stl/stldef.h>
+#include <ThirdParty/stl/stldef.h>
 #include <boost/shared_ptr.hpp>
 #include "messageinfo.h"
 #include "userinfo.h"

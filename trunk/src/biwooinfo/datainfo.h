@@ -20,8 +20,8 @@
 #ifndef __datainfo_h__
 #define __datainfo_h__
 
-#include <stl/stldef.h>
-#include <stl/locklist.h>
+#include <ThirdParty/stl/stldef.h>
+#include <ThirdParty/stl/locklist.h>
 #include <boost/shared_ptr.hpp>
 #include "datagroup.h"
 

@@ -20,7 +20,7 @@
 #ifndef __groupinfo_h__
 #define __groupinfo_h__
 
-#include <stl/stldef.h>
+#include <ThirdParty/stl/stldef.h>
 #include <boost/shared_ptr.hpp>
 
 class CGroupInfo

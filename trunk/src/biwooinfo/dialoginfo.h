@@ -20,8 +20,8 @@
 #ifndef __dialoginfo_h__
 #define __dialoginfo_h__
 
-#include <stl/stldef.h>
-#include <stl/lockmap.h>
+#include <ThirdParty/stl/stldef.h>
+#include <ThirdParty/stl/lockmap.h>
 #include <boost/shared_ptr.hpp>
 #include <CGCBase/cgcpointer.h>
 //#include "userinfo.h"
