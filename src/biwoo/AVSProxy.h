@@ -22,7 +22,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include <CGCBase/includeapp.h>
-#include <CGCBase/cgcBodb.h>
+#include <CGCServices/Bodb/cgcBodb.h>
 #include <ThirdParty/stl/lockmap.h>
 #include <fstream>
 #include "../biwooinfo/accountinfo.h"
@@ -32,8 +32,6 @@
 
 //#include "CommConferMgr.h"
 //#include "avconfer/AVConference.h"
-
-const tstring biwoo_db_name = _T("biwoo");
 
 enum BiwooMapType
 {
@@ -79,7 +77,7 @@ public:
 	void updateAccountSetting(CAccountInfo::pointer accountInfo);
 	unsigned int addCompany(const std::string & coName);
 	
-	bool load(void);
+	bool load(const tstring & databaseName);
 	void close(void);
 
 	long getNextDialogId(void);

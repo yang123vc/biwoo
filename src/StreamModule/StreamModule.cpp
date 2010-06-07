@@ -34,8 +34,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 // cgcÍ·ÎÄ¼þ
 #include <CGCBase/includeapp.h>
 #include <CGCBase/cgcString.h>
-#include <CGCBase/cgcRtp.h>
-#include <CGCBase/cgcSip.h>
+#include <CGCServices/Rtp/cgcRtp.h>
+#include <CGCServices/Sip/cgcSip.h>
 using namespace cgc;
 
 ///////////////////////////////
@@ -45,8 +45,11 @@ using namespace cgc;
 
 extern "C" bool CGC_API CGC_Module_Init(void)
 {
-	cgcRtp::pointer rtpService = CGC_RTPSERVICE_DEF(gCgcService->getService("RtpService"));
-	cgcSip::pointer sipService = CGC_SIPSERVICE_DEF(gCgcService->getService("SipService"));
+	const tstring & rtpServiceName = gApplication->getInitParameterValue("RtpServiceName", "RtpService");
+	const tstring & sipServiceName = gApplication->getInitParameterValue("SipServiceName", "SipService");
+
+	cgcRtp::pointer rtpService = CGC_RTPSERVICE_DEF(gCgcServices->getService(rtpServiceName));
+	cgcSip::pointer sipService = CGC_SIPSERVICE_DEF(gCgcServices->getService(sipServiceName));
 	BOOST_ASSERT (rtpService.get() != NULL);
 	BOOST_ASSERT (sipService.get() != NULL);
 

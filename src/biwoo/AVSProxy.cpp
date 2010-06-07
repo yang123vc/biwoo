@@ -589,10 +589,10 @@ unsigned int CAVSProxy::addCompany(const std::string & coName)
 	return 0;
 }
 
-bool CAVSProxy::load(void)
+bool CAVSProxy::load(const tstring & databaseName)
 {
 	std::string sql("USE ");
-	sql.append(biwoo_db_name);
+	sql.append(databaseName);
 	if (m_bodbHandler->execsql(sql.c_str()) != 0)
 	{
 		return false;

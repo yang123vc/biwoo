@@ -26,8 +26,8 @@
 //#include <libSIP/libSIP.h>
 //#include <libRTP/libRTP.h>
 #include "ConferenceInfo.h"
-#include <CGCBase/cgcRtp.h>
-#include <CGCBase/cgcSip.h>
+#include <CGCServices/Rtp/cgcRtp.h>
+#include <CGCServices/Sip/cgcSip.h>
 using namespace cgc;
 
 #ifdef WIN32
