@@ -1,13 +1,14 @@
 #summary All documents index.
 #labels Index
 
-*Latest Version:* 1.0.4
+*Latest Version:* 1.0.4.105
 
 || [How] || *How Biwoo begin?* ||
 || [Database] || Biwoo database setting. ||
 || [Install] || Biwoo installation. ||
 || [Compile] || Biwoo linux and windows compile. ||
 || [ThirdParty] || Third-Party library. ||
+|| [ChangeLog] || Biwoo Change Log. ||
 
 ----
 Support Please Contact: akee.yang@gmail.com
