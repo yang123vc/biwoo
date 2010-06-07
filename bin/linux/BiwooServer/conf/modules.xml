@@ -35,6 +35,7 @@
   	<type>COMM</type>
   	<commport>8010</commport>
   	<capacity>3</capacity>
+	<autoopen>0</autoopen>
   </module>
   <module>
   	<name>CommUdpServer</name>
