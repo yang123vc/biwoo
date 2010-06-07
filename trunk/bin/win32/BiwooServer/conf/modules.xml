@@ -35,6 +35,7 @@
   	<type>COMM</type>
   	<commport>8010</commport>
   	<capacity>3</capacity>
+  	<autoopen>0</autoopen>
   </module>
   <module>
   	<name>CommUdpServer</name>
@@ -42,6 +43,7 @@
   	<type>COMM</type>
   	<commport>8012</commport>
   	<capacity>3</capacity>
+  	<autoopen>1</autoopen>
   </module>
   <module>
   	<name>FileServer</name>
@@ -49,6 +51,7 @@
   	<type>COMM</type>
   	<commport>8014</commport>
   	<capacity>10</capacity>
+  	<autoopen>1</autoopen>
   </module>
   <module>
   	<name>CommRtpServer</name>
@@ -56,6 +59,7 @@
   	<type>COMM</type>
   	<commport>8020</commport>
   	<capacity>3</capacity>
+  	<autoopen>1</autoopen>
   </module>
   <module>
   	<name>P2PUDPServer</name>
@@ -63,6 +67,7 @@
   	<type>COMM</type>
   	<commport>8022</commport>
   	<capacity>3</capacity>
+  	<autoopen>1</autoopen>
   </module>
   
   <!-- ******** APP -->

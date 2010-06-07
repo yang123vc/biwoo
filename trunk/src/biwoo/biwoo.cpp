@@ -34,8 +34,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 #include <boost/filesystem.hpp>
 // cgc head file
 #include <CGCBase/includeapp.h>
-#include <CGCBase/cgcBodb.h>
 #include <CGCBase/cgcString.h>
+#include <CGCServices/Bodb/cgcBodb.h>
 using namespace cgc;
 
 #include "sendresponse.h"
@@ -50,7 +50,10 @@ CBodbHandler::pointer gBodbHandler;
 
 extern "C" bool CGC_API CGC_Module_Init(void)
 {
-	cgcBodb::pointer bodbService = CGC_BODBSERVICE_DEF(gCgcService->getService("BodbService"));
+	const tstring & bodbServiceName = gApplication->getInitParameterValue("BodbServiceName", "BodbService");
+	const tstring & databaseName = gApplication->getInitParameterValue("DatabaseName", "biwoo");
+
+	cgcBodb::pointer bodbService = CGC_BODBSERVICE_DEF(gCgcServices->getService(bodbServiceName));
 	BOOST_ASSERT (bodbService.get() != NULL);
 
 	tstring sBodbPath(gApplication->getAppConfPath());
@@ -63,7 +66,7 @@ extern "C" bool CGC_API CGC_Module_Init(void)
 	}
 
 	gAVSProxy = CAVSProxy::create(bodbService, bodbHandler);
-	if (!gAVSProxy->load())
+	if (!gAVSProxy->load(databaseName))
 	{
 		gAVSProxy.reset();
 		bodbService->bodb_exit(bodbHandler);

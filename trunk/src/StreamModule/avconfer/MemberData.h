@@ -21,7 +21,7 @@
 #define __MemberData_h__
 
 #include <boost/shared_ptr.hpp>
-#include <CGCBase/cgcRtp.h>
+#include <CGCServices/Rtp/cgcRtp.h>
 
 class CMemberData
 {

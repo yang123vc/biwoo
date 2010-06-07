@@ -24,7 +24,7 @@
 #include "../../ThirdParty/stl/stldef.h"
 #include "../../ThirdParty/stl/buffer.h"
 #include <boost/shared_ptr.hpp>
-#include <CGCBase/cgcRtp.h>
+#include <CGCServices/Rtp/cgcRtp.h>
 #include <sys/timeb.h>
 
 class CConferenceMember
