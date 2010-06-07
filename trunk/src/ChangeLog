@@ -5,8 +5,8 @@
  # *(DB)* : Database table or field modified.
 
 = VERSION: 1.0.4+ =
-*2010-06-04=*
- * U: Update to mycp 1.0.4. Use cgcRtp and cgcSip service.
+*2010-06-07=*
+ * U: Update to mycp 1.0.4. Use cgcRtp, cgcSip and cgcBodb service.
 
 = VERSION: 1.0.4 =
 *2010-05-28*
