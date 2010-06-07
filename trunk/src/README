@@ -9,69 +9,12 @@
  Support P2P AV chat, file send, image send, group chat, offline messages, chat logs.
   
  Email			: akee.yang@gmail.com
- Download		: http://sourceforge.net/projects/biwoo/
- SVN page		: http://code.google.com/p/biwoo/source/browse/
- 
-
- 	ThirdParty:
- 	===========
- 
- MyCP_1_0_3:
-  MyCP is a Boost based, open-source, cross-platform enterprise application
-  communication service development solutions.
-  http://sourceforge.net/projects/mycp/
-
- bodb_0_1_2:
-  Bodb is a boost based software library that implements a simple SQL database engine.
-  http://sourceforge.net/projects/bodb/
- 
- wxWidgets-2.8.10:
-  wxWidgets is a C++ library that lets developers create applications for Windows,
-  OS X, Linux and UNIX on 32-bit and 64-bit architectures as well as several mobile platforms 
-  including Windows Mobile, iPhone SDK and embedded GTK+.
-  http://www.wxwidgets.org/
-  
- DirectX 9.0 SDK:
-  DirectShow.
-  
- xvidcore:
-  XviD is a high performance and high quality MPEG-4 video de-/encoding solution.
-  http://www.xvid.org/
-  
- ffmpeg:
-  FFmpeg is a complete, cross-platform solution to record, convert and stream audio and video.
-  It includes libavcodec - the leading audio/video codec library.
-  http://www.ffmpeg.org/
-  
- x264:
-  x264 is a free library for encoding H264/AVC video streams.
-  http://www.videolan.org/developers/x264.html
- 
- boost_1_41_0:
-  Boost provides free peer-reviewed portable C++ source libraries.
-  http://www.boost.org
-
- jrtplib-3.7.1:
- jthread-1.2.1:
-   http://www.edm.uhasselt.be/
-   http://www.uhasselt.be/ 
- 
- libosip2-3.3.0:
- libeXosip2-3.3.0:
-  http://www.gnu.org/software/osip/
-  http://www.antisip.com/doc/exosip2/modules.html
-  
-
-		Install linux:
-		==============
-
- # ./configure CPPFLAGS="-I/usr/local/include/jrtplib3 -I/usr/local/include/jthread"
- # make
- # sudo make install
+ Home page	: http://code.google.com/p/biwoo/
+ Wiki				: http://code.google.com/p/biwoo/w/list
 
 
-		Project Dependents:
-		===================
+	Project Dependents:
+	===================
 
  Server:
  biwoo -> mycp & bodb
@@ -88,5 +31,3 @@
  	libStreamX -> libDS & libStreamClient
  	 libDS -> DirectShow & boost & libCoder & libG729a
  	 libStreamClient -> mycp
- 
- 
