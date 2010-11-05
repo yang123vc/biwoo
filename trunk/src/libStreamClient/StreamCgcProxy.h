@@ -26,7 +26,7 @@
 // 
 //#include "../CGCLib/cgclibinclude.h"
 #include <CGCLib/CGCLib.h>
-#include <CGCBase/cgcString.h>
+//#include <CGCBase/cgcString.h>
 
 //#include "rtp/CgcP2PClient.h"
 #include "rtp/P2PClient.h"
@@ -185,7 +185,7 @@ public:
 
 private:
 	// CgcClientHandler
-	virtual void OnCgcResponse(const cgcParser & response);
+	virtual void OnCgcResponse(const cgcParserSotp & response);
 
 	// OnRtpHandler
 	//virtual void onReceiveEvent(const BYTE* pFramedata, int nFrameLen, u_long destIp, u_int destPort);

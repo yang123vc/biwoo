@@ -23,7 +23,7 @@
 #include <ThirdParty/stl/stldef.h>
 #include <ThirdParty/stl/locklist.h>
 #include <boost/shared_ptr.hpp>
-#include <CGCBase/cgcpointer.h>
+#include <CGCBase/cgcobject.h>
 //#include "userinfo.h"
 
 class CCompanyInfo;
@@ -33,7 +33,7 @@ class CUserInfo;
 typedef boost::shared_ptr<CUserInfo> CUserInfoPointer;
 
 class CCoGroupInfo
-	: public cgc::cgcPointer
+	: public cgc::cgcObject
 {
 public:
 	enum GroupType

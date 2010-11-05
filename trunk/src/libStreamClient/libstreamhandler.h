@@ -66,7 +66,7 @@ public:
 class CP2PHandler
 {
 public:
-	virtual void onP2PEvent(CDoP2PClientHandler::pointer p2pClient, const cgcParser & response) = 0;
+	virtual void onP2PEvent(CDoP2PClientHandler::pointer p2pClient, const cgcParserSotp & response) = 0;
 	virtual void onP2PEvent(CDoP2PClientHandler::pointer p2pClient, CCgcData::pointer receiveData) = 0;
 };
 

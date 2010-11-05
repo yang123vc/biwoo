@@ -42,7 +42,7 @@ public:
 
 private:
 	// CgcClientHandler handler
-	virtual void OnCgcResponse(const cgcParser & response);
+	virtual void OnCgcResponse(const cgcParserSotp & response);
 	virtual void OnCgcResponse(CCgcData::pointer recvData);
 
 	////////////////////////////////////////
@@ -93,8 +93,8 @@ private:
 
 	// parameter
 	virtual void doAddParameter(cgcParameter::pointer parameter) {m_doHaneler->doAddParameter(parameter);}
-	virtual void doAddParameters(const cgcParameterList & parameters) {m_doHaneler->doAddParameters(parameters);}
-	virtual ULONG doGetParameterSize(void) const {return m_doHaneler->doGetParameterSize();}
+	virtual void doAddParameters(const std::vector<cgcParameter::pointer> & parameters) {m_doHaneler->doAddParameters(parameters);}
+	virtual size_t doGetParameterSize(void) const {return m_doHaneler->doGetParameterSize();}
 
 	// info
 	virtual void doSetEncoding(const tstring & newv=_T("GBK")) {m_doHaneler->doSetEncoding(newv);}

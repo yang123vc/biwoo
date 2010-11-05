@@ -296,7 +296,7 @@ void ConnectManager::onP2PUserDisconnect(CDoP2PClientHandler::pointer p2pClient)
 }
 
 // CP2PHandler handler
-void ConnectManager::onP2PEvent(CDoP2PClientHandler::pointer p2pClient, const cgcParser & response)
+void ConnectManager::onP2PEvent(CDoP2PClientHandler::pointer p2pClient, const cgcParserSotp & response)
 {
 	BOOST_ASSERT (p2pClient.get() != NULL);
 
@@ -341,8 +341,8 @@ void ConnectManager::onP2PEvent(CDoP2PClientHandler::pointer p2pClient, const cg
 
 					// MsgRequestAck
 					p2pClient->doBeginCallLock();
-					p2pClient->doAddParameter(cgcParameter::create(_T("MID"), fid));
-					p2pClient->doAddParameter(cgcParameter::create(_T("NMID"), newfid));
+					p2pClient->doAddParameter(CGC_PARAMETER(_T("MID"), fid));
+					p2pClient->doAddParameter(CGC_PARAMETER(_T("NMID"), newfid));
 					p2pClient->doSendAppCall(const_CallSign_MsgRequestAck, const_Api_MsgRequestAck);
 
 					CFileInfo::pointer fileInfo = CFileInfo::create(sFilename);
@@ -560,8 +560,8 @@ void ConnectManager::onP2PEvent(CDoP2PClientHandler::pointer p2pClient, const cg
 				fileInfo->RT(CFileInfo::RT_Arrived);
 
 				p2pClient->doBeginCallLock();
-				p2pClient->doAddParameter(cgcParameter::create(_T("MID"), fileInfo->did()));
-				p2pClient->doAddParameter(cgcParameter::create(_T("Response"), 4));
+				p2pClient->doAddParameter(CGC_PARAMETER(_T("MID"), fileInfo->did()));
+				p2pClient->doAddParameter(CGC_PARAMETER(_T("Response"), 4));
 				p2pClient->doSendAppCall(const_CallSign_MsgResponse, const_Api_MsgResponse);
 
 				m_handler->onReceiveFileData(p2pClient->getP2PUser(), fid, 100.0);
@@ -841,7 +841,7 @@ void ConnectManager::doProcSendData(CDoP2PClientHandler::pointer p2pClient, CFil
 		attach->setIndex(tosendIndex);
 
 		p2pClientHandler->doBeginCallLock();
-		p2pClientHandler->doAddParameter(cgcParameter::create(_T("MID"), fileInfo->did()));
+		p2pClientHandler->doAddParameter(CGC_PARAMETER(_T("MID"), fileInfo->did()));
 		p2pClientHandler->doSendAppCall(const_CallSign_MsgSend, const_Api_MsgSend, attach);
 
 		if (tosendIndex == 0)
@@ -913,8 +913,8 @@ void ConnectManager::doProcSendAck(CDoP2PClientHandler::pointer p2pClient, CFile
 		}
 
 		p2pClient->doBeginCallLock();
-		p2pClient->doAddParameter(cgcParameter::create(_T("MID"), fileInfo->did()));
-		p2pClient->doAddParameter(cgcParameter::create(_T("Index"), (long)tosendIndex));
+		p2pClient->doAddParameter(CGC_PARAMETER(_T("MID"), fileInfo->did()));
+		p2pClient->doAddParameter(CGC_PARAMETER(_T("Index"), (long)tosendIndex));
 		for (int i=2; i<=MAX_INDEXACK_SIZE; i++)
 		{
 			unsigned long tosendIndex2 = 0 ;
@@ -925,7 +925,7 @@ void ConnectManager::doProcSendAck(CDoP2PClientHandler::pointer p2pClient, CFile
 			
 			char buffer[10];
 			sprintf(buffer, "Index%d", i);
-			p2pClient->doAddParameter(cgcParameter::create(buffer, (long)tosendIndex2));
+			p2pClient->doAddParameter(CGC_PARAMETER(buffer, (long)tosendIndex2));
 		}
 		p2pClient->doSendAppCall(const_CallSign_MsgSendAck, const_Api_MsgSendAck);
 
@@ -960,7 +960,7 @@ long ConnectManager::SendFile(const tstring & sFriendID, const tstring & filepat
 		return 0;
 	}
 
-	ULONG fid = ++m_currentId;
+	int fid = ++m_currentId;
 
 	fileInfo->fid(fid);
 
@@ -1008,10 +1008,10 @@ long ConnectManager::SendFile(const tstring & sFriendID, const tstring & filepat
 		CDoP2PClientHandler::pointer p2pClient = p2pFiles->getP2PClient();
 
 		p2pClient->doBeginCallLock();
-		p2pClient->doAddParameter(cgcParameter::create(_T("MID"), fid));
-		p2pClient->doAddParameter(cgcParameter::create(_T("Type"), 11));
-		p2pClient->doAddParameter(cgcParameter::create(_T("Name"), filename));
-		p2pClient->doAddParameter(cgcParameter::create(_T("Size"), nFilesize));
+		p2pClient->doAddParameter(CGC_PARAMETER(_T("MID"), fid));
+		p2pClient->doAddParameter(CGC_PARAMETER(_T("Type"), 11));
+		p2pClient->doAddParameter(CGC_PARAMETER(_T("Name"), filename));
+		p2pClient->doAddParameter(CGC_PARAMETER(_T("Size"), (double)nFilesize));
 		p2pClient->doSendAppCall(const_CallSign_MsgRequest, const_Api_MsgRequest);
 		return fid;
 	}
@@ -1057,8 +1057,8 @@ bool ConnectManager::AcceptFile(long fid, const tstring & savetofilepath, const 
 
 	// accept file
 	p2pClient->doBeginCallLock();
-	p2pClient->doAddParameter(cgcParameter::create(_T("MID"), fileInfo->did()));
-	p2pClient->doAddParameter(cgcParameter::create(_T("Response"), 1));
+	p2pClient->doAddParameter(CGC_PARAMETER(_T("MID"), fileInfo->did()));
+	p2pClient->doAddParameter(CGC_PARAMETER(_T("Response"), 1));
 	p2pClient->doSendAppCall(const_CallSign_MsgResponse, const_Api_MsgResponse);
 
 	return true;
@@ -1083,8 +1083,8 @@ bool ConnectManager::RejectFile(long fid)
 	if (p2pClient->getLocalP2PStatus() && p2pClient->getRemoteP2PStatus())
 	{
 		p2pClient->doBeginCallLock();
-		p2pClient->doAddParameter(cgcParameter::create(_T("MID"), fileInfo->did()));
-		p2pClient->doAddParameter(cgcParameter::create(_T("Response"), 2));
+		p2pClient->doAddParameter(CGC_PARAMETER(_T("MID"), fileInfo->did()));
+		p2pClient->doAddParameter(CGC_PARAMETER(_T("Response"), 2));
 		p2pClient->doSendAppCall(const_CallSign_MsgResponse, const_Api_MsgResponse);
 	}
 
@@ -1122,8 +1122,8 @@ bool ConnectManager::CancelFile(long fid)
 	if (p2pClient->getLocalP2PStatus() && p2pClient->getRemoteP2PStatus())
 	{
 		p2pClient->doBeginCallLock();
-		p2pClient->doAddParameter(cgcParameter::create(_T("MID"), fileInfo->did()));
-		p2pClient->doAddParameter(cgcParameter::create(_T("Response"), 3));
+		p2pClient->doAddParameter(CGC_PARAMETER(_T("MID"), fileInfo->did()));
+		p2pClient->doAddParameter(CGC_PARAMETER(_T("Response"), 3));
 		p2pClient->doSendAppCall(const_CallSign_MsgResponse, const_Api_MsgResponse);
 	}
 

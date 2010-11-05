@@ -23,14 +23,14 @@
 #include <ThirdParty/stl/stldef.h>
 #include <ThirdParty/stl/lockmap.h>
 #include <boost/shared_ptr.hpp>
-#include <CGCBase/cgcpointer.h>
+#include <CGCBase/cgcobject.h>
 //#include "userinfo.h"
 
 class CUserInfo;
 typedef boost::shared_ptr<CUserInfo> CUserInfoPointer;
 
 class CDialogInfo
-	: public cgc::cgcPointer
+	: public cgc::cgcObject
 {
 public:
 	typedef boost::shared_ptr<CDialogInfo> pointer;

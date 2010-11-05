@@ -22,7 +22,7 @@
 #define __biwooCgcproxy_h__
 
 #include <CGCLib/CGCLib.h>
-#include <CGCBase/cgcString.h>
+//#include <CGCBase/cgcString.h>
 #include "../libStreamX/libStreamX.h"
 
 #include "biwoolibhandler.h"
@@ -268,7 +268,7 @@ private:
 	virtual void onReceiveFileData(const tstring & sFromUser, long fid, float percent);
 
 	// CgcClientHandler
-	virtual void OnCgcResponse(const cgcParser & response);
+	virtual void OnCgcResponse(const cgcParserSotp & response);
 
 
 	// OnRtpHandler

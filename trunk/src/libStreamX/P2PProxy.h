@@ -28,8 +28,6 @@
 #include "dlldefine.h"
 #include "libstreamxhandler.h"
 
-const CCgcAddress defaultCgcAddress;
-
 class LIBP2PAV_CLASS CP2PProxy
 {
 public:

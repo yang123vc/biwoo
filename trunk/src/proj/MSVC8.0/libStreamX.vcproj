@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\ThirdParty;&quot;$(MYCP_ROOT)\src&quot;"
+				AdditionalIncludeDirectories="..\..\ThirdParty;&quot;$(MYCP_ROOT)\src&quot;;&quot;$(BOOST_ROOT)&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -69,7 +69,7 @@
 				Name="VCLinkerTool"
 				OutputFile="../../build/$(ProjectName)d.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories="..\..\ThirdParty\build;&quot;$(MYCP_ROOT)\src\build&quot;;&quot;$(FFMPEG_ROOT)\bin&quot;;&quot;$(X264_ROOT)\lib&quot;;&quot;$(XVID_ROOT)\lib&quot;"
+				AdditionalLibraryDirectories="..\..\ThirdParty\build;&quot;$(BOOST_ROOT)\stage\lib&quot;;&quot;$(MYCP_ROOT)\src\build&quot;;&quot;$(FFMPEG_ROOT)\bin&quot;;&quot;$(X264_ROOT)\lib&quot;;&quot;$(XVID_ROOT)\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				TargetMachine="1"
@@ -124,7 +124,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\ThirdParty;&quot;$(MYCP_ROOT)\src&quot;"
+				AdditionalIncludeDirectories="..\..\ThirdParty;&quot;$(MYCP_ROOT)\src&quot;;&quot;$(BOOST_ROOT)&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;__X264__;HAVE_MMX;HAVE_STDINT_H"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
@@ -148,7 +148,7 @@
 				Name="VCLinkerTool"
 				OutputFile="../../build/$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="..\..\ThirdParty\build;&quot;$(MYCP_ROOT)\src\build&quot;;&quot;$(FFMPEG_ROOT)\bin&quot;;&quot;$(X264_ROOT)\lib&quot;;&quot;$(XVID_ROOT)\lib&quot;"
+				AdditionalLibraryDirectories="..\..\ThirdParty\build;&quot;$(BOOST_ROOT)\stage\lib&quot;;&quot;$(MYCP_ROOT)\src\build&quot;;&quot;$(FFMPEG_ROOT)\bin&quot;;&quot;$(X264_ROOT)\lib&quot;;&quot;$(XVID_ROOT)\lib&quot;"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"

@@ -23,7 +23,7 @@
 #include <ThirdParty/stl/stldef.h>
 #include <ThirdParty/stl/locklist.h>
 #include <boost/shared_ptr.hpp>
-#include <CGCBase/cgcpointer.h>
+#include <CGCBase/cgcobject.h>
 using namespace cgc;
 #include "offlineevent.h"
 //#include "accconversation.h"
@@ -35,7 +35,7 @@ class CCoGroupInfo;
 typedef boost::shared_ptr<CCoGroupInfo> CCoGroupInfoPointer;
 
 class CUserInfo
-	: public cgc::cgcPointer
+	: public cgc::cgcObject
 {
 public:
 	enum UserLineState

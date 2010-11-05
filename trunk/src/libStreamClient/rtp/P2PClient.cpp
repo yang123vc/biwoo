@@ -66,7 +66,7 @@ void P2PClient::clearP2PStatus(void)
 	m_pP2PHandler = NULL;
 }
 
-void P2PClient::OnCgcResponse(const cgcParser & response)
+void P2PClient::OnCgcResponse(const cgcParserSotp & response)
 {
 	if (m_pP2PHandler != NULL)
 		//m_pP2PHandler->onP2PEvent((DoP2PClientHandler*)this, response);
