@@ -35,13 +35,14 @@ CBiwooCgcProxy::CBiwooCgcProxy(void)
 , m_currentMID(0)
 
 {
-#ifdef WIN32
-	m_sModulePath = cgcString::GetModulePath();
-#else
+	// ???
+//#ifdef WIN32
+//	m_sModulePath = cgcString::GetModulePath();
+//#else
 	namespace fs = boost::filesystem;
 	fs::path currentPath( fs::initial_path());
 	m_sModulePath = currentPath.string();
-#endif
+//#endif
 
 }
 
@@ -2000,7 +2001,7 @@ void CBiwooCgcProxy::onReceiveFileData(const tstring & fromAccount, long fid, fl
 	}
 }
 
-void CBiwooCgcProxy::OnCgcResponse(const cgcParser & response)
+void CBiwooCgcProxy::OnCgcResponse(const cgcParserSotp & response)
 {
 	if (response.isResulted() && response.isOpenType())
 	{

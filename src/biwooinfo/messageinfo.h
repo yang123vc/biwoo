@@ -23,10 +23,10 @@
 #include <ThirdParty/stl/stldef.h>
 #include <ThirdParty/stl/lockmap.h>
 #include <boost/shared_ptr.hpp>
-#include <CGCBase/cgcpointer.h>
+#include <CGCBase/cgcobject.h>
 
 class CMessageInfo
-	: public cgc::cgcPointer
+	: public cgc::cgcObject
 {
 public:
 	typedef boost::shared_ptr<CMessageInfo> pointer;

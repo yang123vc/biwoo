@@ -200,7 +200,7 @@ protected:
 	virtual void onP2PUserDisconnect(CDoP2PClientHandler::pointer p2pClient);
 
 	// P2PHandler handler
-	virtual void onP2PEvent(CDoP2PClientHandler::pointer p2pClient, const cgcParser & response);
+	virtual void onP2PEvent(CDoP2PClientHandler::pointer p2pClient, const cgcParserSotp & response);
 	virtual void onP2PEvent(CDoP2PClientHandler::pointer p2pClient, CCgcData::pointer receiveData);
 	// OnDSHandler handler
 	virtual void receiveAVData(CAVData::pointer receiveData);
@@ -211,7 +211,7 @@ protected:
 	short getThreadsBysize(unsigned long fileSize) const;
 
 private:
-	unsigned long m_currentId;
+	int m_currentId;
 	tstring m_FriendName;
 	//CAvsCgcProxy m_avsCgcProxy;
 	CStreamClient m_avsCgcProxy;

@@ -16,27 +16,27 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <CGCBase/includeapp.h>
+#include <CGCBase/sotpapp.h>
 using namespace cgc;
 
 #include "AVSProxy.h"
 
 //////////////////////////
-extern "C" int CGC_API CreateConference(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)
+extern "C" int CGC_API CreateConference(const cgcSotpRequest::pointer & request, cgcSotpResponse::pointer response)
 {
-	const tstring & conferenceName = request->getParameterValue(_T("Conference"), _T(""));
+	tstring conferenceName = request->getParameterValue(_T("Conference"), _T(""));
 	unsigned short maxNumbers = request->getParameterValue(_T("MaxNumbers"), 0);
 
 	CConferInfo::pointer conferInfo = CConferInfo::create(conferenceName, maxNumbers);
 	gAVSProxy->m_conference.addConference(conferInfo);
 
-	gApplication->log(DL_INFO, _T("Create Conference %s"), conferenceName.c_str());
+	theApplication->log(cgc::LOG_INFO, _T("Create Conference %s"), conferenceName.c_str());
 	return 0;
 }
 
-extern "C" int CGC_API EnableAudioSend(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)
+extern "C" int CGC_API EnableAudioSend(const cgcSotpRequest::pointer & request, cgcSotpResponse::pointer response)
 {
-	const tstring & conferenceName = request->getParameterValue(_T("Conference"), _T(""));
+	tstring conferenceName = request->getParameterValue(_T("Conference"), _T(""));
 	int memberIndex = request->getParameterValue(_T("Index"), 0);
 	bool enable = request->getParameterValue(_T("Enable"), 0) == 1;
 
@@ -48,9 +48,9 @@ extern "C" int CGC_API EnableAudioSend(const cgcRequest::pointer & request, cgcR
 	return 0;
 }
 
-extern "C" int CGC_API EnableAudioRecv(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)
+extern "C" int CGC_API EnableAudioRecv(const cgcSotpRequest::pointer & request, cgcSotpResponse::pointer response)
 {
-	const tstring & conferenceName = request->getParameterValue(_T("Conference"), _T(""));
+	tstring conferenceName = request->getParameterValue(_T("Conference"), _T(""));
 	int memberIndex = request->getParameterValue(_T("Index"), 0);
 	bool enable = request->getParameterValue(_T("Enable"), 0) == 1;
 
@@ -62,9 +62,9 @@ extern "C" int CGC_API EnableAudioRecv(const cgcRequest::pointer & request, cgcR
 	return 0;
 }
 
-extern "C" int CGC_API EnableVideoSend(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)
+extern "C" int CGC_API EnableVideoSend(const cgcSotpRequest::pointer & request, cgcSotpResponse::pointer response)
 {
-	const tstring & conferenceName = request->getParameterValue(_T("Conference"), _T(""));
+	tstring conferenceName = request->getParameterValue(_T("Conference"), _T(""));
 	int memberIndex = request->getParameterValue(_T("Index"), 0);
 	bool enable = request->getParameterValue(_T("Enable"), 0) == 1;
 
@@ -72,9 +72,9 @@ extern "C" int CGC_API EnableVideoSend(const cgcRequest::pointer & request, cgcR
 	return 0;
 }
 
-extern "C" int CGC_API EnableVideoRecv(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)
+extern "C" int CGC_API EnableVideoRecv(const cgcSotpRequest::pointer & request, cgcSotpResponse::pointer response)
 {
-	const tstring & conferenceName = request->getParameterValue(_T("Conference"), _T(""));
+	tstring conferenceName = request->getParameterValue(_T("Conference"), _T(""));
 	int memberIndex = request->getParameterValue(_T("Index"), 0);
 	bool enable = request->getParameterValue(_T("Enable"), 0) == 1;
 
@@ -86,9 +86,9 @@ extern "C" int CGC_API EnableVideoRecv(const cgcRequest::pointer & request, cgcR
 	return 0;
 }
 
-extern "C" int CGC_API SelectVideoRecv(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)
+extern "C" int CGC_API SelectVideoRecv(const cgcSotpRequest::pointer & request, cgcSotpResponse::pointer response)
 {
-	const tstring & conferenceName = request->getParameterValue(_T("Conference"), _T(""));
+	tstring conferenceName = request->getParameterValue(_T("Conference"), _T(""));
 	int memberIndex = request->getParameterValue(_T("SrcIndex"), 0);
 	int selectIndex = request->getParameterValue(_T("SelectIndex"), 0);
 
@@ -100,10 +100,10 @@ extern "C" int CGC_API SelectVideoRecv(const cgcRequest::pointer & request, cgcR
 	return 0;
 }
 
-extern "C" int CGC_API SelectVideoRecvByIndentify(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)
+extern "C" int CGC_API SelectVideoRecvByIndentify(const cgcSotpRequest::pointer & request, cgcSotpResponse::pointer response)
 {
-	const tstring & conferenceName = request->getParameterValue(_T("Conference"), _T(""));
-	const tstring & MemberIndentify = request->getParameterValue(_T("MemberIndentify"),_T(""));
+	tstring conferenceName = request->getParameterValue(_T("Conference"), _T(""));
+	tstring MemberIndentify = request->getParameterValue(_T("MemberIndentify"),_T(""));
 	int selectIndex = request->getParameterValue(_T("SelectIndex"), 0);
 
 	//if (memberIndex == 0)

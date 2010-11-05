@@ -111,8 +111,8 @@ bool CStreamCgcProxy::avsAccountRegister(const tstring & sUsername, const tstrin
 	m_bDoAccountUnRegister = false;
 
 	m_cgcClient->doBeginCallLock();
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("UserName"), sUsername));
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("Password"), sPassword));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("UserName"), sUsername));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Password"), sPassword));
 	m_cgcClient->doSendAppCall(const_CallSign_AccountRegister, const_Avs_Api_AccountRegister);
 
 	int i=0;
@@ -155,7 +155,7 @@ bool CStreamCgcProxy::avsAccountUnRegister(void)
 
 
 	m_cgcClient->doBeginCallLock();
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("UserName"), m_sCurrentUser));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("UserName"), m_sCurrentUser));
 	m_cgcClient->doSendAppCall(const_CallSign_AccountUnRegister, const_Avs_Api_AccountUnRegister);
 
 	m_sCurrentUser = _T("");
@@ -166,7 +166,7 @@ bool CStreamCgcProxy::createConference(const tstring & conferenceName)
 {
 	if (!avsIsOpenSession()) return false;
 
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("Conference"), conferenceName));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Conference"), conferenceName));
 
 	m_cgcClient->doSendAppCall(const_CallSign_CreateConference, const_Avs_Api_CreateConference);
 	return true;
@@ -177,9 +177,9 @@ bool CStreamCgcProxy::enableAudioSend(const tstring & conferenceName, int member
 	if (!avsIsOpenSession()) return false;
 	//if (m_sCurrentUser.empty()) return false;
 
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("Conference"), conferenceName));
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("Index"), memberIndex));
-	m_cgcClient->doAddParameter(cgcParameter::create2(_T("Enable"), enable));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Conference"), conferenceName));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Index"), memberIndex));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Enable"), enable));
 
 	m_cgcClient->doSendAppCall(const_CallSign_EnableAudioSend, const_Avs_Api_EnableAudioSend);
 	return true;
@@ -189,9 +189,9 @@ bool CStreamCgcProxy::enableAudioRecv(const tstring & conferenceName, int member
 {
 	if (!avsIsOpenSession()) return false;
 
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("Conference"), conferenceName));
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("Index"), memberIndex));
-	m_cgcClient->doAddParameter(cgcParameter::create2(_T("Enable"), enable));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Conference"), conferenceName));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Index"), memberIndex));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Enable"), enable));
 
 	m_cgcClient->doSendAppCall(const_CallSign_EnableAudioRecv, const_Avs_Api_EnableAudioRecv);
 	return true;
@@ -201,9 +201,9 @@ bool CStreamCgcProxy::enableVideoSend(const tstring & conferenceName, int member
 {
 	if (!avsIsOpenSession()) return false;
 
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("Conference"), conferenceName));
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("Index"), memberIndex));
-	m_cgcClient->doAddParameter(cgcParameter::create2(_T("Enable"), enable));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Conference"), conferenceName));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Index"), memberIndex));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Enable"), enable));
 
 	m_cgcClient->doSendAppCall(const_CallSign_EnableVideoSend, const_Avs_Api_EnableVideoSend);
 	return true;
@@ -213,9 +213,9 @@ bool CStreamCgcProxy::enableVideoRecv(const tstring & conferenceName, int member
 {
 	if (!avsIsOpenSession()) return false;
 
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("Conference"), conferenceName));
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("Index"), memberIndex));
-	m_cgcClient->doAddParameter(cgcParameter::create2(_T("Enable"), enable));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Conference"), conferenceName));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Index"), memberIndex));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Enable"), enable));
 
 	m_cgcClient->doSendAppCall(const_CallSign_EnableVideoRecv, const_Avs_Api_EnableVideoRecv);
 	return true;
@@ -224,9 +224,9 @@ bool CStreamCgcProxy::enableVideoRecv(const tstring & conferenceName, int member
 bool CStreamCgcProxy::selectVideoRecv(const tstring & conferenceName, int memberIndex, int selectIndex)
 {
 	if (!avsIsOpenSession()) return false;
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("Conference"), conferenceName));
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("SrcIndex"), memberIndex));
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("SelectIndex"), selectIndex));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Conference"), conferenceName));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("SrcIndex"), memberIndex));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("SelectIndex"), selectIndex));
 
 	m_cgcClient->doSendAppCall(const_CallSign_SelectVideoRecv, const_Avs_Api_SelectVideoRecv);
 	return true;
@@ -235,9 +235,9 @@ bool CStreamCgcProxy::selectVideoRecv(const tstring & conferenceName, int member
 bool CStreamCgcProxy::selectVideoRecvByIndentify(const tstring & conferenceName, const tstring & memberIndentify, int selectIndex)
 {
 	if (!avsIsOpenSession()) return false;
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("Conference"), conferenceName));
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("MemberIndentify"), memberIndentify));
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("SelectIndex"), selectIndex));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Conference"), conferenceName));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("MemberIndentify"), memberIndentify));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("SelectIndex"), selectIndex));
 
 	m_cgcClient->doSendAppCall(const_CallSign_SelectVideoRecvByIndentify, const_Avs_Api_SelectVideoRecvByIndentify);
 	return true;
@@ -289,10 +289,10 @@ int CStreamCgcProxy::avsRequestP2PUser(const tstring & sRequestUser, long nP2PTy
 
 	pDoHandler->doSetDisableSotpParser(false);
 	pDoHandler->doBeginCallLock();
-	pDoHandler->doAddParameter(cgcParameter::create(_T("FromUser"), m_sCurrentUser));
-	pDoHandler->doAddParameter(cgcParameter::create(_T("ToUser"), sRequestUser));
-	pDoHandler->doAddParameter(cgcParameter::create(_T("P2PType"), (long)nP2PType));
-	pDoHandler->doAddParameter(cgcParameter::create(_T("P2PParam"), nP2PParam));
+	pDoHandler->doAddParameter(CGC_PARAMETER(_T("FromUser"), m_sCurrentUser));
+	pDoHandler->doAddParameter(CGC_PARAMETER(_T("ToUser"), sRequestUser));
+	pDoHandler->doAddParameter(CGC_PARAMETER(_T("P2PType"), (long)nP2PType));
+	pDoHandler->doAddParameter(CGC_PARAMETER(_T("P2PParam"), nP2PParam));
 	pDoHandler->doSendAppCall(const_CallSign_RequestP2PUser, const_Avs_Api_RequestP2PUser);
 
 	return 0;
@@ -340,10 +340,10 @@ bool CStreamCgcProxy::avsResponseP2PUser(const tstring & sResponseUser, long nP2
 
 	pDoHandler->doSetDisableSotpParser(false);
 	pDoHandler->doBeginCallLock();
-	pDoHandler->doAddParameter(cgcParameter::create(_T("FromUser"), m_sCurrentUser));
-	pDoHandler->doAddParameter(cgcParameter::create(_T("ToUser"), sResponseUser));
-	pDoHandler->doAddParameter(cgcParameter::create(_T("P2PType"), (long)nP2PType));
-	pDoHandler->doAddParameter(cgcParameter::create(_T("P2PParam"), nP2PParam));
+	pDoHandler->doAddParameter(CGC_PARAMETER(_T("FromUser"), m_sCurrentUser));
+	pDoHandler->doAddParameter(CGC_PARAMETER(_T("ToUser"), sResponseUser));
+	pDoHandler->doAddParameter(CGC_PARAMETER(_T("P2PType"), (long)nP2PType));
+	pDoHandler->doAddParameter(CGC_PARAMETER(_T("P2PParam"), nP2PParam));
 	pDoHandler->doSendAppCall(const_CallSign_ResponseP2PUser, const_Avs_Api_ResponseP2PUser);
 
 	return true;
@@ -366,10 +366,10 @@ int CStreamCgcProxy::avsDisconnectP2PUser(const tstring & sP2PUser, long nP2PTyp
 	}
 
 	m_cgcClient->doBeginCallLock();
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("FromUser"), m_sCurrentUser));
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("ToUser"), sP2PUser));
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("P2PType"), (long)nP2PType));
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("P2PParam"), (long)nP2PParam));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("FromUser"), m_sCurrentUser));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("ToUser"), sP2PUser));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("P2PType"), (long)nP2PType));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("P2PParam"), (long)nP2PParam));
 	m_cgcClient->doSendAppCall(const_CallSign_DisconnectP2PUser, const_Avs_Api_DisconnectP2PUser);
 
 	return 0;
@@ -383,10 +383,10 @@ bool CStreamCgcProxy::avsDisconnectP2PUser(CDoP2PClientHandler::pointer p2pClien
 	if (m_sCurrentUser.empty()) return false;
 
 	m_cgcClient->doBeginCallLock();
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("FromUser"), m_sCurrentUser));
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("ToUser"), p2pClient->getP2PUser()));
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("P2PType"), p2pClient->getP2PType()));
-	m_cgcClient->doAddParameter(cgcParameter::create(_T("P2PParam"), p2pClient->getP2PParam()));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("FromUser"), m_sCurrentUser));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("ToUser"), p2pClient->getP2PUser()));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("P2PType"), p2pClient->getP2PType()));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("P2PParam"), p2pClient->getP2PParam()));
 	m_cgcClient->doSendAppCall(const_CallSign_DisconnectP2PUser, const_Avs_Api_DisconnectP2PUser);
 
 	return true;
@@ -416,10 +416,10 @@ bool CStreamCgcProxy::sendP2PAck(CDoP2PClientHandler::pointer pP2PClient, long n
 
 	pDoHandler->doBeginCallLock();
 	if (bAckAck)
-		pDoHandler->doAddParameter(cgcParameter::create(_T("P2PACKACK"), _T("1")));
-	pDoHandler->doAddParameter(cgcParameter::create(_T("FromUser"), m_sCurrentUser));
-	pDoHandler->doAddParameter(cgcParameter::create(_T("P2PType"), nP2PType));
-	pDoHandler->doAddParameter(cgcParameter::create(_T("P2PParam"), nP2PParam));
+		pDoHandler->doAddParameter(CGC_PARAMETER(_T("P2PACKACK"), tstring(_T("1"))));
+	pDoHandler->doAddParameter(CGC_PARAMETER(_T("FromUser"), m_sCurrentUser));
+	pDoHandler->doAddParameter(CGC_PARAMETER(_T("P2PType"), nP2PType));
+	pDoHandler->doAddParameter(CGC_PARAMETER(_T("P2PParam"), nP2PParam));
 	pDoHandler->doSendAppCall(const_CallSign_P2PAck, const_Avs_Api_P2PAck);
 	return true;
 }
@@ -430,7 +430,7 @@ bool CStreamCgcProxy::avsGetAllUser(void)
 	if (m_sCurrentUser.empty()) return false;
 
 	m_cgcClient->doBeginCallLock();
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FromUser"), m_sCurrentUser));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("FromUser"), m_sCurrentUser));
 	m_cgcClient->doSendAppCall(const_CallSign_GetAllUser, const_Avs_Api_GetAllUser);
 
 	return true;
@@ -443,9 +443,9 @@ bool CStreamCgcProxy::avsSendTextMessage(const tstring & sFriendName, const tstr
 
 	if (m_sCurrentUser.empty() || sMsg.empty()) return false;
 
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FromUser"), m_sCurrentUser));
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("ToUser"), sFriendName));
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("Msg"), sMsg));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("FromUser"), m_sCurrentUser));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("ToUser"), sFriendName));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("Msg"), sMsg));
 
 	m_cgcClient->doSendAppCall(const_CallSign_SendTextMessage, const_Avs_Api_SendTextMessage);
 	return true;
@@ -507,10 +507,10 @@ bool CStreamCgcProxy::avsSendFileTransfer(const tstring & sFriendName, const tst
 	if (m_sCurrentUser.empty()) return false;
 	if (sFileName.empty()) return false;
 
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FromUser"), m_sCurrentUser));
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("ToUser"), sFriendName));
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("TransferType"), _T("FILE")));
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("TransferName"), sFileName));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("FromUser"), m_sCurrentUser));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("ToUser"), sFriendName));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("TransferType"), _T("FILE")));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("TransferName"), sFileName));
 
 	m_cgcClient->doSendAppCall(const_CallSign_RequestTransfer, const_Avs_Api_RequestTransfer);
 	return true;
@@ -521,9 +521,9 @@ bool CStreamCgcProxy::avsResponseTransfer(const tstring & sFriendName, const tst
 	if (!avsIsOpenSession()) return false;
 	if (m_sCurrentUser.empty()) return false;
 
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FromUser"), m_sCurrentUser));
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("ToUser"), sFriendName));
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("TransferType"), sTransferType));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("FromUser"), m_sCurrentUser));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("ToUser"), sFriendName));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("TransferType"), sTransferType));
 
 	m_cgcClient->doSendAppCall(const_CallSign_ResponseTransfer, const_Avs_Api_ResponseTransfer);
 	return true;
@@ -535,8 +535,8 @@ bool CStreamCgcProxy::avsDownFile(const tstring & sFileName)
 	if (m_sCurrentUser.empty()) return false;
 	if (sFileName.empty()) return false;
 
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FromUser"), m_sCurrentUser));
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FileName"), sFileName));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("FromUser"), m_sCurrentUser));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("FileName"), sFileName));
 //	m_cgcClient.setCIDTResends(2, 4);
 
 	m_cgcClient->doSendAppCall(const_CallSign_DownFile, const_Avs_Api_DownFile);
@@ -549,8 +549,8 @@ bool CStreamCgcProxy::avsUpFile(const tstring & sFileName)
 	if (m_sCurrentUser.empty()) return false;
 	if (sFileName.empty()) return false;
 
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FromUser"), m_sCurrentUser));
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FileName"), sFileName));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("FromUser"), m_sCurrentUser));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("FileName"), sFileName));
 //	m_cgcClient.setCIDTResends(2, 4);
 
 	m_cgcClient->doSendAppCall(const_CallSign_UpFile, const_Avs_Api_UpFile);
@@ -563,9 +563,9 @@ bool CStreamCgcProxy::avsTransferFile(const tstring & sFriendName, const tstring
 	if (m_sCurrentUser.empty()) return false;
 	if (sFileName.empty()) return false;
 
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FromUser"), m_sCurrentUser));
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("ToUser"), sFriendName));
-	m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FileName"), sFileName));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("FromUser"), m_sCurrentUser));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("ToUser"), sFriendName));
+	m_cgcClient->doAddParameter(CGC_PARAMETER(_T("FileName"), sFileName));
 //	m_cgcClient.setCIDTResends(2, 4);
 
 //	m_cgcClient->doSendAppCall(const_CallSign_TransferFile, const_Avs_Api_TransferFile);
@@ -577,7 +577,7 @@ bool CStreamCgcProxy::avsTransferFile(const tstring & sFriendName, const tstring
 static std::fstream fsClientPath;
 ULONG nTotal = 0;
 
-void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
+void CStreamCgcProxy::OnCgcResponse(const cgcParserSotp & response)
 {
 	if (response.isResulted() && response.isOpenType())
 	{
@@ -591,8 +591,8 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 	case 1001:
 		{
 			// Text Message
-			const tstring & sFromUser = response.getRecvParameterValue(_T("FromUser"));
-			const tstring & sMsg = response.getRecvParameterValue(_T("Msg"));
+			tstring sFromUser = response.getRecvParameterValue(_T("FromUser"));
+			tstring sMsg = response.getRecvParameterValue(_T("Msg"));
 
 			//m_handler->onSendTextMessage(sFromUser, sMsg);
 		}break;
@@ -600,8 +600,8 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 		{
 			// From TCP/IP
 			// P2P Request Message, From Server
-			const tstring & sFromUser = response.getRecvParameterValue(_T("FromUser"));
-			const tstring & sRemoteAddr = response.getRecvParameterValue(_T("RemoteAddr"));
+			tstring sFromUser = response.getRecvParameterValue(_T("FromUser"));
+			tstring sRemoteAddr = response.getRecvParameterValue(_T("RemoteAddr"));
 			long nP2PType = response.getRecvParameterValue(_T("P2PType"), 0);
 			long nP2PParam = response.getRecvParameterValue(_T("P2PParam"), 0);
 
@@ -631,8 +631,8 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 		{
 			// From TCP/IP
 			// P2P Response Message, From Server
-			const tstring & sFromUser = response.getRecvParameterValue(_T("FromUser"));
-			const tstring & sRemoteAddr = response.getRecvParameterValue(_T("RemoteAddr"));
+			tstring sFromUser = response.getRecvParameterValue(_T("FromUser"));
+			tstring sRemoteAddr = response.getRecvParameterValue(_T("RemoteAddr"));
 			long nP2PType = response.getRecvParameterValue(_T("P2PType"), 0);
 			long nP2PParam = response.getRecvParameterValue(_T("P2PParam"), 0);
 
@@ -691,7 +691,7 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 		{
 			// From TCP/IP
 			// P2P Response Message return From Server
-			const tstring & sToUser = response.getRecvParameterValue(_T("ToUser"));
+			tstring sToUser = response.getRecvParameterValue(_T("ToUser"));
 			long nP2PType = response.getRecvParameterValue(_T("P2PType"), 0);
 			long nP2PParam = response.getRecvParameterValue(_T("P2PParam"), 0);
 
@@ -744,7 +744,7 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 		{
 			// From TCP/IP
 			// P2P Disconnect Message, From Server
-			const tstring & sFromUser = response.getRecvParameterValue(_T("FromUser"));
+			tstring sFromUser = response.getRecvParameterValue(_T("FromUser"));
 			long nP2PType = response.getRecvParameterValue(_T("P2PType"), 0);
 			long nP2PParam = response.getRecvParameterValue(_T("P2PParam"), 0);
 
@@ -767,7 +767,7 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 		}break;
 	case 1006:
 		{
-			const tstring & sFromUser = response.getRecvParameterValue(_T("FromUser"));
+			tstring sFromUser = response.getRecvParameterValue(_T("FromUser"));
 			long nP2PType = response.getRecvParameterValue(_T("P2PType"), 0);
 			long nP2PParam = response.getRecvParameterValue(_T("P2PParam"), 0);
 
@@ -793,13 +793,13 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 	case 2001:
 		{
 			// User login notify
-			const tstring & sFromUser = response.getRecvParameterValue(_T("FromUser"));
+			tstring sFromUser = response.getRecvParameterValue(_T("FromUser"));
 			m_handler->onUserLogined(sFromUser);
 		}break;
 	case 2002:
 		{
 			// User login notify
-			const tstring & sFromUser = response.getRecvParameterValue(_T("FromUser"));
+			tstring sFromUser = response.getRecvParameterValue(_T("FromUser"));
 			m_handler->onUserLogouted(sFromUser);
 		}break;
 /*	case 3001:
@@ -867,7 +867,7 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 					attach->setName("file");
 					attach->setTotal(nTotal);
 					attach->setIndex(0);
-					m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FileName"), sFileName));
+					m_cgcClient->doAddParameter(CGC_PARAMETER(_T("FileName"), sFileName));
 					m_cgcClient->doSendAppCall(const_CallSign_UpFile, const_Avs_Api_UpFile, attach);
 				}
 			}else if (resultValue == 0)
@@ -905,7 +905,7 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 				attach->setName("file");
 				attach->setTotal(nTotal);
 				attach->setIndex(nIndex);
-				m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FileName"), sFileName));
+				m_cgcClient->doAddParameter(CGC_PARAMETER(_T("FileName"), sFileName));
 				m_cgcClient->doSendAppCall(const_CallSign_UpFile, const_Avs_Api_UpFile, attach);
 			}
 		}break;
@@ -942,8 +942,8 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 				char sTemp[10];
 				memset(sTemp, 0, sizeof(sTemp));
 				sprintf(sTemp, _T("%d"), attach->getIndex());
-				m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FileName"), sFilename));
-				m_cgcClient->doAddParameter(cgcParameter::create(cgcParameter::PT_INT, _T("INDEX"), sTemp));
+				m_cgcClient->doAddParameter(CGC_PARAMETER(_T("FileName"), sFilename));
+				m_cgcClient->doAddParameter(CGC_PARAMETER(cgcParameter::PT_INT, _T("INDEX"), sTemp));
 				m_cgcClient->doSendAppCall(const_CallSign_DownFile, const_Avs_Api_DownFile);
 			}
 		}break;
@@ -1051,8 +1051,8 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 		break;*/
 	case const_CallSign_LoadSetting:
 		{
-			const tstring & sP2PRtpServer = response.getRecvParameterValue(_T("P2PRTPSERVER"));
-			const tstring & sP2PUdpServer = response.getRecvParameterValue(_T("P2PUDPSERVER"));
+			tstring sP2PRtpServer = response.getRecvParameterValue(_T("P2PRTPSERVER"));
+			tstring sP2PUdpServer = response.getRecvParameterValue(_T("P2PUDPSERVER"));
 
 			std::string::size_type find = sP2PRtpServer.find(":");
 			if (find == std::string::npos)
@@ -1087,7 +1087,7 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 				cgcParameter::pointer pUserName = response.getRecvParameter(_T("UserName"));
 				if (pUserName.get() != NULL)
 				{
-					this->m_sCurrentUser = pUserName->getValue();
+					this->m_sCurrentUser = pUserName->getStr();
 					m_handler->onUserLogined(m_sCurrentUser);
 				}
 			}
@@ -1104,7 +1104,7 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 			cgcParameter::pointer pUserName = response.getRecvParameter(_T("FromUser"));
 			if (pUserId.get() != NULL && pUserName.get() != NULL)
 			{
-				m_handler->onUserInfo(pUserId->getValue(), pUserName->getValue());
+				m_handler->onUserInfo(pUserId->getStr(), pUserName->getStr());
 			}
 
 		}break;
@@ -1118,7 +1118,7 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 				break;
 			// From TCP/IP
 			// P2P Disconnect Message, From Server
-			const tstring & sFromUser = response.getRecvParameterValue(_T("FromUser"));
+			tstring sFromUser = response.getRecvParameterValue(_T("FromUser"));
 			long nP2PType = response.getRecvParameterValue(_T("P2PType"), 0);
 			long nP2PParam = response.getRecvParameterValue(_T("P2PParam"), 0);
 
@@ -1143,8 +1143,8 @@ void CStreamCgcProxy::OnCgcResponse(const cgcParser & response)
 	case const_CallSign_P2PAck:
 		{
 			// P2P ACK, From P2P user
-			const tstring & sP2PAckAck = response.getRecvParameterValue(_T("P2PACKACK"));
-			const tstring & sFromUser = response.getRecvParameterValue(_T("FromUser"));
+			tstring sP2PAckAck = response.getRecvParameterValue(_T("P2PACKACK"));
+			tstring sFromUser = response.getRecvParameterValue(_T("FromUser"));
 			long nP2PType = response.getRecvParameterValue(_T("P2PType"), 0);
 			long nP2PParam = response.getRecvParameterValue(_T("P2PParam"), 0);
 

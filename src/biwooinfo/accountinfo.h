@@ -24,7 +24,7 @@
 #include <ThirdParty/stl/locklist.h>
 #include <ThirdParty/stl/lockmap.h>
 #include <boost/shared_ptr.hpp>
-#include <CGCBase/cgcpointer.h>
+#include <CGCBase/cgcobject.h>
 #include "groupinfo.h"
 #include "cogroupinfo.h"
 #include "friendinfo.h"
@@ -32,7 +32,7 @@
 #include "datainfo.h"
 
 class CAccountInfo
-	: public cgc::cgcPointer
+	: public cgc::cgcObject
 {
 public:
 	typedef boost::shared_ptr<CAccountInfo> pointer;

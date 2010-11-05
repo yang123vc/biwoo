@@ -32,8 +32,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
 #endif
 
 // cgcÍ·ÎÄ¼þ
-#include <CGCBase/includeapp.h>
-#include <CGCBase/cgcString.h>
+#include <CGCBase/app.h>
+//#include <CGCBase/cgcString.h>
 #include <CGCServices/Rtp/cgcRtp.h>
 #include <CGCServices/Sip/cgcSip.h>
 using namespace cgc;
@@ -45,42 +45,44 @@ using namespace cgc;
 
 extern "C" bool CGC_API CGC_Module_Init(void)
 {
-	const tstring & rtpServiceName = gApplication->getInitParameterValue("RtpServiceName", "RtpService");
-	const tstring & sipServiceName = gApplication->getInitParameterValue("SipServiceName", "SipService");
+	cgcParameterMap::pointer initParameters = theApplication->getInitParameters();
 
-	cgcRtp::pointer rtpService = CGC_RTPSERVICE_DEF(gCgcServices->getService(rtpServiceName));
-	cgcSip::pointer sipService = CGC_SIPSERVICE_DEF(gCgcServices->getService(sipServiceName));
+	tstring rtpServiceName = initParameters->getParameterValue("RtpServiceName", "RtpService");
+	tstring sipServiceName = initParameters->getParameterValue("SipServiceName", "SipService");
+
+	cgcRtp::pointer rtpService = CGC_RTPSERVICE_DEF(theServiceManager->getService(rtpServiceName));
+	cgcSip::pointer sipService = CGC_SIPSERVICE_DEF(theServiceManager->getService(sipServiceName));
 	BOOST_ASSERT (rtpService.get() != NULL);
 	BOOST_ASSERT (sipService.get() != NULL);
 
 	gAVSProxy = CAVSProxy::create(rtpService, sipService);
 
 	bool result = true;
-	bool enableSipConference = gApplication->getInitParameterValue2(_T("EnableSipConference"), false);
-	if (enableSipConference)
-	{
-		// Load the setting conferinfo.
-		tstring sXmlPath(gApplication->getAppConfPath());
-		sXmlPath.append(_T("/default_confers.xml"));
-		xmlparseconfers parse;
-		parse.load(sXmlPath);
+	//bool enableSipConference = initParameters->getParameterValue(_T("EnableSipConference"), false);
+	//if (enableSipConference)
+	//{
+	//	// Load the setting conferinfo.
+	//	tstring sXmlPath(theApplication->getAppConfPath());
+	//	sXmlPath.append(_T("/default_confers.xml"));
+	//	xmlparseconfers parse;
+	//	parse.load(sXmlPath);
 
-		CLockMap<tstring, CConferInfo::pointer>::iterator iter;
-		for (iter=parse.m_confers.begin(); iter!=parse.m_confers.end(); iter++)
-		{
-			gAVSProxy->m_conference.addConference(iter->second);
-		}
+	//	CLockMap<tstring, CConferInfo::pointer>::iterator iter;
+	//	for (iter=parse.m_confers.begin(); iter!=parse.m_confers.end(); iter++)
+	//	{
+	//		gAVSProxy->m_conference.addConference(iter->second);
+	//	}
 
-		CSipParameter sipp;
-		sipp.ua(gApplication->getInitParameterValue(_T("UA"), _T("y")));
-		sipp.pwd(gApplication->getInitParameterValue(_T("PWD"), _T("y")));
-		sipp.identity(gApplication->getInitParameterValue(_T("IDENTITY"), _T("sip:y@192.168.19.77")));
-		sipp.proxy(gApplication->getInitParameterValue(_T("PROXY"), _T("sip:192.168.19.84:5060")));
-		sipp.sipport(gApplication->getInitParameterValue(_T("SIPPORT"), 5060));
+	//	CSipParameter sipp;
+	//	sipp.ua(initParameters->getParameterValue(_T("UA"), _T("y")));
+	//	sipp.pwd(initParameters->getParameterValue(_T("PWD"), _T("y")));
+	//	sipp.identity(initParameters->getParameterValue(_T("IDENTITY"), _T("sip:y@192.168.19.77")));
+	//	sipp.proxy(initParameters->getParameterValue(_T("PROXY"), _T("sip:192.168.19.84:5060")));
+	//	sipp.sipport(initParameters->getParameterValue(_T("SIPPORT"), 5060));
 
-		result = gAVSProxy->m_conference.initsip(sipp);
-		gApplication->log(DL_INFO, _T("Conference Service SIPPORT: %d, %s"), sipp.sipport(), result ? _T("Succeed") : _T("Failed"));
-	}
+	//	result = gAVSProxy->m_conference.initsip(sipp);
+	//	theApplication->log(cgc::LOG_INFO, _T("Conference Service SIPPORT: %d, %s"), sipp.sipport(), result ? _T("Succeed") : _T("Failed"));
+	//}
 	return result;
 }
 
@@ -96,16 +98,15 @@ extern "C" void CGC_API CGC_Module_Free(void)
 	//	gSystem->CloseCommApp(pCommConference->getCommId());
 	//}
 
-	gApplication->clearAllAtrributes();
 	gAVSProxy.reset();
 }
 
-extern "C" int CGC_API LoadSetting(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)
+extern "C" int CGC_API LoadSetting(const cgcSotpRequest::pointer & request, cgcSotpResponse::pointer response)
 {
 	// Request
-
-	response->setParameter(gApplication->getInitParameter("P2PRTPSERVER"));
-	response->setParameter(gApplication->getInitParameter("P2PUDPSERVER"));
+	cgcParameterMap::pointer initParameters = theApplication->getInitParameters();
+	response->addParameter(initParameters->getParameter("P2PRTPSERVER"));
+	response->addParameter(initParameters->getParameter("P2PUDPSERVER"));
 	response->sendResponse();
 
 	return 0;
@@ -114,7 +115,7 @@ extern "C" int CGC_API LoadSetting(const cgcRequest::pointer & request, cgcRespo
 /*
 //////////////////////////
 // UserLogin
-extern "C" int CGC_API UserLogin(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)
+extern "C" int CGC_API UserLogin(const cgcRequest::pointer & request, cgcResponse::pointer response)
 {
 	// Request
 	cgcParameter::pointer pUserName = request->getParameter(_T("UserName"));
@@ -138,7 +139,7 @@ extern "C" int CGC_API UserLogin(const cgcRequest::pointer & request, cgcRespons
 	pUserInfo->setSessionId(session->getId());
 
 	// Response
-	response->setParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("UserName"), pUserInfo->getUsername()));
+	response->addParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("UserName"), pUserInfo->getUsername()));
 	response->sendResponse(1);
 
 	// User Login Notify:
@@ -162,8 +163,8 @@ extern "C" int CGC_API UserLogin(const cgcRequest::pointer & request, cgcRespons
 		// ???
 		// Message:
 		// 2001: User login notify
-//		pToUserCgcResponse->setParameter(Parameter(Parameter::PT_INT, _T("MessageType"), _T("2001")));
-		pToUserCgcResponse->setParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FromUser"), pUserInfo->getUsername()));
+//		pToUserCgcResponse->addParameter(Parameter(Parameter::PT_INT, _T("MessageType"), _T("2001")));
+		pToUserCgcResponse->addParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FromUser"), pUserInfo->getUsername()));
 		pToUserCgcResponse->sendResponse(0, 2001);
 	}
 
@@ -173,7 +174,7 @@ extern "C" int CGC_API UserLogin(const cgcRequest::pointer & request, cgcRespons
 
 //////////////////////////
 // UserLogout
-extern "C" int CGC_API UserLogout(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)
+extern "C" int CGC_API UserLogout(const cgcRequest::pointer & request, cgcResponse::pointer response)
 {
 	// UserName
 	cgcParameter::pointer pUserName = request->getParameter(_T("UserName"));
@@ -201,8 +202,8 @@ extern "C" int CGC_API UserLogout(const cgcRequest::pointer & request, cgcRespon
 		// ???
 		// Message:
 		// 2002: User logout notify
-//		pToUserCgcResponse->setParameter(Parameter(Parameter::PT_INT, _T("MessageType"), _T("2002")));
-		pToUserCgcResponse->setParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FromUser"), pUserName->getValue()));
+//		pToUserCgcResponse->addParameter(Parameter(Parameter::PT_INT, _T("MessageType"), _T("2002")));
+		pToUserCgcResponse->addParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FromUser"), pUserName->getValue()));
 		pToUserCgcResponse->sendResponse(0, 2002);
 	}
 
@@ -211,25 +212,30 @@ extern "C" int CGC_API UserLogout(const cgcRequest::pointer & request, cgcRespon
 */
 //////////////////////////
 // GetAllUser
-extern "C" int CGC_API GetAllUser(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)
+extern "C" int CGC_API GetAllUser(const cgcSotpRequest::pointer & request, cgcSotpResponse::pointer response)
 {
 	// Request
 	cgcParameter::pointer pFromUser = request->getParameter(_T("FromUser"));
-	if (pFromUser.get() == 0 || pFromUser->getValue().length() == 0) return -1;
+	if (pFromUser.get() == 0 || pFromUser->empty()) return -1;
 
-	StringPointerMapPointer mapUserInfo = gApplication->getStringAttributes(NAME_USERINFO, false);
+	cgcAttributes::pointer attributes = theApplication->getAttributes(true);
+
+	StringObjectMapPointer mapUserInfo = attributes->getStringAttributes(NAME_USERINFO, false);
 	if (mapUserInfo.get() != NULL)
 	{
 		boost::mutex::scoped_lock lock(mapUserInfo->mutex());
-		CPointerMap<tstring>::iterator pIter;
+		CObjectMap<tstring>::iterator pIter;
 		for (pIter=mapUserInfo->begin(); pIter!=mapUserInfo->end(); pIter++)
 		{
 			CUserInfo::pointer pUserInfo = (const CUserInfo::pointer&)pIter->second;
 
 			// Response
 			response->lockResponse();
-			response->setParameter(cgcParameter::create(_T("UserId"), cgcString::Format(_T("%d"), (ULONG)pUserInfo.get())));
-			response->setParameter(cgcParameter::create(_T("FromUser"), pUserInfo->getUsername()));
+			char buffer[20];
+			sprintf(buffer, "%d", (ULONG)pUserInfo.get());
+
+			response->addParameter(CGC_PARAMETER(_T("UserId"), buffer));
+			response->addParameter(CGC_PARAMETER(_T("FromUser"), pUserInfo->getUsername()));
 			response->sendResponse();
 #ifdef WIN32
 			Sleep(5);
@@ -239,64 +245,5 @@ extern "C" int CGC_API GetAllUser(const cgcRequest::pointer & request, cgcRespon
 		}
 	}
 
-	/*
-	boost::mutex::scoped_lock lock(gAVSProxy->m_mapUserInfo.mutex());
-	const CLockMap<tstring, CUserInfo::pointer> & userInfoMap = gAVSProxy->m_mapUserInfo;
-	CLockMap<tstring, CUserInfo::pointer>::const_iterator pIter;
-	for (pIter=userInfoMap.begin(); pIter!=userInfoMap.end(); pIter++)
-	{
-		CUserInfo::pointer pUserInfo = pIter->second;
-	//	if (pUserInfo->getUsername().compare(pFromUser->getValue()) == 0)
-	//		continue;
-
-		// Response
-		response->setParameter(cgcParameter::create(_T("UserId"), cgcString::Format(_T("%d"), (ULONG)pUserInfo.get())));
-		response->setParameter(cgcParameter::create(_T("FromUser"), pUserInfo->getUsername()));
-		response->sendResponse();
-#ifdef WIN32
-		Sleep(100);
-#else
-		usleep(100000);
-#endif
-	}
-	*/
-
 	return 1;
 }
-/*
-extern "C" int CGC_API SendTextMessage(const cgcRequest::pointer & request, cgcResponse::pointer response, cgcSession::pointer session)
-{
-	// Request
-	cgcParameter::pointer pFromUser = request->getParameter(_T("FromUser"));
-	if (pFromUser.get() == 0 || pFromUser->getValue().length() == 0) return -1;
-	cgcParameter::pointer pToUser = request->getParameter(_T("ToUser"));
-	if (pToUser.get() == 0 || pToUser->getValue().length() == 0) return -1;
-	cgcParameter::pointer pSendMessage = request->getParameter(_T("Msg"));
-	if (pSendMessage.get() == 0 || pSendMessage->getValue().length() == 0) return -1;
-
-	// Send Text Message
-	CUserInfo::pointer pFromUserInfo;
-	if (!gAVSProxy->m_mapUserInfo.find(pFromUser->getValue(), pFromUserInfo)) return -2;
-	CUserInfo::pointer pToUserInfo;
-	if (!gAVSProxy->m_mapUserInfo.find(pToUser->getValue(), pToUserInfo)) return -2;
-
-	cgcSession::pointer pToUserCgcSession = gSystem->getcgcSession(pToUserInfo->getSessionId());
-	if (pToUserCgcSession.get() == NULL) return -3;
-	cgcResponse::pointer pToUserCgcResponse = pToUserCgcSession->getLastResponse();
-	if (pToUserCgcResponse.get() == NULL || pToUserCgcResponse->isInvalidate())
-	{
-		return -3;
-	}
-
-	// ???
-	// Message:
-	// 1001: Text Message
-//	pToUserCgcResponse->setParameter(Parameter(Parameter::PT_INT, _T("MessageType"), _T("1001")));
-	pToUserCgcResponse->setParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("FromUser"), pFromUserInfo->getUsername()));
-	pToUserCgcResponse->setParameter(cgcParameter::create(cgcParameter::PT_STRING, _T("Msg"), pSendMessage->getValue()));
-	pToUserCgcResponse->sendResponse(0, 1001);
-
-	// Response
-	return 0;
-}
-*/
