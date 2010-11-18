@@ -19,7 +19,7 @@ CDXFilter(inGraph, GUID_NULL, "Audio Capture")
 CAudioCaptureFilter2::~CAudioCaptureFilter2(void)
 {
 	//mInputList.RemoveAll();
-	mInputList.clear();
+	mInputs.clear();
 }
 
 void CAudioCaptureFilter2::SetDevice(CAVDevice * inDevice)
@@ -44,7 +44,7 @@ BOOL CAudioCaptureFilter2::CreateFilter(void)
 			{
 				BuildInputList();
 
-				SetDefaultInputPin();
+				//SetDefaultInputPin();
 				//SetCaptureBufferSize();
 				return TRUE;
 			}
@@ -87,7 +87,8 @@ void CAudioCaptureFilter2::SetDefaultInputPin(void)
 						CString  pinName = szName;
 #endif
 						pinName.MakeLower();
-						if (strstr(szName,"Stereo") || strstr(szName,"立体声"))
+						if (pinName.Find(_T("stereo"), 0) >= 0 || pinName.Find(_T("立体声"), 0) >= 0 || pinName.Find(_T("您听到的声音"), 0) >= 0 || pinName.Find(_T("主录制"), 0) >= 0)
+						//if (pinName.Find(_T("stereo"), 0) >= 0 || pinName.Find(_T("立体声"), 0) >= 0)
 						{
 							IAMAudioInputMixer * pMixer = GetMixer(pin);
 							//pMixer->put_Enable(TRUE);
@@ -180,8 +181,7 @@ void CAudioCaptureFilter2::SetCaptureBufferSize(void)
 
 void CAudioCaptureFilter2::BuildInputList(void)
 {
-	//mInputList.RemoveAll();
-	mInputList.clear();
+	mInputs.clear();
 
 	if (mFilter)
 	{
@@ -207,17 +207,28 @@ void CAudioCaptureFilter2::BuildInputList(void)
 							CAudioInput inputItem;
 #ifdef UNICODE
 							inputItem.mInputName = pinInfo.achName;
+							CString  pinName = pinInfo.achName;
 
 #else
-							char pinName[128];
+							char pinNameTemp[128];
 							::WideCharToMultiByte(CP_ACP, 0, pinInfo.achName, 
-								-1,	pinName, 128, NULL, NULL);
-							inputItem.mInputName = pinName;
+								-1,	pinNameTemp, 128, NULL, NULL);
+							inputItem.mInputName = pinNameTemp;
+							CString  pinName = pinNameTemp;
 #endif
+
+							pinName.MakeLower();
+							if (pinName.Find(_T("stereo"), 0) >= 0 || pinName.Find(_T("立体声"), 0) >= 0 || pinName.Find(_T("您听到的声音"), 0) >= 0 || pinName.Find(_T("主录制"), 0) >= 0)
+							{
+								inputItem.mInputType = CAudioInput::Input_Stereo;
+							}else if (pinName.Find(_T("mic"), 0) >= 0 || pinName.Find(_T("麦克风"), 0) >= 0)
+							{
+								inputItem.mInputType = CAudioInput::Input_MicPhone;
+							}
 
 							inputItem.mInputPin  = pin;
 							//mInputList.AddTail(inputItem);
-							mInputList.push_back(inputItem);
+							mInputs.push_back(inputItem);
 						}
 					}
 					pin->Release();
@@ -247,15 +258,10 @@ std::wstring CAudioCaptureFilter2::GetConnectorName(long inIndex)
 std::string CAudioCaptureFilter2::GetConnectorName(long inIndex)
 #endif
 {
-	long index = 0;
-	INPUT_LIST::iterator iter;
-	for (iter=mInputList.begin(); iter!=mInputList.end(); iter++)
+	if (inIndex >= 0 && inIndex < mInputs.size())
 	{
-		if (index++ == inIndex)
-		{
-			CAudioInput inputItem = *iter;
-			return inputItem.mInputName;
-		}
+		CAudioInput inputItem = mInputs[inIndex];
+		return inputItem.mInputName;
 	}
 	return _T("");
 
@@ -278,57 +284,48 @@ std::string CAudioCaptureFilter2::GetConnectorName(long inIndex)
 	*/
 }
 
-void CAudioCaptureFilter2::SetConnector(long inIndex)
+long CAudioCaptureFilter2::SetConnector(CAudioInput::AudioInputType inputType)
 {
-	//if (inIndex >= 0 && inIndex < mInputList.GetCount())
-	if (inIndex >= 0 && inIndex < mInputList.size())
+	long result = -1;
+	for (int index=0; index<mInputs.size(); index++)
 	{
-		long index = 0;
-		INPUT_LIST::iterator iter;
-		for (iter=mInputList.begin(); iter!=mInputList.end(); iter++)
+		CAudioInput inputItem = mInputs[index];
+		if (inputItem.mInputType == inputType)
 		{
-			if (index++ == inIndex)
-			{
-				CAudioInput inputItem = *iter;
-				IAMAudioInputMixer * pMixer = GetMixer(inputItem.mInputPin);
-				pMixer->put_Enable(TRUE);
-				pMixer->put_MixLevel(AMF_AUTOMATICGAIN);
-				pMixer->Release();
-			}
-		}
-
-		/*
-		long index   = inIndex;
-		POSITION pos = mInputList.GetHeadPosition();
-		while (pos && index > 0)
-		{
-			mInputList.GetNext(pos);
-			index--;
-		}
-
-		if (pos)
-		{
-			CAudioInput inputItem = mInputList.GetNext(pos);
 			IAMAudioInputMixer * pMixer = GetMixer(inputItem.mInputPin);
 			pMixer->put_Enable(TRUE);
 			pMixer->put_MixLevel(AMF_AUTOMATICGAIN);
-		}*/
+			pMixer->Release();
+			return index;
+			//result = index;
+		}
+	}
+	return result;
+}
+
+void CAudioCaptureFilter2::SetConnector(long inIndex)
+{
+	//if (inIndex >= 0 && inIndex < mInputList.GetCount())
+	if (inIndex >= 0 && inIndex < mInputs.size())
+	{
+		CAudioInput inputItem = mInputs[inIndex];
+		IAMAudioInputMixer * pMixer = GetMixer(inputItem.mInputPin);
+		pMixer->put_Enable(TRUE);
+		pMixer->put_MixLevel(AMF_AUTOMATICGAIN);
+		pMixer->Release();
 	}
 }
 
 long CAudioCaptureFilter2::GetConnector(void)
 {
-	long index   = 0;
+	int index = -1;
 	BOOL enabled = FALSE;
-
-	INPUT_LIST::iterator iter;
-	for (iter=mInputList.begin(); iter!=mInputList.end(); iter++)
+	for (index=0; index<mInputs.size(); index++)
 	{
-		CAudioInput inputItem = *iter;
+		CAudioInput inputItem = mInputs[index];
 		IAMAudioInputMixer * pMixer = GetMixer(inputItem.mInputPin);
 		pMixer->get_Enable(&enabled);
 		pMixer->Release();
-		index++;
 		if (enabled)
 			break;
 	}
@@ -346,7 +343,7 @@ long CAudioCaptureFilter2::GetConnector(void)
 	return (index - 1);
 }
 
-IAMAudioInputMixer * CAudioCaptureFilter2::GetMixer(IPin * inPin)
+IAMAudioInputMixer * CAudioCaptureFilter2::GetMixer(IPin * inPin) const
 {
 	IAMAudioInputMixer * pMixer = NULL;
 	inPin->QueryInterface(IID_IAMAudioInputMixer, (void**) &pMixer);
@@ -361,24 +358,37 @@ IAMAudioInputMixer * CAudioCaptureFilter2::GetMixer(IPin * inPin)
 // Set mix level for all input pins
 void CAudioCaptureFilter2::SetMixLevel(double inLevel)
 {
-	INPUT_LIST::iterator iter;
-	for (iter=mInputList.begin(); iter!=mInputList.end(); iter++)
+	BOOL enabled = FALSE;
+	for (int index=0; index<mInputs.size(); index++)
 	{
-		CAudioInput inputItem = *iter;
+		CAudioInput inputItem = mInputs[index];
 		IAMAudioInputMixer * pMixer = GetMixer(inputItem.mInputPin);
-		pMixer->put_MixLevel(inLevel);
+		pMixer->get_Enable(&enabled);
+		if (enabled)
+			pMixer->put_MixLevel(inLevel);
 		pMixer->Release();
+		if (enabled)
+			break;
 	}
+}
 
-	/*
-	POSITION pos = mInputList.GetHeadPosition();
-	while (pos)
+double CAudioCaptureFilter2::GetMixLevel(void) const
+{
+	BOOL enabled = FALSE;
+	double mixLevel = -1.0;
+	for (int index=0; index<mInputs.size(); index++)
 	{
-		CAudioInput inputItem = mInputList.GetNext(pos);
+		CAudioInput inputItem = mInputs[index];
 		IAMAudioInputMixer * pMixer = GetMixer(inputItem.mInputPin);
-		pMixer->put_MixLevel(inLevel);
+		pMixer->get_Enable(&enabled);
+		if (enabled)
+		{
+			pMixer->get_MixLevel(&mixLevel);
+		}
+		pMixer->Release();
+		if (enabled)
+			break;
 	}
 
-	*/
-
+	return mixLevel;
 }
